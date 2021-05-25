@@ -1,1 +1,1 @@
-# disenio-aplicaciones
+# diseño-aplicaciones
