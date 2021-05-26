@@ -41,35 +41,15 @@ public class DsbBaseView extends JPanel {
 	protected JPanel fields;
 	
 	protected CardLayout cLayout;
+
+	
+
 	
 	
 	
-	//autor
-	protected CustomDsTxtField autorNameTxt;
-	protected CustomDsTxtField autorFatherLstNameTxt;
-	protected CustomDsTxtField autorMotherLstNameTxt;
+
 	
-	protected CustomDsLabel autorNameLbl;
-	protected CustomDsLabel autorFatherLstNameLbl;
-	protected CustomDsLabel autorMotherLstNameLbl;
-	
-	//Estado libro
-	protected CustomDsTxtField estStatusTxt;
-	
-	protected CustomDsLabel estStatusLbl;
-	
-	//Categoria
-	protected CustomDsTxtField categCategoryTxt;
-	
-	protected CustomDsLabel categCategoryLbl;
-	
-	//Editorial
-	protected CustomDsTxtField editEditorialTxt;
-	protected CustomDsLabel editEditorialLbl;
-	
-	//Idioma
-	protected CustomDsTxtField idioLangTxt;
-	protected CustomDsLabel idioLangLbl;
+
 	
 	//Metodo de pago
 	protected CustomDsTxtField payPaymetTxt;
@@ -77,6 +57,46 @@ public class DsbBaseView extends JPanel {
 	
 	
 	
+
+	public CustomDsBtn getCommitBtn() {
+		return commitBtn;
+	}
+
+
+	public CustomDsLabel getTitle() {
+		return title;
+	}
+
+
+	public String getSelectLbl() {
+		return selectLbl;
+	}
+
+
+	public String getSelectCbx() {
+		return selectCbx;
+	}
+
+
+	public JPanel getTitlePanel() {
+		return titlePanel;
+	}
+
+
+	public JPanel getFieldsPanel() {
+		return fieldsPanel;
+	}
+
+
+	public JPanel getFields() {
+		return fields;
+	}
+
+
+	public CardLayout getcLayout() {
+		return cLayout;
+	}
+
 
 	public void initCustomLayout(DsbBaseCrudView crudView,String layout) {
 		switch (layout) {
@@ -115,37 +135,7 @@ public class DsbBaseView extends JPanel {
 	 */
 	
 	public DsbBaseView() {
-		this.setCustomStuff();
-		
-		/*
-		this.setName(layout);
-		
-		selectLbl = new CustomDsLabel();
-		selectCbx = new CustomDsCbx();
-		
-		titlePanel = new JPanel();
-		this.add(titlePanel, BorderLayout.NORTH);
-		titlePanel.setLayout(new BorderLayout(0, 0));
-		
-		
-		title = new CustomDsLabel();
-		title.getLabel().setFont(new Font("Verdana", Font.PLAIN, 28));
-		title.getLabel().setHorizontalAlignment(SwingConstants.CENTER);
-		titlePanel.add(title);
-		
-		
-		fieldsPanel = new JPanel();
-		fieldsPanel.setBackground(getBackground());
-		this.add(fieldsPanel, BorderLayout.CENTER);
-		fieldsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		fields = new JPanel();
-		fields.setLayout(new MigLayout("", "[140][275.00,center][140]", "[1.00px:n][][][][][][]"));
-		fields.setBackground(getBackground());
-		fieldsPanel.add(fields);
-		
-		setCustomLayout(layout);
-		*/		
+		this.setCustomStuff();	
 	}
 	
 

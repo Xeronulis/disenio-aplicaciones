@@ -3,6 +3,13 @@ package menuControllers;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import dashboardControllers.DsbBaseLibroController;
+import dashboardViews.DsbBaseLibroView;
+import dashboardViews.DsbDeleteView;
+import dashboardViews.DsbModifyView;
+import dashboardViews.DsbRegisterView;
+import dashboardViews.DsbSearchView;
+import dashboardViews.DsbShowView;
 import menuViews.MenuLibrosLibrosView;
 
 public class MenuLibrosLibrosController extends MenuBaseEndController{
@@ -12,11 +19,18 @@ public class MenuLibrosLibrosController extends MenuBaseEndController{
 	private MenuLibrosController c;
 	
 	
+	private DsbBaseLibroView dsv;
+	private DsbBaseLibroController dsc;
+	
+	
 	MenuLibrosLibrosController(MenuLibrosLibrosView v, MenuLibrosController c){
 		super(v,c);
 		this.v = v;
 		this.c = c;
 		mmc = this.c.getMenuMainController();
+		
+		dsv = new DsbBaseLibroView();
+		dsc = new DsbBaseLibroController(dsv);
 		
 	}
 	
@@ -27,40 +41,36 @@ public class MenuLibrosLibrosController extends MenuBaseEndController{
 	
 	public void start() {
 		mmc.addToLayout(v, v.getName());
+		mmc.getDsbMainController().addToLayout(dsv, getName());
 		
 		v.getBackBtn().getBtn().addMouseListener(new BackBtnLs());
 		
-		/*
 		v.getRegisBtn().getBtn().addMouseListener(new RegisBtnLs());
-		this.initDsbRegister("libro");
-		this.childDRegisterC.linkName(getName());
-		this.childDRegisterC.start();
+		childRegisterV = new DsbRegisterView(dsv, "Libro");
+		this.dsc.initCustomLayout(childRegisterV, "register");
+		this.dsc.addToLayout(childRegisterV, childRegisterV.getName());
+		
 		
 		v.getModifBtn().getBtn().addMouseListener(new ModifBtnLs());
-		this.initDsbModify("");
-		//this.childDModifyV.getLabelToChange().setText("modificar librini");
-		this.childDModifyC.linkName(getName());
-		this.childDModifyC.start();
+		childModifyV = new DsbModifyView(dsv, "Libro");
+		this.dsc.initCustomLayout(childModifyV, "modify");
+		this.dsc.addToLayout(childModifyV, childModifyV.getName());
 		
 		v.getMostBtn().getBtn().addMouseListener(new MostBtnLs());
-		this.initDsbShow();
-		this.childDShowV.getLabelToChange().setText("mostrar librinis");
-		this.childDShowC.linkName(getName());
-		this.childDShowC.start();
+		childShowV = new DsbShowView(dsv, "Libro");
+		this.dsc.initCustomLayout(childShowV, "show");
+		this.dsc.addToLayout(childShowV, childShowV.getName());
 		
 		v.getBuscBtn().getBtn().addMouseListener(new BuscBtnLs());
-		this.initDsbSearch();
-		this.childDSearchV.getLabelToChange().setText("buscar librini");
-		this.childDSearchC.linkName(getName());
-		this.childDSearchC.start();
+		childSearchV = new DsbSearchView(dsv, "Libro");
+		this.dsc.initCustomLayout(childSearchV, "search");
+		this.dsc.addToLayout(childSearchV, childSearchV.getName());
+		
 		
 		v.getBorBtn().getBtn().addMouseListener(new BorBtnLs());
-		this.initDsbDelete();
-		this.childDDeleteV.getLabelToChange().setText("borrar librini");
-		this.childDDeleteC.linkName(getName());
-		this.childDDeleteC.start();
-		*/
-		
+		childDeleteV = new DsbDeleteView(dsv, "Libro");
+		this.dsc.initCustomLayout(childDeleteV, "delete");
+		this.dsc.addToLayout(childDeleteV, childDeleteV.getName());
 	}
 	
 	private class BackBtnLs implements MouseListener{
@@ -102,7 +112,8 @@ public class MenuLibrosLibrosController extends MenuBaseEndController{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
-				mmc.getDsbMainController().changeDs(childRegisterC.getName());
+				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.changeView(childRegisterV.getName());
 			}
 		}
 		@Override
@@ -128,7 +139,8 @@ public class MenuLibrosLibrosController extends MenuBaseEndController{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
-				mmc.getDsbMainController().changeDs(childModifyC.getName());
+				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.changeView(childModifyV.getName());
 			}
 		}
 		@Override
@@ -154,7 +166,8 @@ public class MenuLibrosLibrosController extends MenuBaseEndController{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
-				mmc.getDsbMainController().changeDs(childShowC.getName());
+				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.changeView(childShowV.getName());
 			}
 		}
 		@Override
@@ -180,7 +193,8 @@ public class MenuLibrosLibrosController extends MenuBaseEndController{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
-				mmc.getDsbMainController().changeDs(childSearchC.getName());
+				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.changeView(childSearchV.getName());
 			}
 		}
 		@Override
@@ -206,7 +220,8 @@ public class MenuLibrosLibrosController extends MenuBaseEndController{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
-				mmc.getDsbMainController().changeDs(childDeleteC.getName());
+				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.changeView(childDeleteV.getName());
 			}
 		}
 		@Override

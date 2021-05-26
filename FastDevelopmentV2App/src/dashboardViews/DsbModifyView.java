@@ -10,12 +10,14 @@ import java.awt.GridLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 import customItems.CustomDsBtn;
 import customItems.CustomDsCbx;
 import customItems.CustomDsLabel;
 import customItems.CustomDsTxtField;
+import customItems.CustomizeDs;
 import net.miginfocom.swing.MigLayout;
 import utils.ColorsUtils;
 import utils.SizeUtils;
@@ -27,22 +29,9 @@ public class DsbModifyView extends DsbBaseCrudView {
 	private CustomDsLabel selectLbl;
 	private CustomDsCbx selectCbx;
 	
-	private CustomDsTxtField txt1;
-	private CustomDsTxtField txt2;
-	private CustomDsTxtField txt3;
-	private CustomDsTxtField txt4;
-	
-	private CustomDsLabel lbl1;
-	private CustomDsLabel lbl2;
-	private CustomDsLabel lbl3;
-	private CustomDsLabel lbl4;
-	
-	//automatico (no se puede cambiar)
-	private CustomDsTxtField txt5;
-	private CustomDsLabel lbl5;
-	
 	private JPanel fieldsPanel;
 	private JPanel fields;
+	private JScrollPane scrollPane;
 	
 	public JPanel getFieldsPanel() {
 		return fieldsPanel;
@@ -62,43 +51,10 @@ public class DsbModifyView extends DsbBaseCrudView {
 	public CustomDsCbx getSelectCbx() {
 		return selectCbx;
 	}
-	public CustomDsTxtField getTxt1() {
-		return txt1;
-	}
-	public CustomDsTxtField getTxt2() {
-		return txt2;
-	}
-	public CustomDsTxtField getTxt3() {
-		return txt3;
-	}
-	public CustomDsTxtField getTxt4() {
-		return txt4;
-	}
-	public CustomDsLabel getLbl1() {
-		return lbl1;
-	}
-	public CustomDsLabel getLbl2() {
-		return lbl2;
-	}
-	public CustomDsLabel getLbl3() {
-		return lbl3;
-	}
-	public CustomDsLabel getLbl4() {
-		return lbl4;
-	}
-	public CustomDsTxtField getTxt5() {
-		return txt5;
-	}
-	public CustomDsLabel getLbl5() {
-		return lbl5;
-	}
 	
 	
 	public DsbModifyView(DsbBaseView baseView,String name) {
-		Color[] defaultColors = {ColorsUtils.COLORS.get("background"),
-				ColorsUtils.COLORS.get("menuHide"),
-				ColorsUtils.COLORS.get("txtbackground")
-				};
+
 		this.baseView = baseView;
 		this.setName("modify");
 		setLayout(new BorderLayout(0,0));
@@ -116,16 +72,41 @@ public class DsbModifyView extends DsbBaseCrudView {
 		title.getLabel().setHorizontalAlignment(SwingConstants.CENTER);
 		titlePanel.add(title);
 		
+		scrollPane = CustomizeDs.cutomizeScrollPane(new JScrollPane());
+		scrollPane.setBorder(null);
+		this.add(scrollPane, BorderLayout.CENTER);
 		
 		fieldsPanel = new JPanel();
 		fieldsPanel.setBackground(getBackground());
-		this.add(fieldsPanel, BorderLayout.CENTER);
 		fieldsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		scrollPane.setViewportView(fieldsPanel);
 		
 		fields = new JPanel();
-		fields.setLayout(new MigLayout("", "[140][275.00,center][140]", "[][][][][][][]"));
+		fields.setLayout(new MigLayout("", "[140][275.00,center][140]", "[][][][][][][][][][][]"));
 		fields.setBackground(getBackground());
 		fieldsPanel.add(fields);
+		
+		initLblTxtBtn();
+	}
+	/**
+	 * Create the panel.
+	 */
+
+	protected void setCustomStuff() {
+		
+		this.setSize(new Dimension((int)(SizeUtils.DASHBOARDSIZE.getWidth()-SizeUtils.MENUHIDESIZEX),
+				(int)SizeUtils.DASHBOARDSIZE.getHeight()));
+		this.setBackground(ColorsUtils.COLORS.get("background"));
+		
+		
+		
+	}
+	
+	private void initLblTxtBtn() {
+		Color[] defaultColors = {ColorsUtils.COLORS.get("background"),
+				ColorsUtils.COLORS.get("menuHide"),
+				ColorsUtils.COLORS.get("txtbackground")
+				};
 		
 		this.selectLbl = new CustomDsLabel();
 		this.selectCbx = new CustomDsCbx();
@@ -157,22 +138,30 @@ public class DsbModifyView extends DsbBaseCrudView {
 		fields.add(lbl5, "cell 0 5");
 		fields.add(txt5, "cell 1 5");
 		
+		this.lbl6 = new CustomDsLabel();
+		this.txt6 = new CustomDsTxtField();
+		fields.add(lbl6, "cell 0 6");
+		fields.add(txt6, "cell 1 6");
+		
+		this.lbl7 = new CustomDsLabel();
+		this.txt7 = new CustomDsTxtField();
+		fields.add(lbl7, "cell 0 7");
+		fields.add(txt7, "cell 1 7");
+		
+		this.lbl8 = new CustomDsLabel();
+		this.txt8 = new CustomDsTxtField();
+		fields.add(lbl8, "cell 0 8");
+		fields.add(txt8, "cell 1 8");
+		
+		this.lbl9 = new CustomDsLabel();
+		this.txt9 = new CustomDsTxtField();
+		fields.add(lbl9, "cell 0 9");
+		fields.add(txt9, "cell 1 9");
+				
+		
 		this.commitBtn = new CustomDsBtn("Ejecutar");
 		commitBtn.setAllColors(defaultColors[0], defaultColors[1], defaultColors[2]);
-		fields.add(commitBtn, "cell 1 6");
-	}
-	/**
-	 * Create the panel.
-	 */
-
-	protected void setCustomStuff() {
-		
-		this.setSize(new Dimension((int)(SizeUtils.DASHBOARDSIZE.getWidth()-SizeUtils.MENUHIDESIZEX),
-				(int)SizeUtils.DASHBOARDSIZE.getHeight()));
-		this.setBackground(ColorsUtils.COLORS.get("background"));
-		
-		
-		
+		fields.add(commitBtn, "cell 1 10");
 	}
 
 }

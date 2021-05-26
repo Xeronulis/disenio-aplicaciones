@@ -4,16 +4,12 @@ import dashboardViews.DsbBaseView;
 import dashboardViews.DsbModifyView;
 import dashboardViews.DsbRegisterView;
 
-public class DsbModifyController extends DsbBaseController {
+public class DsbModifyController{
 	
 	private DsbModifyView  v;
 	private DsbMainController dmc;
 
-	public DsbModifyController(DsbModifyView v, DsbMainController dmc) {
-		super(v, dmc);
-		this.v = v;
-		this.dmc =dmc;
-	}
+
 	
 	
 

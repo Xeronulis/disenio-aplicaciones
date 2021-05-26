@@ -3,6 +3,13 @@ package menuControllers;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import dashboardControllers.DsbBaseIdioController;
+import dashboardViews.DsbBaseIdioView;
+import dashboardViews.DsbDeleteView;
+import dashboardViews.DsbModifyView;
+import dashboardViews.DsbRegisterView;
+import dashboardViews.DsbSearchView;
+import dashboardViews.DsbShowView;
 import menuViews.MenuLibrosDetaIdioView;
 
 public class MenuLibrosDetaIdioController extends MenuBaseEndController{
@@ -11,12 +18,19 @@ public class MenuLibrosDetaIdioController extends MenuBaseEndController{
 	private MenuLibrosDetaIdioView v;
 	private MenuLibrosDetaController c;
 	
+	private DsbBaseIdioController dsc;
+	private DsbBaseIdioView dsv;
+	
 	
 	MenuLibrosDetaIdioController(MenuLibrosDetaIdioView v, MenuLibrosDetaController c){
 		super(v,c);
 		this.v = v;
 		this.c = c;
 		mmc = this.c.getMenuMainController();
+		
+		dsv = new DsbBaseIdioView();
+		dsc = new DsbBaseIdioController(dsv);
+		
 		
 	}
 	
@@ -27,39 +41,40 @@ public class MenuLibrosDetaIdioController extends MenuBaseEndController{
 	
 	public void start() {
 		mmc.addToLayout(v, v.getName());
+		mmc.getDsbMainController().addToLayout(dsv, getName());
 		
 		v.getBackBtn().getBtn().addMouseListener(new BackBtnLs());
 		
-		/*
+		
 		v.getRegisBtn().getBtn().addMouseListener(new RegisBtnLs());
-		this.initDsbRegister("idioma");
-		this.childDRegisterC.linkName(getName());
-		this.childDRegisterC.start();
+		this.childRegisterV = new DsbRegisterView(dsv, "Idioma");
+		this.dsc.initCustomLayout(childRegisterV, "register");
+		this.dsc.addToLayout(childRegisterV, childRegisterV.getName());
+		
 		
 		v.getModifBtn().getBtn().addMouseListener(new ModifBtnLs());
-		this.initDsbModify("");
-		//this.childDModifyV.getLabelToChange().setText("modificar idiomini");
-		this.childDModifyC.linkName(getName());
-		this.childDModifyC.start();
+		this.childModifyV = new DsbModifyView(dsv, "Idioma");
+		this.dsc.initCustomLayout(childModifyV, "modify");
+		this.dsc.addToLayout(childModifyV, childModifyV.getName());
+		
 		
 		v.getMostBtn().getBtn().addMouseListener(new MostBtnLs());
-		this.initDsbShow();
-		this.childDShowV.getLabelToChange().setText("mostrar idiomini");
-		this.childDShowC.linkName(getName());
-		this.childDShowC.start();
+		this.childShowV = new DsbShowView(dsv, "Idioma");
+		this.dsc.initCustomLayout(childShowV, "show");
+		this.dsc.addToLayout(childShowV, childShowV.getName());
+		
 		
 		v.getBuscBtn().getBtn().addMouseListener(new BuscBtnLs());
-		this.initDsbSearch();
-		this.childDSearchV.getLabelToChange().setText("buscar idiomini");
-		this.childDSearchC.linkName(getName());
-		this.childDSearchC.start();
+		this.childSearchV = new DsbSearchView(dsv, "Idioma");
+		this.dsc.initCustomLayout(childSearchV, "search");
+		this.dsc.addToLayout(childSearchV, childSearchV.getName());
+		
 		
 		v.getBorBtn().getBtn().addMouseListener(new BorBtnLs());
-		this.initDsbDelete();
-		this.childDDeleteV.getLabelToChange().setText("borrar idiomini");
-		this.childDDeleteC.linkName(getName());
-		this.childDDeleteC.start();
-		*/
+		this.childDeleteV = new DsbDeleteView(dsv, "Idioma");
+		this.dsc.initCustomLayout(childDeleteV, "delete");
+		this.dsc.addToLayout(childDeleteV, childDeleteV.getName());
+		
 		
 		
 	}
@@ -103,7 +118,8 @@ public class MenuLibrosDetaIdioController extends MenuBaseEndController{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
-				mmc.getDsbMainController().changeDs(childRegisterC.getName());
+				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.changeView(childRegisterV.getName());
 			}
 		}
 		@Override
@@ -129,7 +145,8 @@ public class MenuLibrosDetaIdioController extends MenuBaseEndController{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
-				mmc.getDsbMainController().changeDs(childModifyC.getName());
+				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.changeView(childModifyV.getName());
 			}
 		}
 		@Override
@@ -155,7 +172,8 @@ public class MenuLibrosDetaIdioController extends MenuBaseEndController{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
-				mmc.getDsbMainController().changeDs(childShowC.getName());
+				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.changeView(childShowV.getName());
 			}
 		}
 		@Override
@@ -181,7 +199,8 @@ public class MenuLibrosDetaIdioController extends MenuBaseEndController{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
-				mmc.getDsbMainController().changeDs(childSearchC.getName());
+				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.changeView(childSearchV.getName());
 			}
 		}
 		@Override
@@ -207,7 +226,8 @@ public class MenuLibrosDetaIdioController extends MenuBaseEndController{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
-				mmc.getDsbMainController().changeDs(childDeleteC.getName());
+				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.changeView(childDeleteV.getName());
 			}
 		}
 		@Override

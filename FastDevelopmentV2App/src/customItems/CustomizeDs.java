@@ -26,9 +26,24 @@ import utils.SizeUtils;
 
 public interface CustomizeDs {
 
-	
-	@SuppressWarnings("serial")
+	//funcion para customizar una tabla ya creada
 	public static JTable customizeJTable(JTable table) {
+	
+		DefaultTableModel tmodel = (DefaultTableModel) table.getModel();
+		for(int i=0; i<tmodel.getColumnCount();++i) {
+			table.getColumnModel().getColumn(i).setPreferredWidth(tmodel.getColumnName(i).length()*3);;
+			table.getColumnModel().getColumn(i).setResizable(false);
+		}
+		
+		
+		return table;
+		
+	}
+	
+	
+	//funcion para inicializar la tabla base
+	@SuppressWarnings("serial")
+	public static JTable customizeInitJTable(JTable table) {
 		
 		table.setShowHorizontalLines(false);
 		table.setRowMargin(5);
@@ -38,33 +53,33 @@ public interface CustomizeDs {
 		table.setFillsViewportHeight(true);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
 			},
 			new String[] {
-				"New column", "New column", "New column", "New column", "New column"
+				"Sample column", "Sample column"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false
+				false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -72,9 +87,9 @@ public interface CustomizeDs {
 		});
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(2).setResizable(false);
-		table.getColumnModel().getColumn(3).setResizable(false);
-		table.getColumnModel().getColumn(4).setResizable(false);
+		
+		
+		
 		
 		JTableHeader tableHeader = table.getTableHeader();
 		
@@ -106,7 +121,8 @@ public interface CustomizeDs {
 		scrollPane.setBorder(null);
 		scrollPane.setPreferredSize(new Dimension(200, 100));
 		scrollPane.setBackground(background);
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.getVerticalScrollBar().setBackground(background);
 		scrollPane.setBorder(BorderFactory.createLineBorder(ColorsUtils.COLORS.get("menuHide"), 1));
 		scrollPane.getVerticalScrollBar().setBorder(BorderFactory.createEmptyBorder());

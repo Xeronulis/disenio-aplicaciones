@@ -57,6 +57,10 @@ public class DsbDeleteView extends DsbBaseCrudView {
 		return commitBtn;
 	}
 
+	public CustomDsBtn getDeleteBtn() {
+		return deleteBtn;
+	}
+
 	public CustomDsLabel getTitle() {
 		return title;
 	}
@@ -67,6 +71,14 @@ public class DsbDeleteView extends DsbBaseCrudView {
 
 	public CustomDsLabel getLbl1() {
 		return lbl1;
+	}
+
+	public CustomDsLabel getLbl2() {
+		return lbl2;
+	}
+
+	public CustomDsLabel getLbl3() {
+		return lbl3;
 	}
 
 	public CustomDsLabel getSelectLbl() {
@@ -84,8 +96,35 @@ public class DsbDeleteView extends DsbBaseCrudView {
 	public JPanel getFieldsPanel() {
 		return fieldsPanel;
 	}
-	
-	
+
+	public JPanel getPanel() {
+		return panel;
+	}
+
+	public JScrollPane getScrollPane() {
+		return scrollPane;
+	}
+
+	public JPanel getPanel_1() {
+		return panel_1;
+	}
+
+	public Component getHorizontalStrut() {
+		return horizontalStrut;
+	}
+
+	public Component getHorizontalStrut_1() {
+		return horizontalStrut_1;
+	}
+
+	public Component getVerticalStrut() {
+		return verticalStrut;
+	}
+
+	public JTable getTable() {
+		return table;
+	}
+
 	/**
 	 * Create the panel.
 	 */
@@ -177,7 +216,7 @@ public class DsbDeleteView extends DsbBaseCrudView {
 		panel_1.add(scrollPane);
 		
 		
-		table = CustomizeDs.customizeJTable(new JTable());
+		table = CustomizeDs.customizeInitJTable(new JTable());
 		scrollPane.setViewportView(table);
 		
 		

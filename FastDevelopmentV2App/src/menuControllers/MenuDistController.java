@@ -3,6 +3,7 @@ package menuControllers;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import dashboardControllers.DsbBaseDistController;
 import dashboardControllers.DsbDeleteController;
 import dashboardControllers.DsbModifyController;
 import dashboardControllers.DsbRegisterController;
@@ -20,6 +21,7 @@ import utils.ColorsUtils;
 public class MenuDistController extends MenuBaseEndController{
 
 	private MenuDistView v;
+	private DsbBaseDistController dsc;
 	
 	private DsbBaseDistView dsv;
 
@@ -29,6 +31,7 @@ public class MenuDistController extends MenuBaseEndController{
 		this.v = v;
 		
 		dsv = new DsbBaseDistView();
+		dsc = new DsbBaseDistController(dsv);
 	}
 	
 	
@@ -39,33 +42,33 @@ public class MenuDistController extends MenuBaseEndController{
 		v.getBackBtn().getBtn().addMouseListener(new BackBtnLs());
 		
 		v.getRegisBtn().getBtn().addMouseListener(new RegisBtnLs());
-		this.childRegisterC = new DsbRegisterController(this.childRegisterV = new DsbRegisterView(dsv,"distribuidor"),mmc.getDsbMainController());
-		this.dsv.initCustomLayout(childRegisterV, "register");
-		this.dsv.addToLayout(childRegisterV, childRegisterV.getName());
+		childRegisterV = new DsbRegisterView(dsv, "distribuidor");
+		this.dsc.initCustomLayout(childRegisterV, "register");
+		this.dsc.addToLayout(childRegisterV, childRegisterV.getName());
 		
 		
 		v.getModifBtn().getBtn().addMouseListener(new ModifBtnLs());
-		this.childModifyC = new DsbModifyController(this.childModifyV = new DsbModifyView(dsv,"distribuidor"), mmc.getDsbMainController());
-		this.dsv.initCustomLayout(childModifyV, "modify");
-		this.dsv.addToLayout(childModifyV, childModifyV.getName());
+		childModifyV = new DsbModifyView(dsv, "distribuidor");
+		this.dsc.initCustomLayout(childModifyV, "modify");
+		this.dsc.addToLayout(childModifyV, childModifyV.getName());
 		
 		
 		v.getMostBtn().getBtn().addMouseListener(new MostBtnLs());
-		this.childShowC = new DsbShowController(this.childShowV = new DsbShowView(dsv,"distribuidor"), mmc.getDsbMainController());
-		this.dsv.initCustomLayout(childShowV, "show");
-		this.dsv.addToLayout(childShowV, childShowV.getName());
+		childShowV = new DsbShowView(dsv, "distribuidor");
+		this.dsc.initCustomLayout(childShowV, "show");
+		this.dsc.addToLayout(childShowV, childShowV.getName());
 		
 		
 		v.getBuscBtn().getBtn().addMouseListener(new BuscBtnLs());
-		this.childSearchC = new DsbSearchController(this.childSearchV = new DsbSearchView(dsv, "distribuidor"), mmc.getDsbMainController());
-		this.dsv.initCustomLayout(childSearchV, "search");
-		this.dsv.addToLayout(childSearchV, childSearchV.getName());
+		childSearchV = new DsbSearchView(dsv, "distribuidor");
+		this.dsc.initCustomLayout(childSearchV, "search");
+		this.dsc.addToLayout(childSearchV, childSearchV.getName());
 		
 		
 		v.getBorBtn().getBtn().addMouseListener(new BorBtnLs());
-		this.childDeleteC = new DsbDeleteController(this.childDeleteV = new DsbDeleteView(dsv, "distribuidor"), mmc.getDsbMainController());
-		this.dsv.initCustomLayout(childDeleteV, "delete");
-		this.dsv.addToLayout(childDeleteV, childDeleteV.getName());
+		childDeleteV = new DsbDeleteView(dsv, "distribuidor");
+		this.dsc.initCustomLayout(childDeleteV, "delete");
+		this.dsc.addToLayout(childDeleteV, childDeleteV.getName());
 		
 		
 		
@@ -112,7 +115,7 @@ public class MenuDistController extends MenuBaseEndController{
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
 				mmc.getDsbMainController().changeDs(v.getName());
-				dsv.changeView(childRegisterV.getName());
+				dsc.changeView(childRegisterV.getName());
 			}
 		}
 		@Override
@@ -140,7 +143,7 @@ public class MenuDistController extends MenuBaseEndController{
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
 				mmc.getDsbMainController().changeDs(v.getName());
-				dsv.changeView(childModifyV.getName());
+				dsc.changeView(childModifyV.getName());
 			}
 		}
 		@Override
@@ -168,7 +171,7 @@ public class MenuDistController extends MenuBaseEndController{
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
 				mmc.getDsbMainController().changeDs(v.getName());
-				dsv.changeView(childShowV.getName());
+				dsc.changeView(childShowV.getName());
 			}
 		}
 		@Override
@@ -196,7 +199,7 @@ public class MenuDistController extends MenuBaseEndController{
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
 				mmc.getDsbMainController().changeDs(v.getName());
-				dsv.changeView(childSearchV.getName());
+				dsc.changeView(childSearchV.getName());
 			}
 
 		}
@@ -228,7 +231,7 @@ public class MenuDistController extends MenuBaseEndController{
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
 				mmc.getDsbMainController().changeDs(v.getName());			
-				dsv.changeView(childDeleteV.getName());
+				dsc.changeView(childDeleteV.getName());
 			}
 		}
 		@Override

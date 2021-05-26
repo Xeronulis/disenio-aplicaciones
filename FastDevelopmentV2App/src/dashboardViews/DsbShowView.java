@@ -114,7 +114,8 @@ public class DsbShowView extends DsbBaseCrudView {
 		panel.add(scrollPane);
 		
 		
-		table = CustomizeDs.customizeJTable(new JTable());
+		table = CustomizeDs.customizeInitJTable(new JTable());
+		
 		scrollPane.setViewportView(table);
 		
 		

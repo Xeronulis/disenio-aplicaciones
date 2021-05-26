@@ -3,6 +3,12 @@ package menuControllers;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import dashboardControllers.DsbBaseTransController;
+import dashboardViews.DsbBaseTransView;
+import dashboardViews.DsbDeleteView;
+import dashboardViews.DsbModifyView;
+import dashboardViews.DsbRegisterView;
+import dashboardViews.DsbSearchView;
 import menuViews.MenuCompTransView;
 
 public class MenuCompTransController extends MenuBaseEndController{
@@ -11,8 +17,8 @@ public class MenuCompTransController extends MenuBaseEndController{
 	private MenuCompTransView v;
 	private MenuCompController c;
 	
-	
-	
+	private DsbBaseTransView dsv;
+	private DsbBaseTransController dsc;
 	
 	MenuCompTransController(MenuCompTransView v, MenuCompController c){
 		super(v,c);
@@ -21,38 +27,39 @@ public class MenuCompTransController extends MenuBaseEndController{
 		
 		this.mmc = this.c.getMenuMainController();
 		
+		dsv = new DsbBaseTransView();
+		dsc = new DsbBaseTransController(dsv);
 	}
 	
 	
 	public void start() {
 		mmc.addToLayout(v, v.getName());
+		mmc.getDsbMainController().addToLayout(dsv, getName());
 		
 		v.getBackBtn().getBtn().addMouseListener(new BackBtnLs());
 		
-		/*
 		v.getRegisBtn().getBtn().addMouseListener(new RegisBtnLs());
-		this.initDsbRegister("compra");
-		this.childDRegisterC.linkName(getName());
-		this.childDRegisterC.start();
+		childRegisterV = new DsbRegisterView(dsv, "transacción");
+		this.dsc.initCustomLayout(childRegisterV, "register");
+		this.dsc.addToLayout(childRegisterV, childRegisterV.getName());
+		
 		
 		v.getModifBtn().getBtn().addMouseListener(new ModifBtnLs());
-		this.initDsbModify("");
-		//this.childDModifyV.getLabelToChange().setText("modificar comprini");
-		this.childDModifyC.linkName(getName());
-		this.childDModifyC.start();
+		childModifyV = new DsbModifyView(dsv, "transacción");
+		this.dsc.initCustomLayout(childModifyV, "modify");
+		this.dsc.addToLayout(childModifyV, childModifyV.getName());
+		
 		
 		v.getBuscBtn().getBtn().addMouseListener(new BuscBtnLs());
-		this.initDsbSearch();
-		this.childDSearchV.getLabelToChange().setText("buscar comprini");
-		this.childDSearchC.linkName(getName());
-		this.childDSearchC.start();
+		childSearchV = new DsbSearchView(dsv, "transacción");
+		this.dsc.initCustomLayout(childSearchV, "search");
+		this.dsc.addToLayout(childSearchV, childSearchV.getName());
+		
 		
 		v.getBorBtn().getBtn().addMouseListener(new BorBtnLs());
-		this.initDsbDelete();
-		this.childDDeleteV.getLabelToChange().setText("borrar comprini");
-		this.childDDeleteC.linkName(getName());
-		this.childDDeleteC.start();
-		*/
+		childDeleteV = new DsbDeleteView(dsv, "transacción");
+		this.dsc.initCustomLayout(childDeleteV, "delete");
+		this.dsc.addToLayout(childDeleteV, childDeleteV.getName());
 		
 		
 	}
@@ -96,7 +103,8 @@ public class MenuCompTransController extends MenuBaseEndController{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
-				mmc.getDsbMainController().changeDs(childRegisterC.getName());
+				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.changeView(childRegisterV.getName());
 			}
 		}
 		@Override
@@ -122,7 +130,8 @@ public class MenuCompTransController extends MenuBaseEndController{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
-				mmc.getDsbMainController().changeDs(childModifyC.getName());
+				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.changeView(childModifyV.getName());
 			}
 		}
 		@Override
@@ -149,7 +158,8 @@ public class MenuCompTransController extends MenuBaseEndController{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
-				mmc.getDsbMainController().changeDs(childSearchC.getName());
+				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.changeView(childSearchV.getName());
 			}
 		}
 		@Override
@@ -175,7 +185,8 @@ public class MenuCompTransController extends MenuBaseEndController{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
-				mmc.getDsbMainController().changeDs(childDeleteC.getName());
+				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.changeView(childDeleteV.getName());
 			}
 		}
 		@Override
