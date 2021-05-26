@@ -45,6 +45,7 @@ public interface CustomizeDs {
 	@SuppressWarnings("serial")
 	public static JTable customizeInitJTable(JTable table) {
 		
+		
 		table.setShowHorizontalLines(false);
 		table.setRowMargin(5);
 		table.setRowHeight(30);
@@ -106,6 +107,8 @@ public interface CustomizeDs {
 		tableHeader.setForeground(Color.WHITE);
 		tableHeader.setBorder(BorderFactory.createLineBorder(ColorsUtils.COLORS.get("menuHide"), 1));
 		table.setBackground(ColorsUtils.COLORS.get("background"));
+		table.setDefaultRenderer(Object.class, tableRenderer);
+		table.setSelectionForeground(Color.WHITE);
 		
 		return table;
 		

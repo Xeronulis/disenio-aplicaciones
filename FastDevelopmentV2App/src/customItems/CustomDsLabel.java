@@ -6,6 +6,7 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
+import utils.ColorsUtils;
 import utils.SizeUtils;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -28,7 +29,7 @@ public class CustomDsLabel extends JPanel {
 
 		Color alpha = new Color(0,0,0,0);
 		
-		this.setBackground(alpha);
+		this.setBackground(ColorsUtils.COLORS.get("background"));
 		setPreferredSize(new Dimension(SizeUtils.BOXSIZEX, 55));
 		setLayout(new BorderLayout(0, 0));
 		

@@ -139,6 +139,7 @@ public class MenuLibrosDetaEditController extends MenuBaseEndController{
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
 				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.refreshModify();
 				dsc.changeView(childModifyV.getName());			
 				}
 		}
@@ -166,6 +167,7 @@ public class MenuLibrosDetaEditController extends MenuBaseEndController{
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
 				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.show();
 				dsc.changeView(childShowV.getName());		
 				}
 		}

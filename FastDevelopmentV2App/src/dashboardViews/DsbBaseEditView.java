@@ -48,7 +48,7 @@ public class DsbBaseEditView extends DsbBaseView {
 	
 	
 	this.selectLbl = "Editorial";
-	this.editEditorialLbl ="Editorial";
+	this.editEditorialLbl ="Nombre";
 	
 	
 	}
