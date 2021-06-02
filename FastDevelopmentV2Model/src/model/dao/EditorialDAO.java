@@ -22,9 +22,7 @@ public class EditorialDAO {
 			String sql= "INSERT INTO editorial(nombre) VALUES(?)";
 			PreparedStatement st= db.getCon().prepareStatement(sql);
 			st.setString(1, editorial.getNombre());
-			//st.setDate(2, arriendo.getFechaEntrega()); NI IDEA como agregar la fecha
-			//st.setDate(3, arriendo.getFechaDevolucion());
-			//st.setDate(4, arriendo.getFechaArriendo());
+
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -37,16 +35,38 @@ public class EditorialDAO {
 		db.conectar();
 		List<Editorial> editoriales = new ArrayList<>();
 		try {
-			String sql= "SELECT nombre From editorial";
+			String sql= "SELECT e.nombre, l.titulo FROM editorial e"
+					+ " LEFT JOIN libro l on l.idEditorial = e.idEditorial;";
 			PreparedStatement st= db.getCon().prepareStatement(sql);
 			ResultSet rs =  st.executeQuery();
+			
+			Editorial e = new Editorial();
 			while(rs.next()) {
-				Editorial e = new Editorial();
-				e.setNombre(rs.getString(1));
-				editoriales.add(e);
+				String nombre = rs.getString(1);
+				String titulo = rs.getString(2);
+				
+				
+				if(editoriales.isEmpty()) {
+					e.setNombre(nombre);
+					e.addToLibros(titulo);
+					editoriales.add(e);
+					
+				}else if(e.getNombre().contentEquals(nombre)) {
+					e.addToLibros(titulo);
+					
+				}else {
+					e = new Editorial();
+					e.setNombre(nombre);
+					e.addToLibros(titulo);
+					editoriales.add(e);
+				}
+				
+				
+				
 			}
 			
 			rs.close();
+			
 			
 			
 		} catch (Exception e) {
@@ -57,6 +77,8 @@ public class EditorialDAO {
 		
 		return editoriales;
 	}
+	
+	
 	
 	
 	public static List<Editorial> filteredSearch(String filtro, String target){

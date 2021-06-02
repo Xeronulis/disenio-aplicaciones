@@ -1,5 +1,6 @@
 package customItems;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -7,26 +8,141 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.plaf.ComboBoxUI;
+import javax.swing.plaf.PopupMenuUI;
 import javax.swing.plaf.ScrollBarUI;
+import javax.swing.plaf.basic.BasicArrowButton;
+import javax.swing.plaf.basic.BasicComboBoxUI;
+import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.BasicScrollBarUI;
+import javax.swing.plaf.basic.ComboPopup;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 import dashboardViews.DsbBaseCrudView;
 import dashboardViews.DsbBaseView;
+import menuViews.MenuDistView;
 import utils.ColorsUtils;
 import utils.SizeUtils;
 
-public interface CustomizeDs {
+public class CustomizeDs {
 
-	//funcion para customizar una tabla ya creada
+	static CustomizeDs instance = new CustomizeDs();
+	
+	
+	//funcion para crear el JLabel de advertencia
+	public static JLabel customizeWarningJLabel(JLabel label) {
+		
+		label.setPreferredSize(new Dimension(SizeUtils.PANELSIDESZ, 32));
+		
+		label.setForeground(Color.WHITE);
+		label.setFont(new Font("Verdana", Font.PLAIN, 12));
+		label.setHorizontalAlignment(SwingConstants.LEFT);
+		label.setIcon(new ImageIcon(CustomizeDs.class.getResource("/icons/warning_32px.png")));
+		
+		return label;
+	}
+	
+	
+	//funcion para crear un JComboBox customizado
+	public static JComboBox<Object> cutomizeJComboBox(JComboBox<Object> cbx) {
+		
+		cbx.setPreferredSize(new Dimension((int) (SizeUtils.PANELCENTERSZ*0.85), 16));
+		
+		cbx.setBorder(BorderFactory.createLineBorder(ColorsUtils.COLORS.get("menuHide"), 1));
+		cbx.setFont(new Font("Verdana", Font.PLAIN, 16));
+		cbx.setForeground(Color.WHITE);
+		cbx.setBackground(ColorsUtils.COLORS.get("txtbackground"));
+		
+		cbx.setUI(new BasicComboBoxUI() {
+			@Override
+            protected JButton createArrowButton() {
+            	JButton button = new BasicArrowButton(BasicArrowButton.SOUTH,
+                        ColorsUtils.COLORS.get("menuHide"),
+                        ColorsUtils.COLORS.get("menuHide"),
+                        ColorsUtils.COLORS.get("background"),
+                        ColorsUtils.COLORS.get("menuHide"));
+            	button.setName("ComboBox.arrowButton");
+            	return button;
+            }
+			
+			@SuppressWarnings("serial")
+			@Override
+            protected ComboPopup createPopup() {
+                return new BasicComboPopup(comboBox) {
+                    @Override
+                    protected JScrollPane createScroller() {
+                        JScrollPane scroller = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                        scroller.getVerticalScrollBar().setUI(instance.new CustomScrollBarUI() {
+                         
+                           
+                        });
+                        return scroller;
+                    }
+                    
+                };
+            }
+		});
+		
+		
+		
+		Object child = cbx.getAccessibleContext().getAccessibleChild(0);
+		ComboPopup popup = (ComboPopup)child;
+		JList<Object> list = popup.getList();
+		
+		list.setSelectionBackground(ColorsUtils.COLORS.get("menuHide"));
+		list.setSelectionForeground(Color.WHITE);
+		
+		return cbx;
+		
+	}
+	
+	//funcion para crear un JLabel customizado
+	public static JLabel customizeJLabel(JLabel label) {
+		
+		label.setPreferredSize(new Dimension(SizeUtils.PANELSIDESZ, 55));
+		
+		label.setForeground(Color.WHITE);
+		label.setFont(new Font("Verdana", Font.PLAIN, 16));
+		label.setHorizontalAlignment(SwingConstants.TRAILING);
+		
+		return label;
+		
+	}
+	
+	//funcion para crear JTextField customizado
+	public static JTextField customizeJTextField(JTextField txt) {
+		
+		txt.setBorder(new LineBorder(ColorsUtils.COLORS.get("menuHide")));
+		txt.setForeground(Color.WHITE);
+		txt.setText("");
+		txt.setFont(new Font("Verdana", Font.PLAIN, 16));
+		txt.setBackground(ColorsUtils.COLORS.get("txtbackground"));
+		txt.setPreferredSize(new Dimension((int) (SizeUtils.PANELCENTERSZ*0.85), 20));
+		
+		return txt;
+		
+	}
+	
+	
+	//funcion para customizar una JTable ya creada
 	public static JTable customizeJTable(JTable table) {
 	
 		DefaultTableModel tmodel = (DefaultTableModel) table.getModel();
@@ -41,10 +157,9 @@ public interface CustomizeDs {
 	}
 	
 	
-	//funcion para inicializar la tabla base
+	//funcion para inicializar la JTable base
 	@SuppressWarnings("serial")
 	public static JTable customizeInitJTable(JTable table) {
-		
 		
 		table.setShowHorizontalLines(false);
 		table.setRowMargin(5);
@@ -55,25 +170,7 @@ public interface CustomizeDs {
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
+
 			},
 			new String[] {
 				"Sample column", "Sample column"
@@ -98,6 +195,7 @@ public interface CustomizeDs {
 		tableRenderer.setFont(new Font("Verdana", Font.PLAIN, 16));
 		tableRenderer.setBorder(null);
 		tableRenderer.setForeground(Color.WHITE);
+		tableRenderer.setBackground(ColorsUtils.COLORS.get("background"));
 		tableRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 		tableHeader.setDefaultRenderer(tableRenderer);
 		
@@ -115,10 +213,11 @@ public interface CustomizeDs {
 	}
 
 
+	//funcion para inicializar un ScrollPane
 	public static JScrollPane cutomizeScrollPane(JScrollPane scrollPane) {
 		Color background = ColorsUtils.COLORS.get("background");
 		
-		ScrollBarUI customUI = new CustomScrollBarUI();
+		ScrollBarUI customUI = instance.new CustomScrollBarUI();
 		
 		scrollPane.setViewportBorder(null);
 		scrollPane.setBorder(null);
@@ -127,6 +226,7 @@ public interface CustomizeDs {
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.getVerticalScrollBar().setBackground(background);
+		scrollPane.getHorizontalScrollBar().setBackground(background);
 		scrollPane.setBorder(BorderFactory.createLineBorder(ColorsUtils.COLORS.get("menuHide"), 1));
 		scrollPane.getVerticalScrollBar().setBorder(BorderFactory.createEmptyBorder());
 		scrollPane.getViewport().setBackground(background);
@@ -136,7 +236,7 @@ public interface CustomizeDs {
 		
 	}
 	
-	public class CustomScrollBarUI extends BasicScrollBarUI{
+	private class CustomScrollBarUI extends BasicScrollBarUI{
 		
 		Color background = ColorsUtils.COLORS.get("background");
 		

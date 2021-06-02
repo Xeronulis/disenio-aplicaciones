@@ -46,6 +46,10 @@ public class CustomDsBtn extends JPanel {
 		return this.hoverLs;
 	}
 	
+	public void deleteVertStrut() {
+		this.remove(this.getVerticalStrut());
+	}
+	
 	public void setAllColors(Color bg, Color h, Color p) {
 		setColors(1, bg);
 		setColors(2, h);
@@ -100,7 +104,7 @@ public class CustomDsBtn extends JPanel {
 	 * Create the panel.
 	 */
 	public CustomDsBtn() {
-		createBtn(" name");
+		createBtn("name");
 		
 	}
 	public CustomDsBtn(String name) {
@@ -150,11 +154,10 @@ public class CustomDsBtn extends JPanel {
 		private boolean isIn;
 		
 		private JPanel link;
-		private Color defaultColor = new Color(100,100,100);
 		
-		private Color bColor = defaultColor;
-		private Color hColor = defaultColor;
-		private Color pColor = defaultColor;
+		private Color bColor = ColorsUtils.COLORS.get("background");
+		private Color hColor = ColorsUtils.COLORS.get("itemHover");
+		private Color pColor = ColorsUtils.COLORS.get("itemPressed");
 		
 		
 		public HoverLs(JPanel jp) {

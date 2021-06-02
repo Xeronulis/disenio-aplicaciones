@@ -20,7 +20,6 @@ public class DsbMainController {
 	private DsbCardLayout dsbCardLayout;
 	private CardLayout cardLayout;
 	
-
 	
 	public DsbMainController(DsbMainView v, MainController mc, DsbCardLayout dcl) {
 		this.v = v;
@@ -30,7 +29,8 @@ public class DsbMainController {
 
 	}
 	
-
+	
+	
 	
 	public void start() {
 
@@ -42,6 +42,9 @@ public class DsbMainController {
 		changeDs(v.getName());
 		
 	}
+	
+	
+	
 	
 	public void addToLayout(JPanel panel, String name) {
 		dsbCardLayout.add(panel,name);

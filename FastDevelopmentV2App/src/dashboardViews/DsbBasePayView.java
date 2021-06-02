@@ -44,7 +44,7 @@ public class DsbBasePayView extends DsbBaseView {
 		
 		
 		this.selectLbl = "Método de pago";
-		this.metodoLbl ="Método de pago";
+		this.metodoLbl ="Nombre";
 		
 		
 	}

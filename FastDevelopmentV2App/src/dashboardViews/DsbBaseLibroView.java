@@ -14,10 +14,14 @@ public class DsbBaseLibroView extends DsbBaseView {
 	private String isbnLbl;
 	private String tituloLbl;
 	private String numeroPaginasLbl;
+	private String autorLbl;
+	private String categoriaLbl;
+	private String idiomaLbl;
+	private String editorialLbl;
+	private String estadoLbl;
+	
 	private String precioReferenciaLbl;
 	private String fechaPublicacionLbl;
-	private String estadoLibroLbl;
-	private String editorialLbl;
 	
 	private String numeroSerieTxt;        
 	private String isbnTxt;               
@@ -44,20 +48,32 @@ public class DsbBaseLibroView extends DsbBaseView {
 		return numeroPaginasLbl;
 	}
 
+	public String getAutorLbl() {
+		return autorLbl;
+	}
+
+	public String getCategoriaLbl() {
+		return categoriaLbl;
+	}
+
+	public String getIdiomaLbl() {
+		return idiomaLbl;
+	}
+
+	public String getEditorialLbl() {
+		return editorialLbl;
+	}
+
+	public String getEstadoLbl() {
+		return estadoLbl;
+	}
+
 	public String getPrecioReferenciaLbl() {
 		return precioReferenciaLbl;
 	}
 
 	public String getFechaPublicacionLbl() {
 		return fechaPublicacionLbl;
-	}
-
-	public String getEstadoLibroLbl() {
-		return estadoLibroLbl;
-	}
-
-	public String getEditorialLbl() {
-		return editorialLbl;
 	}
 
 	public String getNumeroSerieTxt() {
@@ -96,7 +112,7 @@ public class DsbBaseLibroView extends DsbBaseView {
 	 * Create the panel.
 	 */
 	public DsbBaseLibroView() {
-		this.setName("trans");
+		this.setName("libro");
 		this.setCustomStuff();
 		this.cLayout = (CardLayout) this.getLayout();
 		
@@ -117,10 +133,16 @@ public class DsbBaseLibroView extends DsbBaseView {
 	this.isbnLbl =				"ISBN";
 	this.tituloLbl =			"Título";
 	this.numeroPaginasLbl = 	"Num. páginas";
+	this.autorLbl = 			"Autor";
+	this.categoriaLbl = 		"Categoría";
+	this.idiomaLbl = 			"Idioma";
+	this.editorialLbl =			"Editorial";
+	this.estadoLbl=				"Estado del libro";
 	this.precioReferenciaLbl =	"Precio de referencia";
 	this.fechaPublicacionLbl =	"Fecha de publicación";
-	this.estadoLibroLbl=		"Estado del libro";
-	this.editorialLbl =			"Editorial";
+	
+	
+	
 	
 	
 	}

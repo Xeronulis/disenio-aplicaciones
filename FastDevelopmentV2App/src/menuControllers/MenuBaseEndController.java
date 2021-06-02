@@ -1,10 +1,5 @@
 package menuControllers;
 
-import dashboardControllers.DsbDeleteController;
-import dashboardControllers.DsbModifyController;
-import dashboardControllers.DsbRegisterController;
-import dashboardControllers.DsbSearchController;
-import dashboardControllers.DsbShowController;
 import dashboardViews.DsbBaseDistView;
 import dashboardViews.DsbBaseView;
 import dashboardViews.DsbDeleteView;
@@ -17,11 +12,7 @@ import menuViews.MenuBaseView;
 //Esta clase solo sera padre de las clases que tengan que abrir una DashBoardView
 public class MenuBaseEndController extends MenuBaseController{
 
-	protected DsbRegisterController childRegisterC;
-	protected DsbModifyController childModifyC;
-	protected DsbShowController childShowC;
-	protected DsbSearchController childSearchC;
-	protected DsbDeleteController childDeleteC;
+
 	
 	protected DsbRegisterView childRegisterV;
 	protected DsbModifyView childModifyV;
@@ -64,21 +55,6 @@ public class MenuBaseEndController extends MenuBaseController{
 	}
 	*/
 	
-	public DsbRegisterController getChildRegisterC() {
-		return childRegisterC;
-	}
-	public DsbModifyController getChildModifyC() {
-		return childModifyC;
-	}
-	public DsbShowController getChildShowC() {
-		return childShowC;
-	}
-	public DsbSearchController getChildSearchC() {
-		return childSearchC;
-	}
-	public DsbDeleteController getChildDeleteC() {
-		return childDeleteC;
-	}
 	public DsbRegisterView getChildRegisterV() {
 		return childRegisterV;
 	}

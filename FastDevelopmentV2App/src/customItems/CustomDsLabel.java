@@ -11,6 +11,7 @@ import utils.SizeUtils;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import javax.swing.ImageIcon;
 
 public class CustomDsLabel extends JPanel {
 	
@@ -34,9 +35,10 @@ public class CustomDsLabel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		
 		label = new JLabel("sample");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setIcon(new ImageIcon(CustomDsLabel.class.getResource("/icons/warning_32px.png")));
 		label.setForeground(Color.WHITE);
 		label.setFont(new Font("Verdana", Font.PLAIN, 16));
-		label.setHorizontalAlignment(SwingConstants.TRAILING);
 		add(label, BorderLayout.CENTER);
 		
 		

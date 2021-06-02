@@ -45,7 +45,7 @@ public class DsbBaseCategView extends DsbBaseView {
 
 	private void initItems() {
 		this.selectLbl = "Categoría";
-		this.categCategoryLbl ="Categoría";
+		this.categCategoryLbl ="Nombre";
 	
 	
 	}

@@ -1,24 +1,30 @@
 package model.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Categoria {
-	private String categoria;
-	private Libro libro;
-	
-	public Libro getLibro() {
-		return libro;
+	private String nombre;
+	private List<String> libros = new ArrayList<String>();
+	public String getNombre() {
+		return nombre;
 	}
-
-	public void setLibro(Libro libro) {
-		this.libro = libro;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
-
-	public String getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
+	public List<String> getLibros() {
+		return libros;
 	}
 	
+	public void addToLibros(String libro) {
+		libros.add(libro);
+	}
 	
+	public void setLibros(List<String> libros) {
+		this.libros = libros;
+	}
+	
+	public String toString() {
+		return nombre;
+	}
 }

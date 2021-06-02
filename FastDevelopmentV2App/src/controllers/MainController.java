@@ -32,9 +32,14 @@ public class MainController {
 	
 	private int persistent =0;
 	private int prevPersistent=0;
-	private boolean isMenuShow = false;
+	private static boolean isMenuShow = false;
 	
 	private CardLayout cLayout;
+	
+	
+	public static boolean isMenuShow() {
+		return isMenuShow;
+	}
 	
 	public MainView getMainView() {
 		return this.v;
@@ -132,6 +137,7 @@ public class MainController {
 			v.getMenuHide().setVisible(true);
 			v.getMenu().setPreferredSize(new Dimension(318, 10));
 		}
+		
 	}
 	
 	

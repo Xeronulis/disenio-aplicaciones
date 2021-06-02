@@ -6,43 +6,70 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.dto.Categoria;
+import model.dto.Categoria;
 import model.utils.DB;
 
 public class CategoriaDAO {
-private DB db= new DB();
 	
-	public void save (Categoria c) {
+	private static DB db= new DB();
+	
+	public static void save(Categoria categ) {
+	
+		db.conectar();
+		
 		try {
-			String sql= "INSERT INTO categoria(numSerie,categoria) VALUES(?,?)";
+			String sql= "INSERT INTO categoria(nombre) VALUES(?)";
 			PreparedStatement st= db.getCon().prepareStatement(sql);
-			st.setInt(1, c.getLibro().getNumSerie());
-			st.setString(2, c.getCategoria());
+			st.setString(1, categ.getNombre());
+	
 			st.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}finally {
 			db.desconectar();
 		}
 		
 	}
-	public List<Categoria> getAll(){
-		List<Categoria> categorias = new ArrayList<>();
+	public static List<Categoria> getAll(){
 		db.conectar();
+		List<Categoria> categorias = new ArrayList<>();
 		try {
-			String sql= "SELECT numSerie,categoria FROM categoria";
-			PreparedStatement st = db.getCon().prepareStatement(sql);
-			//AQUI TENDRIAN QUE AGREGAR LOS CAMPO PARA EL WHERE, SI LO HUBIESE
-			ResultSet rs = st.executeQuery();
+			String sql= "SELECT c.nombre, l.titulo FROM categoria c"
+					+ " left join libroCategoria ci on c.idcategoria = ci.idcategoria"
+					+ " left join libro l on l.numeroSerie = ci.libroNumeroSerie;";
+			PreparedStatement st= db.getCon().prepareStatement(sql);
+			ResultSet rs =  st.executeQuery();
+			
+			Categoria e = new Categoria();
 			while(rs.next()) {
-				Categoria c =  new Categoria();
-				//c.setLibro(rs.getString(1)); no deja hacer setLibro.setNumSeire()
-				c.setCategoria(rs.getString(2));
-				categorias.add(c);	
+				String nombre = rs.getString(1);
+				String titulo = rs.getString(2);
+				
+				if(categorias.isEmpty()) {
+					e.setNombre(nombre);
+					e.addToLibros(titulo);
+					categorias.add(e);
+					
+				}else if(e.getNombre().contentEquals(nombre)) {
+					e.addToLibros(titulo);
+					
+				}else {
+					e = new Categoria();
+					e.setNombre(nombre);
+					e.addToLibros(titulo);
+					categorias.add(e);
+				}
+				
+				
+				
 			}
+			
 			rs.close();
-			return categorias;
+			
+			
+			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}finally {
 			db.desconectar();
 		}
@@ -51,19 +78,71 @@ private DB db= new DB();
 	}
 	
 	
-	public void delete(Categoria c) {
+	
+	
+	public static List<Categoria> filteredSearch(String filtro, String target){
+		db.conectar();
+		List<Categoria> categorias = new ArrayList<>();
 		try {
-			db.conectar();
-			//Proceso de inserccion
-			String sql= "DELETE FROM boleta WHERE numSerie=? AND categoria=?";
+			String sql= "SELECT nombre From categoria where LOWER("+filtro+")  like '%"+target+"%'";
 			PreparedStatement st= db.getCon().prepareStatement(sql);
-			st.setInt(1, c.getLibro().getNumSerie());
-			st.setString(2, c.getCategoria());
-			st.executeUpdate();
+			
+			ResultSet rs =  st.executeQuery();
+			while(rs.next()) {
+				Categoria e = new Categoria();
+				e.setNombre(rs.getString(1));
+				categorias.add(e);
+			}
+			
+			rs.close();
+			
+			
 		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			db.desconectar();
+		}
+		
+		return categorias;
+	}
+	
+	
+	public static void update(Categoria ed, String target) {
+		db.conectar();
+		try {
+			String sql = "UPDATE categoria set nombre = ? where nombre LIKE ?";
+			
+			PreparedStatement st = db.getCon().prepareStatement(sql);
+			st.setString(1, ed.getNombre());
+			st.setString(2, target);
+			
+			st.executeUpdate();
+			
+		}catch(Exception e) {
 			
 		}finally {
 			db.desconectar();
 		}
+		
+		
+	}
+	
+	
+	public static void delete(String target) {
+		db.conectar();
+		try {
+			String sql ="DELETE FROM categoria where nombre LIKE ?";
+			PreparedStatement st = db.getCon().prepareStatement(sql);
+			
+			st.setString(1, target);
+			
+			st.executeUpdate();
+		}catch(Exception e) {
+			
+		}finally {
+			db.desconectar();
+		}
+		
+		
 	}
 }

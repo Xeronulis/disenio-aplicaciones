@@ -19,6 +19,15 @@ public class SizeUtils {
 	
 	public static final Dimension DASHBOARDSIZE = new Dimension((int)(WINDOWSIZE.getWidth()-MENUICONSIZE) ,(int)WINDOWSIZE.getHeight());
 	
+	public static final Dimension DASHBOARDCOMPACTSIZE = new Dimension((int) (DASHBOARDSIZE.width-MENUHIDESIZEX),DASHBOARDSIZE.height);
+	
+	public static final int PANELSZ = (int) (DASHBOARDSIZE.getWidth()-MENUHIDESIZEX);
+	
+	public static final int PANELSIDESZ = (int) Math.round(PANELSZ * 0.275);
+	
+	public static final int PANELCENTERSZ = (int) Math.floor(PANELSZ * 0.45);
+	
+	
 	
 	
 }

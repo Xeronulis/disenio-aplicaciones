@@ -47,7 +47,7 @@ public class DsbBaseEstView extends DsbBaseView {
 		
 		
 		this.selectLbl = "Estado";
-		this.estStatusLbl ="Estado";
+		this.estStatusLbl ="Nombre";
 		
 		
 	}

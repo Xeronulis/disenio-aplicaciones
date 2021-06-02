@@ -3,29 +3,16 @@ package customItems;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 
+import javax.swing.JComboBox;
+import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.LookAndFeel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicComboPopup;
 
 import utils.ColorsUtils;
 import utils.SizeUtils;
-
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JList;
-
-import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.border.LineBorder;
-import javax.swing.plaf.ComboBoxUI;
-import javax.swing.plaf.LabelUI;
-import javax.swing.plaf.basic.BasicComboBoxUI;
-import javax.swing.plaf.basic.BasicComboPopup;
-import javax.swing.border.EmptyBorder;
 
 public class CustomDsCbx extends JPanel {
 	private JComboBox<Object> comboBox;
@@ -55,7 +42,7 @@ public class CustomDsCbx extends JPanel {
 		
 		Object child = comboBox.getAccessibleContext().getAccessibleChild(0);
 		BasicComboPopup popup = (BasicComboPopup)child;
-		JList list = popup.getList();
+		JList<Object> list = popup.getList();
 		list.setSelectionBackground(ColorsUtils.COLORS.get("menuHide"));
 		list.setSelectionForeground(Color.WHITE);
 		

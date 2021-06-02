@@ -4,11 +4,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import dashboardControllers.DsbBaseDistController;
-import dashboardControllers.DsbDeleteController;
-import dashboardControllers.DsbModifyController;
-import dashboardControllers.DsbRegisterController;
-import dashboardControllers.DsbSearchController;
-import dashboardControllers.DsbShowController;
 import dashboardViews.DsbBaseDistView;
 import dashboardViews.DsbDeleteView;
 import dashboardViews.DsbModifyView;
@@ -16,7 +11,6 @@ import dashboardViews.DsbRegisterView;
 import dashboardViews.DsbSearchView;
 import dashboardViews.DsbShowView;
 import menuViews.MenuDistView;
-import utils.ColorsUtils;
 
 public class MenuDistController extends MenuBaseEndController{
 
@@ -25,7 +19,7 @@ public class MenuDistController extends MenuBaseEndController{
 	
 	private DsbBaseDistView dsv;
 
-	
+
 	MenuDistController(MenuDistView v, MenuMainController mmc){
 		super(v,mmc);
 		this.v = v;
@@ -115,6 +109,7 @@ public class MenuDistController extends MenuBaseEndController{
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
 				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.resetRegister();
 				dsc.changeView(childRegisterV.getName());
 			}
 		}
@@ -143,6 +138,7 @@ public class MenuDistController extends MenuBaseEndController{
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
 				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.resetModify();
 				dsc.changeView(childModifyV.getName());
 			}
 		}
@@ -171,6 +167,7 @@ public class MenuDistController extends MenuBaseEndController{
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
 				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.resetShow();
 				dsc.changeView(childShowV.getName());
 			}
 		}
@@ -199,6 +196,7 @@ public class MenuDistController extends MenuBaseEndController{
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
 				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.resetSearch();
 				dsc.changeView(childSearchV.getName());
 			}
 
@@ -230,7 +228,8 @@ public class MenuDistController extends MenuBaseEndController{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
-				mmc.getDsbMainController().changeDs(v.getName());			
+				mmc.getDsbMainController().changeDs(v.getName());		
+				dsc.resetDelete();
 				dsc.changeView(childDeleteV.getName());
 			}
 		}

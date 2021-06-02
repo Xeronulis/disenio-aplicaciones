@@ -22,6 +22,7 @@ public class CustomDsTxtField extends JPanel {
 	
 	private JTextField text;
 	
+	
 	public JTextField getTxt() {
 		return text;
 	}

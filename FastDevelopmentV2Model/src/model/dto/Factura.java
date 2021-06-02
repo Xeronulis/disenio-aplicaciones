@@ -1,78 +1,101 @@
 package model.dto;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.sql.Date;
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Factura {
 
-	private String folioF;
-	private String distribuidor;
-	private LocalDate fechaCompra;
-	private LocalTime horaCompra;
-	private String metodoPago;
-	private int totalConIVA;
+	private int idFactura;
+	private int idDistribuidor;
+	private int idMetodoPago;
 	
-	private List<Distribuidores> distribuidores;
-	private List<Compras> compras;
-	private Biblioteca biblioteca;
+	private int folio;
+	private Date fechaCompra;
+	private Time horaCompra;
+	private boolean locked;
+	private double costoTotal;
 	
-	
+	private List<Compra> compras = new ArrayList<Compra>();
 
-	public List<Distribuidores> getDistribuidores() {
-		return distribuidores;
+	public int getIdFactura() {
+		return idFactura;
 	}
-	public void setDistribuidores(List<Distribuidores> distribuidores) {
-		this.distribuidores = distribuidores;
+
+	public void setIdFactura(int idFactura) {
+		this.idFactura = idFactura;
 	}
-	public List<Compras> getCompras() {
-		return compras;
+
+	public int getIdDistribuidor() {
+		return idDistribuidor;
 	}
-	public void setCompras(List<Compras> compras) {
-		this.compras = compras;
+
+	public void setIdDistribuidor(int idDistribuidor) {
+		this.idDistribuidor = idDistribuidor;
 	}
-	public Biblioteca getBiblioteca() {
-		return biblioteca;
+
+	public int getIdMetodoPago() {
+		return idMetodoPago;
 	}
-	public void setBiblioteca(Biblioteca biblioteca) {
-		this.biblioteca = biblioteca;
+
+	public void setIdMetodoPago(int idMetodoPago) {
+		this.idMetodoPago = idMetodoPago;
 	}
-	public String getFolioF() {
-		return folioF;
+
+	public int getFolio() {
+		return folio;
 	}
-	public void setFolioF(String folioF) {
-		this.folioF = folioF;
+
+	public void setFolio(int folio) {
+		this.folio = folio;
 	}
-	public String getDistribuidor() {
-		return distribuidor;
-	}
-	public void setDistribuidor(String distribuidor) {
-		this.distribuidor = distribuidor;
-	}
-	public LocalDate getFechaCompra() {
+
+	public Date getFechaCompra() {
 		return fechaCompra;
 	}
-	public void setFechaCompra(LocalDate fechaCompra) {
+
+	public void setFechaCompra(Date fechaCompra) {
 		this.fechaCompra = fechaCompra;
 	}
-	public LocalTime getHoraCompra() {
+
+	public Time getHoraCompra() {
 		return horaCompra;
 	}
-	public void setHoraCompra(LocalTime horaCompra) {
+
+	public void setHoraCompra(Time horaCompra) {
 		this.horaCompra = horaCompra;
 	}
-	public String getMetodoPago() {
-		return metodoPago;
+
+	public boolean isLocked() {
+		return locked;
 	}
-	public void setMetodoPago(String metodoPago) {
-		this.metodoPago = metodoPago;
+
+	public void setLocked(boolean locked) {
+		this.locked = locked;
 	}
-	public int getTotalConIVA() {
-		return totalConIVA;
+
+	public double getCostoTotal() {
+		return costoTotal;
 	}
-	public void setTotalConIVA(int totalConIVA) {
-		this.totalConIVA = totalConIVA;
+
+	public void setCostoTotal(double costoTotal) {
+		this.costoTotal = costoTotal;
+	}
+
+	public List<Compra> getCompras() {
+		return compras;
+	}
+
+	public void setCompras(List<Compra> compras) {
+		this.compras = compras;
 	}
 	
+	public void addToCompras(Compra compra) {
+		compras.add(compra);
+	}
 	
+	public String toString() {
+		return String.valueOf(idFactura);
+	}
 }

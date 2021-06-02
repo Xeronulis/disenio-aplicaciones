@@ -1,62 +1,45 @@
 package model.dto;
 
+import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Libro {
 
 	private String titulo;
-	private String editorial;
 	private String ISBN;
-	private String estado;
 	private int numSerie;
 	private int numPaginas;
-	private LocalDate anioPublicacion;
-	private int precioRef;
+	private Date anioPublicacion;
+	private double precioRef;
 	
-	private List<Autor> autores;
-	private List<Distribuidores> distribuidores ;
-	private List<Idioma> idiomas;
-	private List<Categoria> categorias;
-	private Cliente cliente;
-	private Biblioteca biblioteca;
-	
+	private List<Autor> autores = new ArrayList<Autor>();
+	private List<String> idiomas = new ArrayList<String>();
+	private List<String> categorias = new ArrayList<String>();
+	private String estado;
+	private String editorial;
+
 	
 
-	public List<Distribuidores> getDistribuidores() {
-		return distribuidores;
-	}
-	public void setDistribuidores(List<Distribuidores> distribuidores) {
-		this.distribuidores = distribuidores;
-	}
 	public List<Autor> getAutores() {
 		return autores;
 	}
 	public void setAutores(List<Autor> autores) {
 		this.autores = autores;
 	}
-	public List<Categoria> getCategorias() {
+	public List<String> getCategorias() {
 		return categorias;
 	}
-	public void setCategorias(List<Categoria> categorias) {
+	public void setCategorias(List<String> categorias) {
 		this.categorias = categorias;
 	}
-	public Cliente getCliente() {
-		return cliente;
-	}
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-	public Biblioteca getBiblioteca() {
-		return biblioteca;
-	}
-	public void setBiblioteca(Biblioteca biblioteca) {
-		this.biblioteca = biblioteca;
-	}
-	public List<Idioma> getIdiomas() {
+		
+		
+	public List<String> getIdiomas() {
 		return idiomas;
 	}
-	public void setIdiomas(List<Idioma> idiomas) {
+	public void setIdiomas(List<String> idiomas) {
 		this.idiomas = idiomas;
 	}
 	public int getNumSerie() {
@@ -96,19 +79,33 @@ public class Libro {
 		this.numPaginas = numPaginas;
 	}
 
-	public LocalDate getAnioPublicacion() {
+	public Date getAnioPublicacion() {
 		return anioPublicacion;
 	}
-	public void setAnioPublicacion(LocalDate anioPublicacion) {
+	public void setAnioPublicacion(Date anioPublicacion) {
 		this.anioPublicacion = anioPublicacion;
 	}
-	public int getPrecioRef() {
+	public double getPrecioRef() {
 		return precioRef;
 	}
-	public void setPrecioRef(int precioRef) {
+	public void setPrecioRef(double precioRef) {
 		this.precioRef = precioRef;
 	}
 	
+	public void addToAutores(Autor autor) {
+		autores.add(autor);
+	}
 	
+	public void addToCategorias(String categ) {
+		categorias.add(categ);
+	}
+	
+	public void addToIdiomas(String idioma) {
+		idiomas.add(idioma);
+	}
+	
+	public String toString() {
+		return this.titulo;
+	}
 	
 }

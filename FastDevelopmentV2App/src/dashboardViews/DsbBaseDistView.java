@@ -106,7 +106,7 @@ public class DsbBaseDistView extends DsbBaseView{
 		this.distNameLbl = "Nombre";
 		this.distAddressLbl = "Dirección";
 		this.distPhoneLbl = "Teléfono";
-		this.distStartDateLbl = "Fecha de Inicio";
+		this.distStartDateLbl = "Fecha de inicio";
 		
 		this.distStartDateTxt = java.time.LocalDate.now().toString();
 		

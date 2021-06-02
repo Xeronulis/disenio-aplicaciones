@@ -10,76 +10,55 @@ import javax.swing.SwingConstants;
 
 public class DsbBaseTransView extends DsbBaseView {
 
-	private String clienteTxt;
-	private String folioTxt;
-	private String trabajadorTxt;
-	private String fechaVentaTxt;
-	private String horaVentaTxt;
-	private String costoTotalTxt;
-	private String metodoPagoTxt;
+	private String libroNumeroSerieTxt;
+	private String idFacturaTxt;
+	private String precioNetoTxt;
+	private String costoConIvaTxt;
+	private String costoIvaTxt;
 	
-	private String clienteLbl;
-	private String folioLbl;
-	private String trabajadorLbl;
-	private String fechaVentaLbl;
-	private String horaVentaLbl;
-	private String costoTotalLbl;
-	private String metodoPagoLbl;
-	
-	public String getClienteTxt() {
-		return clienteTxt;
+	private String libroNumeroSerieLbl;
+	private String idFacturaLbl;
+	private String precioNetoLbl;
+	private String costoConIvaLbl;
+	private String costoIvaLbl;
+	public String getLibroNumeroSerieTxt() {
+		return libroNumeroSerieTxt;
 	}
 
-	public String getFolioTxt() {
-		return folioTxt;
+	public String getIdFacturaTxt() {
+		return idFacturaTxt;
 	}
 
-	public String getTrabajadorTxt() {
-		return trabajadorTxt;
+	public String getPrecioNetoTxt() {
+		return precioNetoTxt;
 	}
 
-	public String getFechaVentaTxt() {
-		return fechaVentaTxt;
+	public String getCostoConIvaTxt() {
+		return costoConIvaTxt;
 	}
 
-	public String getHoraVentaTxt() {
-		return horaVentaTxt;
+	public String getCostoIvaTxt() {
+		return costoIvaTxt;
 	}
 
-	public String getCostoTotalTxt() {
-		return costoTotalTxt;
+	public String getLibroNumeroSerieLbl() {
+		return libroNumeroSerieLbl;
 	}
 
-	public String getMetodoPagoTxt() {
-		return metodoPagoTxt;
+	public String getIdFacturaLbl() {
+		return idFacturaLbl;
 	}
 
-	public String getClienteLbl() {
-		return clienteLbl;
+	public String getPrecioNetoLbl() {
+		return precioNetoLbl;
 	}
 
-	public String getFolioLbl() {
-		return folioLbl;
+	public String getCostoConIvaLbl() {
+		return costoConIvaLbl;
 	}
 
-	public String getTrabajadorLbl() {
-		return trabajadorLbl;
-	}
-
-	public String getFechaVentaLbl() {
-		return fechaVentaLbl;
-	}
-
-	public String getHoraVentaLbl() {
-		return horaVentaLbl;
-	}
-
-	public String getCostoTotalLbl() {
-		return costoTotalLbl;
-	}
-
-	public String getMetodoPagoLbl() {
-		return metodoPagoLbl;
+	public String getCostoIvaLbl() {
+		return costoIvaLbl;
 	}
 
 	/**
@@ -103,13 +82,11 @@ public class DsbBaseTransView extends DsbBaseView {
 	private void initItems() {
 	
 	this.selectLbl = "Transacción";
-	this.folioLbl ="Folio";
-	this.clienteLbl ="Cliente";
-	this.trabajadorLbl = "Trabajador";
-	this.fechaVentaLbl = "Fecha de venta";
-	this.horaVentaLbl = "Hora de venta";
-	this.costoTotalLbl = "Costo total";
-	this.metodoPagoLbl = "Metodo de pago";
+	this.libroNumeroSerieLbl ="Id del libro";
+	this.idFacturaLbl= "Id de la Factura";
+	this.precioNetoLbl="Precio neto";
+	this.costoConIvaLbl="Costo con iva";
+	this.costoIvaLbl="Costo del iva";
 	
 	
 	}

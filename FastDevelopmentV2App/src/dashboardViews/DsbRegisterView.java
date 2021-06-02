@@ -1,55 +1,42 @@
 package dashboardViews;
 
-import javax.swing.JPanel;
-
-import utils.ColorsUtils;
-import utils.SizeUtils;
 import java.awt.BorderLayout;
-import javax.swing.JLabel;
-import java.awt.Font;
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import customItems.CustomDsBtn;
-import customItems.CustomDsCbx;
-import customItems.CustomDsLabel;
-import customItems.CustomDsTxtField;
-import customItems.CustomMenuBtn;
 import customItems.CustomizeDs;
-
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import javax.swing.ImageIcon;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.ScrollPane;
-
 import net.miginfocom.swing.MigLayout;
-import java.awt.FlowLayout;
-import javax.swing.JScrollPane;
+import utils.ColorsUtils;
+import utils.SizeUtils;
 
 public class DsbRegisterView extends DsbBaseCrudView {
 
 
 	private CustomDsBtn commitBtn;
-	private CustomDsLabel title;
+	
 	
 	private JPanel titlePanel;
 	private JPanel fieldsPanel;
 	private JPanel fields;
 	private JScrollPane scrollPane;
+	
+	private JPanel cardPanel;
+	private CardLayout cardLayout;
 
 	
 	public CustomDsBtn getCommitBtn() {
 		return commitBtn;
-	}
-
-	public CustomDsLabel getTitle() {
-		return title;
 	}
 
 	public JPanel getTitlePanel() {
@@ -63,6 +50,14 @@ public class DsbRegisterView extends DsbBaseCrudView {
 	public JPanel getFields() {
 		return fields;
 	}
+	
+	public JPanel getCardPanel() {
+		return cardPanel;
+	}
+	
+	public CardLayout getCardLayout() {
+		return cardLayout;
+	}
 
 	public DsbRegisterView(DsbBaseView baseView,String name) {
 		Color[] defaultColors = {ColorsUtils.COLORS.get("background"),
@@ -75,39 +70,55 @@ public class DsbRegisterView extends DsbBaseCrudView {
 		this.setName("register");
 		this.setLayout(new BorderLayout(0,0));
 		this.setCustomStuff();
-
+		
+		cardLayout = new CardLayout();
+		cardPanel = new JPanel();
+		cardPanel.setLayout(cardLayout);
+		
+		JPanel inCardPanel = new JPanel();
+		cardPanel.add(inCardPanel, "main");
+		this.add(cardPanel, BorderLayout.CENTER);
+		inCardPanel.setLayout(new BorderLayout(0,0));
 		
 		titlePanel = new JPanel();
-		this.add(titlePanel, BorderLayout.NORTH);
+		titlePanel.setBackground(defaultColors[0]);
+		inCardPanel.add(titlePanel, BorderLayout.NORTH);
 		titlePanel.setLayout(new BorderLayout(0, 0));
 		
 		
-		title = new CustomDsLabel();
-		title.getLabel().setFont(new Font("Verdana", Font.PLAIN, 28));
-		title.getLabel().setHorizontalAlignment(SwingConstants.CENTER);
-		title.getLabel().setText("Registrar "+name);
+		title = CustomizeDs.customizeJLabel(new JLabel());
+		title.setBackground(ColorsUtils.COLORS.get("background"));
+		title.setFont(new Font("Verdana", Font.PLAIN, 28));
+		title.setHorizontalAlignment(SwingConstants.CENTER);
+		title.setText("Registrar "+name);
 		titlePanel.add(title);
 		
 		
 		scrollPane = CustomizeDs.cutomizeScrollPane(new JScrollPane());
 		
 		scrollPane.setBorder(null);
-		this.add(scrollPane, BorderLayout.CENTER);
+		inCardPanel.add(scrollPane, BorderLayout.CENTER);
 		
 		
 		
 		fieldsPanel = new JPanel();
 		fieldsPanel.setBackground(getBackground());
-		fieldsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
 		scrollPane.setViewportView(fieldsPanel);
+		fieldsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		
 		
-		
+		int pssz = SizeUtils.PANELSIDESZ;
+		int pcsz = SizeUtils.PANELCENTERSZ;
 		
 		fields = new JPanel();
-		fields.setLayout(new MigLayout("", "[140][275.00,center][140]", "[][][][][][][][][][][]"));
+		fields.setLayout(new MigLayout("", "["+pssz+":"+pssz+",right]["+pcsz+":"+pcsz+",center]["+pssz+":"+pssz+",left]", "[][][][][][][][][][][][]"));
 		fields.setBackground(getBackground());
+		
+		
+		
 		fieldsPanel.add(fields);
+		
 		
 		initLblTxtBtn();
 		
@@ -129,55 +140,131 @@ public class DsbRegisterView extends DsbBaseCrudView {
 				ColorsUtils.COLORS.get("txtbackground")
 				};
 		
-		this.lbl1 = new CustomDsLabel();
-		this.txt1 = new CustomDsTxtField();
+		this.lbl1 = CustomizeDs.customizeJLabel(new JLabel());
+		this.txt1 = CustomizeDs.customizeJTextField(new JTextField());
+		this.warning1 = CustomizeDs.customizeWarningJLabel(new JLabel());
+		this.btn1 = new CustomDsBtn("Seleccionar");
+		btn1.setPreferredSize(new Dimension(120,32));
+		btn1.getVerticalStrut().setVisible(false);
+		this.cbx1= CustomizeDs.cutomizeJComboBox(new JComboBox<Object>());
 		fields.add(lbl1, "cell 0 0");
 		fields.add(txt1, "cell 1 0");
+		fields.add(warning1, "cell 2 0");
 		
-		this.lbl2 = new CustomDsLabel();
-		this.txt2 = new CustomDsTxtField();
+		this.lbl2 = CustomizeDs.customizeJLabel(new JLabel());
+		this.txt2 = CustomizeDs.customizeJTextField(new JTextField());
+		this.warning2 = CustomizeDs.customizeWarningJLabel(new JLabel());
+		this.btn2 = new CustomDsBtn("Seleccionar");
+		btn2.setPreferredSize(new Dimension(120,32));
+		btn2.getVerticalStrut().setVisible(false);
+		this.cbx2= CustomizeDs.cutomizeJComboBox(new JComboBox<Object>());
 		fields.add(lbl2, "cell 0 1");
 		fields.add(txt2, "cell 1 1,aligny center");
+		fields.add(warning2, "cell 2 1");
 		
-		this.lbl3 = new CustomDsLabel();
-		this.txt3 = new CustomDsTxtField();
+		this.lbl3 = CustomizeDs.customizeJLabel(new JLabel());
+		this.txt3 = CustomizeDs.customizeJTextField(new JTextField());
+		this.warning3 = CustomizeDs.customizeWarningJLabel(new JLabel());
+		this.btn3 = new CustomDsBtn("Seleccionar");
+		btn3.setPreferredSize(new Dimension(120,32));
+		btn3.getVerticalStrut().setVisible(false);
+		this.cbx3= CustomizeDs.cutomizeJComboBox(new JComboBox<Object>());
 		fields.add(lbl3, "cell 0 2");
 		fields.add(txt3, "cell 1 2");
+		fields.add(warning3, "cell 2 2");
 		
-		this.lbl4 = new CustomDsLabel();
-		this.txt4 = new CustomDsTxtField();
+		this.lbl4 = CustomizeDs.customizeJLabel(new JLabel());
+		this.txt4 = CustomizeDs.customizeJTextField(new JTextField());
+		this.warning4 = CustomizeDs.customizeWarningJLabel(new JLabel());
+		this.btn4 = new CustomDsBtn("Seleccionar");
+		btn4.setPreferredSize(new Dimension(120,32));
+		btn4.getVerticalStrut().setVisible(false);
+		this.cbx4= CustomizeDs.cutomizeJComboBox(new JComboBox<Object>());
 		fields.add(lbl4, "cell 0 3");
 		fields.add(txt4, "cell 1 3");
+		fields.add(warning4, "cell 2 3");
 		
-		this.lbl5 = new CustomDsLabel();
-		this.txt5 = new CustomDsTxtField();
+		this.lbl5 = CustomizeDs.customizeJLabel(new JLabel());
+		this.txt5 = CustomizeDs.customizeJTextField(new JTextField());
+		this.warning5 = CustomizeDs.customizeWarningJLabel(new JLabel());
+		this.btn5 = new CustomDsBtn("Seleccionar");
+		btn5.setPreferredSize(new Dimension(120,32));
+		btn5.getVerticalStrut().setVisible(false);
+		this.cbx5= CustomizeDs.cutomizeJComboBox(new JComboBox<Object>());
 		fields.add(lbl5, "cell 0 4");
 		fields.add(txt5, "cell 1 4");
+		fields.add(warning5, "cell 2 4");
 		
-		this.lbl6 = new CustomDsLabel();
-		this.txt6 = new CustomDsTxtField();
+		this.lbl6 = CustomizeDs.customizeJLabel(new JLabel());
+		this.txt6 = CustomizeDs.customizeJTextField(new JTextField());
+		this.warning6 = CustomizeDs.customizeWarningJLabel(new JLabel());
+		this.btn6 = new CustomDsBtn("Seleccionar");
+		btn6.setPreferredSize(new Dimension(120,32));
+		btn6.getVerticalStrut().setVisible(false);
+		this.cbx6= CustomizeDs.cutomizeJComboBox(new JComboBox<Object>());
 		fields.add(lbl6, "cell 0 5");
 		fields.add(txt6, "cell 1 5");
+		fields.add(warning6, "cell 2 5");
 		
-		this.lbl7 = new CustomDsLabel();
-		this.txt7 = new CustomDsTxtField();
+		this.lbl7 = CustomizeDs.customizeJLabel(new JLabel());
+		this.txt7 = CustomizeDs.customizeJTextField(new JTextField());
+		this.warning7 = CustomizeDs.customizeWarningJLabel(new JLabel());
+		this.btn7 = new CustomDsBtn("Seleccionar");
+		btn7.setPreferredSize(new Dimension(120,32));
+		btn7.getVerticalStrut().setVisible(false);
+		this.cbx7= CustomizeDs.cutomizeJComboBox(new JComboBox<Object>());
 		fields.add(lbl7, "cell 0 6");
 		fields.add(txt7, "cell 1 6");
+		fields.add(warning7, "cell 2 6");
 		
-		this.lbl8 = new CustomDsLabel();
-		this.txt8 = new CustomDsTxtField();
+		this.lbl8 = CustomizeDs.customizeJLabel(new JLabel());
+		this.txt8 = CustomizeDs.customizeJTextField(new JTextField());
+		this.warning8 = CustomizeDs.customizeWarningJLabel(new JLabel());
+		this.btn8 = new CustomDsBtn("Seleccionar");
+		btn8.setPreferredSize(new Dimension(120,32));
+		btn8.getVerticalStrut().setVisible(false);
+		this.cbx8= CustomizeDs.cutomizeJComboBox(new JComboBox<Object>());
 		fields.add(lbl8, "cell 0 7");
 		fields.add(txt8, "cell 1 7");
+		fields.add(warning8, "cell 2 7");
 		
-		this.lbl9 = new CustomDsLabel();
-		this.txt9 = new CustomDsTxtField();
+		this.lbl9 = CustomizeDs.customizeJLabel(new JLabel());
+		this.txt9 = CustomizeDs.customizeJTextField(new JTextField());
+		this.warning9 = CustomizeDs.customizeWarningJLabel(new JLabel());
+		this.btn9 = new CustomDsBtn("Seleccionar");
+		btn9.setPreferredSize(new Dimension(120,32));
+		btn9.getVerticalStrut().setVisible(false);
+		this.cbx9= CustomizeDs.cutomizeJComboBox(new JComboBox<Object>());
 		fields.add(lbl9, "cell 0 8");
 		fields.add(txt9, "cell 1 8");
-				
+		fields.add(warning9, "cell 2 8");
+		
+		this.lbl10 = CustomizeDs.customizeJLabel(new JLabel());
+		this.txt10 = CustomizeDs.customizeJTextField(new JTextField());
+		this.warning10 = CustomizeDs.customizeWarningJLabel(new JLabel());
+		this.btn10 = new CustomDsBtn("Seleccionar");
+		btn10.setPreferredSize(new Dimension(120,32));
+		btn10.getVerticalStrut().setVisible(false);
+		this.cbx10= CustomizeDs.cutomizeJComboBox(new JComboBox<Object>());
+		fields.add(lbl10, "cell 0 9");
+		fields.add(txt10, "cell 1 9");
+		fields.add(warning10, "cell 2 9");
+		
+		this.lbl11 = CustomizeDs.customizeJLabel(new JLabel());
+		this.txt11 = CustomizeDs.customizeJTextField(new JTextField());
+		this.warning11 = CustomizeDs.customizeWarningJLabel(new JLabel());
+		this.btn11 = new CustomDsBtn("Seleccionar");
+		btn11.setPreferredSize(new Dimension(120,32));
+		btn11.getVerticalStrut().setVisible(false);
+		this.cbx11= CustomizeDs.cutomizeJComboBox(new JComboBox<Object>());
+		fields.add(lbl11, "cell 0 10");
+		fields.add(txt11, "cell 1 10");
+		fields.add(warning11, "cell 2 10");
 		
 		this.commitBtn = new CustomDsBtn("Ejecutar");
 		commitBtn.setAllColors(defaultColors[0], defaultColors[1], defaultColors[2]);
-		fields.add(commitBtn, "cell 1 9");
+		
+		fields.add(commitBtn, "cell 1 11");
 	}
 
 }

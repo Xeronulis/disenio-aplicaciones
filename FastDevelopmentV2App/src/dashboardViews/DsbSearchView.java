@@ -3,6 +3,7 @@ package dashboardViews;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
@@ -11,6 +12,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -30,21 +32,13 @@ import javax.swing.ScrollPaneConstants;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 public class DsbSearchView extends DsbBaseCrudView {
 	
-	private JPanel titlePanel;
 	private CustomDsBtn commitBtn;
-	private CustomDsLabel title;
 	
-	private CustomDsTxtField txt1;
-	
-	
-	private CustomDsLabel lbl1;
-	
-	
-	private CustomDsLabel selectLbl;
-	private CustomDsCbx selectCbx;
+	private JLabel selectLbl;
 	private JPanel fields;
 	private JPanel fieldsPanel;
 	private JPanel panel;
@@ -63,24 +57,12 @@ public class DsbSearchView extends DsbBaseCrudView {
 		return commitBtn;
 	}
 
-	public CustomDsLabel getTitle() {
+	public JLabel getTitle() {
 		return title;
 	}
 
-	public CustomDsTxtField getTxt1() {
-		return txt1;
-	}
-
-	public CustomDsLabel getLbl1() {
-		return lbl1;
-	}
-
-	public CustomDsLabel getSelectLbl() {
+	public JLabel getSelectLbl() {
 		return selectLbl;
-	}
-
-	public CustomDsCbx getSelectCbx() {
-		return selectCbx;
 	}
 
 	public JPanel getFields() {
@@ -138,13 +120,14 @@ public class DsbSearchView extends DsbBaseCrudView {
 
 		
 		titlePanel = new JPanel();
+		titlePanel.setBackground(ColorsUtils.COLORS.get("background"));
 		this.add(titlePanel, BorderLayout.NORTH);
 		titlePanel.setLayout(new BorderLayout(0, 0));
 		
-		title = new CustomDsLabel();
-		title.getLabel().setFont(new Font("Verdana", Font.PLAIN, 28));
-		title.getLabel().setHorizontalAlignment(SwingConstants.CENTER);
-		title.getLabel().setText("Buscar "+name);
+		title = CustomizeDs.customizeJLabel(new JLabel());
+		title.setFont(new Font("Verdana", Font.PLAIN, 28));
+		title.setHorizontalAlignment(SwingConstants.CENTER);
+		title.setText("Buscar "+name);
 		titlePanel.add(title);
 		
 		panel = new JPanel();
@@ -154,25 +137,37 @@ public class DsbSearchView extends DsbBaseCrudView {
 		
 		fieldsPanel = new JPanel();
 		fieldsPanel.setBackground(getBackground());
+		fieldsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panel.add(fieldsPanel, BorderLayout.NORTH);
+		
+		
 		
 		fields = new JPanel();
 		fieldsPanel.add(fields);
 		fields.setBackground(getBackground());
-		fields.setLayout(new MigLayout("", "[140][275.00,center][140,center]", "[][]"));
 		
-		this.selectLbl = new CustomDsLabel();
-		this.selectCbx = new CustomDsCbx();
+		int pssz = SizeUtils.PANELSIDESZ;
+		int pcsz = SizeUtils.PANELCENTERSZ;
+		
+		fields.setLayout(new MigLayout("",  "["+pssz+":"+pssz+",right]["+pcsz+":"+pcsz+",center]["+pssz+":"+pssz+",left]", "[][][][1:n]"));
+		
+		
+		this.selectLbl = CustomizeDs.customizeJLabel(new JLabel());
+		this.selectCbx = CustomizeDs.cutomizeJComboBox(new JComboBox<Object>());
 		fields.add(selectLbl, "cell 0 0");
 		fields.add(selectCbx, "cell 1 0");
 		
-		this.txt1 = new CustomDsTxtField();
-		this.lbl1 = new CustomDsLabel();
+		this.txt1 = CustomizeDs.customizeJTextField(new JTextField());
+		this.lbl1 = CustomizeDs.customizeJLabel(new JLabel());
 		fields.add(lbl1, "cell 0 1");
 		fields.add(txt1, "cell 1 1");
 		
+		this.lbl2 = CustomizeDs.customizeJLabel(new JLabel());
+		this.lbl3= CustomizeDs.customizeJLabel(new JLabel());
+		
+		
 		this.commitBtn = new CustomDsBtn("Buscar");
-		//commitBtn.getPanel().remove(commitBtn.getVerticalStrut());
+		
 		commitBtn.getVerticalStrut().setVisible(false);
 		commitBtn.setPreferredSize(new Dimension(100, 40));
 		commitBtn.setAllColors(defaultColors[0], defaultColors[1], defaultColors[2]);

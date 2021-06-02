@@ -36,8 +36,6 @@ import javax.swing.GroupLayout.Alignment;
 
 public class DsbShowView extends DsbBaseCrudView {
 
-	private JPanel titlePanel;
-	private CustomDsLabel title;
 	private JScrollPane scrollPane;
 	private JTable table;
 	private Component negSpaceRight;
@@ -49,9 +47,6 @@ public class DsbShowView extends DsbBaseCrudView {
 		return titlePanel;
 	}
 
-	public CustomDsLabel getTitle() {
-		return title;
-	}
 
 	public JScrollPane getScrollPane() {
 		return scrollPane;
@@ -82,14 +77,15 @@ public class DsbShowView extends DsbBaseCrudView {
 		setLayout(new BorderLayout(0, 0));
 		
 		titlePanel = new JPanel();
+		titlePanel.setBackground(ColorsUtils.COLORS.get("background"));
 		this.add(titlePanel, BorderLayout.NORTH);
 		titlePanel.setLayout(new BorderLayout(0, 0));
 		
 		
-		title = new CustomDsLabel();
-		title.getLabel().setFont(new Font("Verdana", Font.PLAIN, 28));
-		title.getLabel().setHorizontalAlignment(SwingConstants.CENTER);
-		title.getLabel().setText("Mostrar "+name);
+		title = CustomizeDs.customizeJLabel(new JLabel());
+		title.setFont(new Font("Verdana", Font.PLAIN, 28));
+		title.setHorizontalAlignment(SwingConstants.CENTER);
+		title.setText("Mostrar "+name);
 		titlePanel.add(title);
 		
 		JPanel panel = new JPanel();

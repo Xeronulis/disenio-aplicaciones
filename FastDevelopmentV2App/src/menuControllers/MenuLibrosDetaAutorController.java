@@ -114,6 +114,7 @@ public class MenuLibrosDetaAutorController extends MenuBaseEndController{
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
 				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.resetRegister();
 				dsc.changeView(childRegisterV.getName());
 			}
 		}
@@ -141,6 +142,7 @@ public class MenuLibrosDetaAutorController extends MenuBaseEndController{
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
 				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.resetModify();
 				dsc.changeView(childModifyV.getName());
 			}
 		}
@@ -168,6 +170,7 @@ public class MenuLibrosDetaAutorController extends MenuBaseEndController{
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
 				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.resetShow();
 				dsc.changeView(childShowV.getName());
 			}
 		}
@@ -195,6 +198,7 @@ public class MenuLibrosDetaAutorController extends MenuBaseEndController{
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
 				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.resetSearch();
 				dsc.changeView(childSearchV.getName());
 			}
 		}
@@ -222,6 +226,7 @@ public class MenuLibrosDetaAutorController extends MenuBaseEndController{
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
 				mmc.getDsbMainController().changeDs(v.getName());
+				dsc.resetDelete();
 				dsc.changeView(childDeleteV.getName());
 			}
 		}

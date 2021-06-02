@@ -46,7 +46,7 @@ public class DsbBaseIdioView extends DsbBaseView {
 		
 		
 		this.selectLbl = "Idioma";
-		this.idioLangLbl ="Idioma";
+		this.idioLangLbl ="Nombre";
 		
 		
 	}
