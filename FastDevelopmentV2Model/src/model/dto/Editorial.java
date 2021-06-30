@@ -1,17 +1,35 @@
 package model.dto;
 
+import model.interfaces.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Editorial {
+import model.interfaces.InterfaceDTO;
 
+public class Editorial implements InterfaceDTO{
+
+	private int id;
 	private String nombre;
 	private List<String> libros = new ArrayList<String>();
 	
-	public String getNombre() {
+	
+	@Override
+	public int getId() {
+		return id;
+	}
+	
+	@Override
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	@Override
+	public String getName() {
 		return nombre;
 	}
-	public void setNombre(String nombre) {
+	
+	@Override
+	public void setName(String nombre) {
 		this.nombre = nombre;
 	}
 	public List<String> getLibros() {
@@ -25,8 +43,9 @@ public class Editorial {
 		libros.add(libro);
 	}
 	
-	public String toString() {
-		
+	public String toString() {	
 		return nombre;
 	}
+
+
 }

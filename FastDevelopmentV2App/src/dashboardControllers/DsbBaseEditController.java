@@ -33,19 +33,20 @@ import model.dto.Editorial;
 import model.dto.Estado;
 import model.dto.Editorial;
 import utils.SizeUtils;
+import utils.Validador;
 
 public class DsbBaseEditController extends DsbBaseController {
 
 	private DsbBaseEditView v;
-	
 	
 	private boolean[] registerError = new boolean[1];
 	private boolean[] modifyError = new boolean[1];
 	private boolean deleteError;
 	
 	
-	
 	private List<Editorial> editoriales;
+	
+	private Validador<Editorial> validador = new Validador<>();;
 	
 	public DsbBaseEditController(DsbBaseView v) {
 		super(v);
@@ -77,6 +78,8 @@ public class DsbBaseEditController extends DsbBaseController {
 	
 	private void refreshEditorialList() {
 		editoriales = EditorialDAO.getAll();
+		
+		validador.setList(editoriales);
 	}
 	
 	private void register() {
@@ -92,7 +95,7 @@ public class DsbBaseEditController extends DsbBaseController {
 		if(!error) {
 			Editorial editorial = new Editorial();
 			
-			editorial.setNombre(registerView.getTxt1().getText().strip());
+			editorial.setName(registerView.getTxt1().getText().strip());
 			
 			EditorialDAO.save(editorial);
 			
@@ -115,7 +118,7 @@ public class DsbBaseEditController extends DsbBaseController {
 		if(!error) {
 			Editorial edit = new Editorial();
 			
-			edit.setNombre(modifyView.getTxt1().getText());
+			edit.setName(modifyView.getTxt1().getText());
 			
 			EditorialDAO.update(edit,(String) modifyView.getSelectCbx().getSelectedItem());
 			
@@ -129,7 +132,7 @@ public class DsbBaseEditController extends DsbBaseController {
 		
 		tmodel.setRowCount(0);
 		editoriales.forEach(e->{
-			tmodel.addRow(new Object[] {e.getNombre()});
+			tmodel.addRow(new Object[] {e.getName()});
 		});
 		
 		
@@ -144,7 +147,7 @@ public class DsbBaseEditController extends DsbBaseController {
 		
 		tmodel.setRowCount(0);
 		edits.forEach(e->{
-			tmodel.addRow(new Object[] {e.getNombre()});
+			tmodel.addRow(new Object[] {e.getName()});
 		});
 		
 		
@@ -152,14 +155,18 @@ public class DsbBaseEditController extends DsbBaseController {
 	
 	private void delete() {
 		
-		String target= deleteView.getLbl3().getText();
+		Editorial sel= editoriales.stream().filter(e-> e.getName().contentEquals(deleteView.getLbl3().getText())).findFirst().orElse(null);
 		
-		
-		if(!deleteError) {
-			EditorialDAO.delete(target);
-			refreshDelete();
+		if(sel != null) {
+			int target = sel.getId();
 			
-		}	
+			if(!deleteError) {
+				EditorialDAO.delete(target);
+				refreshDelete();
+				
+			}
+		}
+			
 	}
 	
 	
@@ -186,7 +193,7 @@ public class DsbBaseEditController extends DsbBaseController {
 				
 		tmodel.setRowCount(0);
 		edits.forEach(e->{
-			tmodel.addRow(new Object[] {e.getNombre()});
+			tmodel.addRow(new Object[] {e.getName()});
 		});
 		
 	}
@@ -267,27 +274,8 @@ public class DsbBaseEditController extends DsbBaseController {
 		
 		switch (id) {
 		
-		case 1:
-			
-			
-			if(rv.getTxt1().getText().isBlank()) {
-				rv.getWarning1().setVisible(true);
-				rv.getWarning1().setText("Nombre vacío");
-				registerError[id-1] = true;
-			}else {
-				Editorial editorial = editoriales.stream().filter(e->e.getNombre().toLowerCase().contentEquals(rv.getTxt1().getText().toLowerCase())).findFirst().orElse(null);
-					if(editorial != null) {
-						rv.getWarning1().setVisible(true);
-						rv.getWarning1().setText("Nombre en uso");
-						registerError[id-1] = true;
-					}else {
-						rv.getWarning1().setVisible(false);
-						rv.getWarning1().setText("");
-						registerError[id-1] = false;
-					}
-			}
-			
-			
+		case 1:		
+			this.registerError[id-1] = validador.checkStringRepeated(rv.getTxt1(), rv.getWarning1(), validador.NOMBRE);
 			break;
 		}
 		
@@ -295,33 +283,12 @@ public class DsbBaseEditController extends DsbBaseController {
 	
 	private void checkErrorModify(int id) {
 		DsbModifyView mv = modifyView;
-		Editorial idiomaSel = editoriales.stream().filter(i-> i.getNombre().contentEquals(modifyView.getSelectCbx().getSelectedItem().toString())).findFirst().orElse(null);
-
-		
+		Editorial sel = editoriales.stream().filter(i-> i.getName().contentEquals(modifyView.getSelectCbx().getSelectedItem().toString())).findFirst().orElse(null);
 		
 		switch (id) {
 		
-		case 1:
-				
-			if(mv.getTxt1().getText().isBlank()) {
-				mv.getWarning1().setVisible(true);
-				mv.getWarning1().setText("Nombre vacío");
-				modifyError[id-1] = true;
-			}else {
-				Editorial editorial = editoriales.stream().filter(e->e.getNombre().toLowerCase().contentEquals(mv.getTxt1().getText().toLowerCase())).findFirst().orElse(null);
-				if(editorial != null && idiomaSel.getNombre().contentEquals(editorial.getNombre())) {
-					editorial = null;
-				}
-				if(editorial != null) {
-					mv.getWarning1().setVisible(true);
-					mv.getWarning1().setText("Nombre en uso");
-					modifyError[id-1] = true;
-				}else {
-					mv.getWarning1().setVisible(false);
-					mv.getWarning1().setText("");
-					modifyError[id-1] = false;
-				}
-			}		
+		case 1:		
+			this.modifyError[id-1] = validador.checkStringRepeated(mv.getTxt1(), mv.getWarning1(), sel, validador.NOMBRE);	
 			break;
 		}	
 	}
@@ -329,7 +296,7 @@ public class DsbBaseEditController extends DsbBaseController {
 	private void checkErrorDelete() {
 		DsbDeleteView dv = deleteView;
 		
-		Editorial eFound = editoriales.stream().filter(e->e.getNombre().toLowerCase().contentEquals(dv.getLbl3().getText().toLowerCase())).findFirst().orElse(null);
+		Editorial eFound = editoriales.stream().filter(e->e.getName().toLowerCase().contentEquals(dv.getLbl3().getText().toLowerCase())).findFirst().orElse(null);
 			if(eFound != null && !eFound.getLibros().contains(null)) {
 				dv.getWarning1().setVisible(true);
 				dv.getWarning1().setText("La editorial está vinculada");
@@ -408,9 +375,9 @@ public class DsbBaseEditController extends DsbBaseController {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if(modifyView.getSelectCbx().getSelectedItem() != null) {
-					Editorial editorial = editoriales.stream().filter(ed -> ed.getNombre().contentEquals(modifyView.getSelectCbx().getSelectedItem().toString())).findFirst().orElse(null);
+					Editorial editorial = editoriales.stream().filter(ed -> ed.getName().contentEquals(modifyView.getSelectCbx().getSelectedItem().toString())).findFirst().orElse(null);
 					if(editorial != null) {
-						modifyView.getTxt1().setText(editorial.getNombre());
+						modifyView.getTxt1().setText(editorial.getName());
 						checkErrorModify(1);
 					}
 				}
@@ -558,7 +525,7 @@ public class DsbBaseEditController extends DsbBaseController {
 	
 	
 	
-	private DefaultTableModel initTableModel(DefaultTableModel model ) {
+	protected DefaultTableModel initTableModel(DefaultTableModel model ) {
 		model.addColumn("Editorial");
 		
 		

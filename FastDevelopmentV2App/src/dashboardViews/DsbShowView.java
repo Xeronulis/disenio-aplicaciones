@@ -126,5 +126,40 @@ public class DsbShowView extends DsbBaseCrudView {
 		this.setBackground(ColorsUtils.COLORS.get("background"));
 				
 	}
+
+
+	@Override
+	public Object getCommitBtn() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Object getFieldsPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Object getFields() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Object getCardPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Object getCardLayout() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

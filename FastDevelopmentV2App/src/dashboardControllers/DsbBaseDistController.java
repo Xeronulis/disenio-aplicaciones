@@ -32,6 +32,7 @@ import dashboardViews.DsbSearchView;
 import dashboardViews.DsbShowView;
 import model.dao.DistribuidorDAO;
 import model.dto.Distribuidor;
+import utils.Validador;
 import model.dto.Distribuidor;
 
 public class DsbBaseDistController extends DsbBaseController {
@@ -43,6 +44,8 @@ public class DsbBaseDistController extends DsbBaseController {
 	private boolean deleteError;
 	
 	private List<Distribuidor> distribuidores;
+	
+	private Validador<Distribuidor> validador = new Validador<>();
 	
 	public DsbBaseDistController(DsbBaseView v) {
 		super(v);
@@ -61,6 +64,7 @@ public class DsbBaseDistController extends DsbBaseController {
 	
 	private void refreshAutorList() {
 		distribuidores = DistribuidorDAO.getAll();
+		validador.setList(distribuidores);
 	}
 	
 	
@@ -80,12 +84,11 @@ public class DsbBaseDistController extends DsbBaseController {
 			
 			
 			distribuidor.setRut(registerView.getTxt1().getText().strip());
-			distribuidor.setNombre(registerView.getTxt2().getText().strip());
-			distribuidor.setDireccion(registerView.getTxt3().getText().strip());
-			distribuidor.setTelefono(Integer.parseInt(registerView.getTxt4().getText().strip()));
-			distribuidor.setAnioInicio(java.sql.Date.valueOf(registerView.getTxt5().getText().strip()));
+			distribuidor.setName(registerView.getTxt2().getText().strip());
+			distribuidor.setDir(registerView.getTxt3().getText().strip());
+			distribuidor.setTel(Integer.parseInt(registerView.getTxt4().getText().strip()));
+			distribuidor.setStartYear(Integer.parseInt(registerView.getTxt5().getText().strip()));
 			
-			System.out.println(distribuidor.getAnioInicio());
 			DistribuidorDAO.save(distribuidor);
 			
 			resetRegister();
@@ -108,16 +111,16 @@ public class DsbBaseDistController extends DsbBaseController {
 			DsbModifyView mv = modifyView;
 			
 			Distribuidor edit = new Distribuidor();
-			Distribuidor distSel = distribuidores.stream().filter(i-> i.getNombre().contentEquals((String)mv.getSelectCbx().getSelectedItem())).findFirst().orElse(null);
+			Distribuidor distSel = distribuidores.stream().filter(i-> i.getName().contentEquals((String)mv.getSelectCbx().getSelectedItem())).findFirst().orElse(null);
 			
 			
 			String target= distSel.getRut();
 			
 			edit.setRut(mv.getTxt1().getText().strip());
-			edit.setNombre(mv.getTxt2().getText().strip());
-			edit.setDireccion(mv.getTxt3().getText().strip());
-			edit.setTelefono(Integer.parseInt(mv.getTxt4().getText().strip()));
-			edit.setAnioInicio(java.sql.Date.valueOf(mv.getTxt5().getText().strip()));
+			edit.setName(mv.getTxt2().getText().strip());
+			edit.setDir(mv.getTxt3().getText().strip());
+			edit.setTel(Integer.parseInt(mv.getTxt4().getText().strip()));
+			edit.setStartYear(Integer.parseInt(mv.getTxt5().getText().strip()));
 			
 			DistribuidorDAO.update(edit,target);
 			
@@ -131,7 +134,7 @@ public class DsbBaseDistController extends DsbBaseController {
 		
 		tmodel.setRowCount(0);
 		distribuidores.forEach(e->{
-			tmodel.addRow(new Object[] {e.getRut(), e.getNombre(), e.getDireccion(), e.getTelefono(), e.getAnioInicio()});
+			tmodel.addRow(new Object[] {e.getRut(), e.getName(), e.getDir(), e.getTel(), e.getStartYear()});
 		});
 		
 		
@@ -160,7 +163,7 @@ public class DsbBaseDistController extends DsbBaseController {
 		
 		tmodel.setRowCount(0);
 		edits.forEach(e->{
-			tmodel.addRow(new Object[] {e.getRut(), e.getNombre(), e.getDireccion(), e.getTelefono(), e.getAnioInicio()});
+			tmodel.addRow(new Object[] {e.getRut(), e.getName(), e.getDir(), e.getTel(), e.getStartYear()});
 		});
 		
 		
@@ -168,11 +171,11 @@ public class DsbBaseDistController extends DsbBaseController {
 	
 	private void delete() {
 		
-		Distribuidor distSel = distribuidores.stream().filter(a-> a.getNombre().contentEquals(deleteView.getLbl3().getText())).findFirst().orElse(null);
+		Distribuidor distSel = distribuidores.stream().filter(a-> a.getName().contentEquals(deleteView.getLbl3().getText())).findFirst().orElse(null);
 		
 		if(distSel.getIdFacturas().contains(0)) {
 			JTable table = deleteView.getTable();
-			int target = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 0));
+			String target = String.valueOf(table.getValueAt(table.getSelectedRow(), 0));
 
 						
 			if(!deleteError) {
@@ -223,7 +226,7 @@ public class DsbBaseDistController extends DsbBaseController {
 				
 		tmodel.setRowCount(0);
 		edits.forEach(e->{
-			tmodel.addRow(new Object[] {e.getRut(), e.getNombre(), e.getDireccion(), e.getTelefono(), e.getAnioInicio()});
+			tmodel.addRow(new Object[] {e.getRut(), e.getName(), e.getDir(), e.getTel(), e.getStartYear()});
 		});
 		
 	}
@@ -302,152 +305,29 @@ public class DsbBaseDistController extends DsbBaseController {
 	private void checkErrorRegister(int id) {
 		DsbRegisterView rv = registerView;
 		
+		
 		switch (id) {
 		
 		case 1:
-			if(rv.getTxt1().getText().isBlank()) {
-				rv.getWarning1().setVisible(true);
-				rv.getWarning1().setText("Rut vacío");
-				registerError[id-1] = true;
-			}else {
-				
-				String txt1 = rv.getTxt1().getText();
-				
-				
-				if(!Pattern.matches("[0-9[k]]+", txt1)) {
-					txt1 = txt1.replaceAll("[^0-9[k]]", "");
-					rv.getTxt1().setText(txt1);
-					
-					
-				}else {
-					while(txt1.split("k", -2).length >2) {
-						txt1 = txt1.replaceFirst("k", "");
-						rv.getTxt1().setText(txt1);
-					}
-					if(Pattern.matches("\\S+k\\S+", txt1)) {
-						txt1 = txt1.replaceFirst("k", "");
-						rv.getTxt1().setText(txt1);
-					}
-				}
-				Distribuidor distribuidor = distribuidores.stream().filter(e->e.getRut().toLowerCase().contentEquals(rv.getTxt1().getText())).findFirst().orElse(null);
-				
-				if(distribuidor != null) {
-					rv.getWarning1().setVisible(true);
-					rv.getWarning1().setText("Rut ya registrado");
-					registerError[id-1] = true;
-				}else {
-					rv.getWarning1().setVisible(false);
-					rv.getWarning1().setText("");
-					registerError[id-1] = false;
-				}
-			}
+			registerError[id-1] = validador.checkRutRepeated(rv.getTxt1(), rv.getWarning1());
 			break;
 			
 		case 2:
-			if(rv.getTxt2().getText().isBlank()) {
-				rv.getWarning2().setVisible(true);
-				rv.getWarning2().setText("Nombre vacío");
-				registerError[id-1] = true;
-			}else {
-				
-				Distribuidor distribuidor = distribuidores.stream().filter(e->e.getNombre().toLowerCase().contentEquals(rv.getTxt2().getText().toLowerCase())).findFirst().orElse(null);
-
-				if(distribuidor != null) {
-					rv.getWarning2().setVisible(true);
-					rv.getWarning2().setText("Nombre ya registrado");
-					registerError[id-1] = true;
-				}else {
-					rv.getWarning2().setVisible(false);
-					rv.getWarning2().setText("");
-					registerError[id-1] = false;
-				}
-			}
+			registerError[id-1] = validador.checkStringRepeated(rv.getTxt2(), rv.getWarning2(), validador.NOMBRE);
 			break;
 		
 		case 3:
-			if(rv.getTxt3().getText().isBlank()) {
-				rv.getWarning3().setVisible(true);
-				rv.getWarning3().setText("Dirección vacía");
-				registerError[id-1] = true;
-			}else {
-				
-				Distribuidor distribuidor = distribuidores.stream().filter(e->e.getDireccion().toLowerCase().contentEquals(rv.getTxt3().getText().toLowerCase())).findFirst().orElse(null);
-
-				if(distribuidor != null) {
-					rv.getWarning3().setVisible(true);
-					rv.getWarning3().setText("Dirección ya registrada");
-					registerError[id-1] = true;
-				}else {
-					rv.getWarning3().setVisible(false);
-					rv.getWarning3().setText("");
-					registerError[id-1] = false;
-				}
-			}
+			registerError[id-1] = validador.checkStringRepeated(rv.getTxt3(), rv.getWarning3(), validador.DIRECCION);
 			break;
 			
 		case 4:
-			if(rv.getTxt4().getText().isBlank()) {
-				rv.getWarning4().setVisible(true);
-				rv.getWarning4().setText("Teléfono vacío");
-				registerError[id-1] = true;
-			}else {
-				String telefono = rv.getTxt4().getText().strip();
-				
-				if(!Pattern.matches("[0-9]+", telefono)) {
-					telefono = telefono.replaceAll("[^0-9]", "");
-					rv.getTxt4().setText(telefono);
-				}	
-				Distribuidor distribuidor = distribuidores.stream().filter(e->String.valueOf(e.getTelefono()).contentEquals(rv.getTxt4().getText())).findFirst().orElse(null);
-				
-				if(distribuidor != null) {
-					rv.getWarning4().setVisible(true);
-					rv.getWarning4().setText("Teléfono ya registrado");
-					registerError[id-1] = true;
-				}else {
-					rv.getWarning4().setVisible(false);
-					rv.getWarning4().setText("");
-					registerError[id-1] = false;
-				}
-			}
+			registerError[id-1] = validador.checkNumberRepeated(rv.getTxt4(), rv.getWarning4(), validador.TELEFONO);
 			break;
 			
 		case 5:
-			
-			
-			if(rv.getTxt5().getText().isBlank()) {
-				rv.getWarning5().setVisible(true);
-				rv.getWarning5().setText("Fecha vacía");
-				registerError[id-1] = true;
-			}else {
-				
-				String fecha = rv.getTxt5().getText();
-				
-				if(!Pattern.matches("[0-9[-]]+", fecha)) {
-					fecha = fecha.replaceAll("[^0-9[-]]","");
-					rv.getTxt5().setText(fecha);
-				}
-				
-				while(fecha.split("-", -2).length>3) {
-					fecha = fecha.replaceFirst("--", "-");
-					fecha = fecha.replaceFirst("(-\\d+$)|(-$)", "");
-					
-					rv.getTxt5().setText(fecha);
-				}
-				
-				try {
-					java.sql.Date.valueOf(fecha);
-					
-					registerError[id-1] = false;
-					rv.getWarning5().setVisible(false);
-					rv.getWarning5().setText("");
-					
-				}catch (Exception ex) {
-					registerError[id-1] = true;
-					rv.getWarning5().setVisible(true);
-					rv.getWarning5().setText("Fecha inválida");
-				}		
-			}
+			registerError[id-1] = validador.checkNumber(rv.getTxt5(), rv.getWarning5(), validador.ANIOINICIO);
 			break;
+			
 		}	
 		
 	}
@@ -456,7 +336,7 @@ public class DsbBaseDistController extends DsbBaseController {
 		
 		DsbModifyView mv = modifyView;
 		
-		Distribuidor distSel = distribuidores.stream().filter(i-> i.getNombre().contentEquals((String)mv.getSelectCbx().getSelectedItem())).findFirst().orElse(null);
+		Distribuidor distSel = distribuidores.stream().filter(i-> i.getName().contentEquals((String)mv.getSelectCbx().getSelectedItem())).findFirst().orElse(null);
 		
 		
 		switch (id) {
@@ -469,167 +349,23 @@ public class DsbBaseDistController extends DsbBaseController {
 		
 		
 		case 1:
-			if(mv.getTxt1().getText().isBlank()) {
-				mv.getWarning1().setVisible(true);
-				mv.getWarning1().setText("Rut vacío");
-				modifyError[id-1] = true;
-			}else {
-				
-				String txt1 = mv.getTxt1().getText();
-				
-				
-				if(!Pattern.matches("[0-9[k]]+", txt1)) {
-					txt1 = txt1.replaceAll("[^0-9[k]]", "");
-					mv.getTxt1().setText(txt1);
-					
-					
-				}else {
-					while(txt1.split("k", -2).length >2) {
-						txt1 = txt1.replaceFirst("k", "");
-						mv.getTxt1().setText(txt1);
-					}
-					if(Pattern.matches("\\S+k\\S+", txt1)) {
-						txt1 = txt1.replaceFirst("k", "");
-						mv.getTxt1().setText(txt1);
-					}
-				
-				}
-				Distribuidor distribuidor = distribuidores.stream().filter(e->e.getRut().toLowerCase().contentEquals(mv.getTxt1().getText().toLowerCase())).findFirst().orElse(null);
-				
-				
-				if(distribuidor != null && distSel.getNombre().contentEquals(distribuidor.getNombre())) {
-					distribuidor = null;
-				}
-				if(distribuidor != null) {
-					mv.getWarning1().setVisible(true);
-					mv.getWarning1().setText("Rut ya registrado");
-					modifyError[id-1] = true;
-				}else {
-					mv.getWarning1().setVisible(false);
-					mv.getWarning1().setText("");
-					modifyError[id-1] = false;
-				}
-			}	
+			modifyError[id-1] = validador.checkRutRepeated(mv.getTxt1(), mv.getWarning1(), distSel);
 			break;
 			
 		case 2:
-			if(mv.getTxt2().getText().isBlank()) {
-				mv.getWarning2().setVisible(true);
-				mv.getWarning2().setText("Nombre vacío");
-				modifyError[id-1] = true;
-			}else {
-				
-				Distribuidor distribuidor = distribuidores.stream().filter(e->e.getNombre().toLowerCase().contentEquals(mv.getTxt2().getText().toLowerCase())).findFirst().orElse(null);
-				
-				
-				if(distribuidor != null && distSel.getNombre().contentEquals(distribuidor.getNombre())) {
-					distribuidor = null;
-				}
-				if(distribuidor != null) {
-					mv.getWarning2().setVisible(true);
-					mv.getWarning2().setText("Nombre ya registrado");
-					modifyError[id-1] = true;
-				}else {
-					mv.getWarning2().setVisible(false);
-					mv.getWarning2().setText("");
-					modifyError[id-1] = false;
-				}
-			}
+			modifyError[id-1] = validador.checkStringRepeated(mv.getTxt2(), mv.getWarning2(), distSel, validador.NOMBRE);
 			break;
 		
 		case 3:
-			if(mv.getTxt3().getText().isBlank()) {
-				mv.getWarning3().setVisible(true);
-				mv.getWarning3().setText("Dirección vacía");
-				modifyError[id-1] = true;
-			}else {
-				
-				Distribuidor distribuidor = distribuidores.stream().filter(e->e.getDireccion().toLowerCase().contentEquals(mv.getTxt3().getText().toLowerCase())).findFirst().orElse(null);
-				
-				
-				if(distribuidor != null && distSel.getNombre().contentEquals(distribuidor.getNombre())) {
-					distribuidor = null;
-				}
-				if(distribuidor != null) {
-					mv.getWarning3().setVisible(true);
-					mv.getWarning3().setText("Dirección ya registrada");
-					modifyError[id-1] = true;
-				}else {
-					mv.getWarning3().setVisible(false);
-					mv.getWarning3().setText("");
-					modifyError[id-1] = false;
-				}
-			}
+			modifyError[id-1] = validador.checkStringRepeated(mv.getTxt3(), mv.getWarning3(), distSel, validador.DIRECCION);
 			break;
 			
 		case 4:
-			if(mv.getTxt4().getText().isBlank()) {
-				mv.getWarning4().setVisible(true);
-				mv.getWarning4().setText("Teléfono vacío");
-				modifyError[id-1] = true;
-			}else {
-				String telefono = mv.getTxt4().getText().strip();
-				
-				if(!Pattern.matches("[0-9]+", telefono)) {
-					telefono = telefono.replaceAll("[^0-9]", "");
-					mv.getTxt4().setText(telefono);
-				}
-				
-				
-				Distribuidor distribuidor = distribuidores.stream().filter(e->String.valueOf(e.getTelefono()).contentEquals(mv.getTxt4().getText())).findFirst().orElse(null);
-				
-				
-				if(distribuidor != null && distSel.getNombre().contentEquals(distribuidor.getNombre())) {
-					distribuidor = null;
-				}
-				if(distribuidor != null) {
-					mv.getWarning4().setVisible(true);
-					mv.getWarning4().setText("Teléfono ya registrado");
-					modifyError[id-1] = true;
-				}else {
-					mv.getWarning4().setVisible(false);
-					mv.getWarning4().setText("");
-					modifyError[id-1] = false;
-				}
-			}
+			modifyError[id-1] = validador.checkNumberRepeated(mv.getTxt4(), mv.getWarning4(), distSel, validador.TELEFONO);
 			break;
 			
 		case 5:
-			
-			
-			if(mv.getTxt5().getText().isBlank()) {
-				mv.getWarning5().setVisible(true);
-				mv.getWarning5().setText("Fecha vacía");
-				modifyError[id-1] = true;
-			}else {
-				
-				String fecha = mv.getTxt5().getText();
-				
-				if(!Pattern.matches("[0-9[-]]+", fecha)) {
-					fecha = fecha.replaceAll("[^0-9[-]]","");
-					mv.getTxt5().setText(fecha);
-				}
-				
-				while(fecha.split("-", -2).length>3) {
-					fecha = fecha.replaceFirst("--", "-");
-					fecha = fecha.replaceFirst("(-\\d+$)|(-$)", "");
-					
-					mv.getTxt5().setText(fecha);
-				}
-				
-				try {
-					java.sql.Date.valueOf(fecha);
-					
-					modifyError[id-1] = false;
-					mv.getWarning5().setVisible(false);
-					mv.getWarning5().setText("");
-					
-				}catch (Exception ex) {
-					modifyError[id-1] = true;
-					mv.getWarning5().setVisible(true);
-					mv.getWarning5().setText("Fecha inválida");
-				}		
-			}
+			modifyError[id-1] = validador.checkNumber(mv.getTxt5(), mv.getWarning5(), validador.ANIOINICIO);
 			break;
 		}	
 	}
@@ -640,8 +376,7 @@ public class DsbBaseDistController extends DsbBaseController {
 	private void checkErrorDelete() {
 		DsbDeleteView dv = deleteView;
 		
-		String nameConcat = deleteView.getLbl3().getText().strip().replace(" ", "").toLowerCase();
-		Distribuidor eFound = distribuidores.stream().filter(a-> a.getNombre().contentEquals(dv.getLbl3().getText())).findFirst().orElse(null);
+		Distribuidor eFound = distribuidores.stream().filter(a-> a.getName().contentEquals(dv.getLbl3().getText())).findFirst().orElse(null);
 		
 		
 		if(eFound != null && !eFound.getIdFacturas().contains(0)) {
@@ -741,15 +476,15 @@ public class DsbBaseDistController extends DsbBaseController {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if(modifyView.getSelectCbx().getSelectedItem() != null) {
-					Distribuidor distribuidor = distribuidores.stream().filter(a->a.getNombre()
+					Distribuidor distribuidor = distribuidores.stream().filter(a->a.getName()
 							.contentEquals(((String) modifyView.getSelectCbx().getSelectedItem()))).findFirst().orElse(null);
 					
 					if(distribuidor != null) {
 						modifyView.getTxt1().setText(distribuidor.getRut());
-						modifyView.getTxt2().setText(distribuidor.getNombre());
-						modifyView.getTxt3().setText(distribuidor.getDireccion());
-						modifyView.getTxt4().setText(String.valueOf(distribuidor.getTelefono()));
-						modifyView.getTxt5().setText(distribuidor.getAnioInicio().toString());
+						modifyView.getTxt2().setText(distribuidor.getName());
+						modifyView.getTxt3().setText(distribuidor.getDir());
+						modifyView.getTxt4().setText(String.valueOf(distribuidor.getTel()));
+						modifyView.getTxt5().setText(String.valueOf(distribuidor.getStartYear()));
 						checkErrorModify(0);
 					}
 					
@@ -916,7 +651,7 @@ public class DsbBaseDistController extends DsbBaseController {
 		}	
 	}
 		
-	private DefaultTableModel initTableModel(DefaultTableModel model ) {
+	protected DefaultTableModel initTableModel(DefaultTableModel model ) {
 		model.addColumn("Rut");
 		model.addColumn("Nombre de empresa");
 		model.addColumn("Dirección");

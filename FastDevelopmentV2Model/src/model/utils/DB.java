@@ -17,7 +17,7 @@ public class DB {
 			String url = "jdbc:mysql://localhost/fastdevelopmentdb?serverTimezone=UTC";
 			
 			//3. conectar a la base de datos
-			con= DriverManager.getConnection(url,"root","mysql");
+			con= DriverManager.getConnection(url,"root","");
 			return true;
 			} catch (Exception e) {
 				e.printStackTrace();

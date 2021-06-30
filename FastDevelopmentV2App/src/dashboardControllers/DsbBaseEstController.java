@@ -539,7 +539,7 @@ public class DsbBaseEstController extends DsbBaseController {
 		}	
 	}
 		
-	private DefaultTableModel initTableModel(DefaultTableModel model ) {
+	protected DefaultTableModel initTableModel(DefaultTableModel model ) {
 		model.addColumn("Estado");
 		
 		

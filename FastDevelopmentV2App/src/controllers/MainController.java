@@ -117,7 +117,7 @@ public class MainController {
 		case 1:
 			v.getHideMenuBtn().setBackground(colors.get("background"));
 			v.getHideMenuBtnImg().setIcon(new ImageIcon(MainView.class.getResource("/icons/menu_32px.png")));
-			mmc.changeMenu("menuMain");
+			//mmc.changeMenu("menuMain");
 			break;
 		case 2:
 			v.getSettings().setBackground(colors.get("background"));
@@ -132,7 +132,7 @@ public class MainController {
 			v.getMenuHide().setVisible(false);
 			int temp = v.getMenuIcon().getWidth();
 			v.getMenu().setPreferredSize(new Dimension(temp, 10));
-			mmc.changeMenu("menuMain");
+			//mmc.changeMenu("menuMain");
 		}else {
 			v.getMenuHide().setVisible(true);
 			v.getMenu().setPreferredSize(new Dimension(318, 10));

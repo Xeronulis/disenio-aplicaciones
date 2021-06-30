@@ -34,27 +34,27 @@ public class DsbRegisterView extends DsbBaseCrudView {
 	private JPanel cardPanel;
 	private CardLayout cardLayout;
 
-	
+	@Override
 	public CustomDsBtn getCommitBtn() {
 		return commitBtn;
 	}
 
-	public JPanel getTitlePanel() {
-		return titlePanel;
-	}
-
+	@Override
 	public JPanel getFieldsPanel() {
 		return fieldsPanel;
 	}
 
+	@Override
 	public JPanel getFields() {
 		return fields;
 	}
 	
+	@Override
 	public JPanel getCardPanel() {
 		return cardPanel;
 	}
 	
+	@Override
 	public CardLayout getCardLayout() {
 		return cardLayout;
 	}

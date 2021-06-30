@@ -37,29 +37,34 @@ public class DsbModifyView extends DsbBaseCrudView {
 	private JPanel cardPanel;
 	private CardLayout cardLayout;
 	
+	
+	@Override
 	public JPanel getFieldsPanel() {
 		return fieldsPanel;
 	}
+	
+	@Override
 	public JPanel getFields() {
 		return fields;
 	}
+	
+	@Override
 	public CustomDsBtn getCommitBtn() {
 		return commitBtn;
 	}
-	public JLabel getTitle() {
-		return title;
-	}
+
+	
 	public JLabel getSelectLbl() {
 		return selectLbl;
 	}
-	public JComboBox<Object> getSelectCbx() {
-		return selectCbx;
-	}
+
 	
+	@Override
 	public JPanel getCardPanel() {
 		return cardPanel;
 	}
 	
+	@Override
 	public CardLayout getCardLayout() {
 		return cardLayout;
 	}

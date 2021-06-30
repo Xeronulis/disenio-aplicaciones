@@ -389,7 +389,7 @@ public class DsbBaseLibroController extends DsbBaseController {
 		rv.getCbx9().removeAllItems();
 		
 		editoriales.forEach(e->{
-			rv.getCbx8().addItem(e.getNombre());
+			rv.getCbx8().addItem(e.getName());
 		});
 		
 		estados.forEach(e->{
@@ -1852,11 +1852,8 @@ public class DsbBaseLibroController extends DsbBaseController {
 		}	
 	}
 		
-	private DefaultTableModel initTableModel(DefaultTableModel model ) {
-		/*
-		{e.getNumSerie(), e.getISBN(),e.getTitulo(),e.getNumPaginas(),e.getAutores(),e.getCategorias()
-			,e.getIdiomas(),e.getEditorial(),e.getEstado(),e.getPrecioRef(),e.getAnioPublicacion()});
-		*/
+	protected DefaultTableModel initTableModel(DefaultTableModel model ) {
+
 		model.addColumn("Num. Serie");
 		model.addColumn("ISBN");
 		model.addColumn("Titulo");

@@ -537,7 +537,7 @@ public class DsbBaseCategController extends DsbBaseController {
 		}	
 	}
 		
-	private DefaultTableModel initTableModel(DefaultTableModel model ) {
+	protected DefaultTableModel initTableModel(DefaultTableModel model ) {
 		model.addColumn("Categoría");
 		
 		

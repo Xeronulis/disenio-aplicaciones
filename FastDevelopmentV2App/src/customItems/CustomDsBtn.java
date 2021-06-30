@@ -113,10 +113,11 @@ public class CustomDsBtn extends JPanel {
 	
 	public void createBtn(String name) {
 		
-		Color alpha = new Color(0,0,0,0);
 		
-		this.setBackground(alpha);
+		
+		this.setBackground(ColorsUtils.COLORS.get("background"));
 		setPreferredSize(new Dimension(14*name.length(), 60));
+
 		setLayout(new BorderLayout(0, 0));
 		
 		Panel = new JPanel();

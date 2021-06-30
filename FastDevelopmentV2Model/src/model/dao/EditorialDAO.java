@@ -21,7 +21,7 @@ public class EditorialDAO {
 		try {
 			String sql= "INSERT INTO editorial(nombre) VALUES(?)";
 			PreparedStatement st= db.getCon().prepareStatement(sql);
-			st.setString(1, editorial.getNombre());
+			st.setString(1, editorial.getName());
 
 			st.executeUpdate();
 		} catch (Exception e) {
@@ -35,28 +35,31 @@ public class EditorialDAO {
 		db.conectar();
 		List<Editorial> editoriales = new ArrayList<>();
 		try {
-			String sql= "SELECT e.nombre, l.titulo FROM editorial e"
+			String sql= "SELECT e.idEditorial, e.nombre, l.titulo FROM editorial e"
 					+ " LEFT JOIN libro l on l.idEditorial = e.idEditorial;";
 			PreparedStatement st= db.getCon().prepareStatement(sql);
 			ResultSet rs =  st.executeQuery();
 			
 			Editorial e = new Editorial();
 			while(rs.next()) {
-				String nombre = rs.getString(1);
-				String titulo = rs.getString(2);
+				int id = rs.getInt(1);
+				String nombre = rs.getString(2);
+				String titulo = rs.getString(3);
 				
 				
 				if(editoriales.isEmpty()) {
-					e.setNombre(nombre);
+					e.setId(id);
+					e.setName(nombre);
 					e.addToLibros(titulo);
 					editoriales.add(e);
 					
-				}else if(e.getNombre().contentEquals(nombre)) {
+				}else if(e.getName().contentEquals(nombre)) {
 					e.addToLibros(titulo);
 					
 				}else {
 					e = new Editorial();
-					e.setNombre(nombre);
+					e.setId(id);
+					e.setName(nombre);
 					e.addToLibros(titulo);
 					editoriales.add(e);
 				}
@@ -91,7 +94,7 @@ public class EditorialDAO {
 			ResultSet rs =  st.executeQuery();
 			while(rs.next()) {
 				Editorial e = new Editorial();
-				e.setNombre(rs.getString(1));
+				e.setName(rs.getString(1));
 				editoriales.add(e);
 			}
 			
@@ -114,7 +117,7 @@ public class EditorialDAO {
 			String sql = "UPDATE editorial set nombre = ? where nombre LIKE ?";
 			
 			PreparedStatement st = db.getCon().prepareStatement(sql);
-			st.setString(1, ed.getNombre());
+			st.setString(1, ed.getName());
 			st.setString(2, target);
 			
 			st.executeUpdate();
@@ -129,17 +132,17 @@ public class EditorialDAO {
 	}
 	
 	
-	public static void delete(String target) {
+	public static void delete(int target) {
 		db.conectar();
 		try {
-			String sql ="DELETE FROM editorial where nombre LIKE ?";
+			String sql ="DELETE FROM editorial where idEditorial = ?";
 			PreparedStatement st = db.getCon().prepareStatement(sql);
 			
-			st.setString(1, target);
+			st.setInt(1, target);
 			
 			st.executeUpdate();
 		}catch(Exception e) {
-			
+			e.printStackTrace();
 		}finally {
 			db.desconectar();
 		}
