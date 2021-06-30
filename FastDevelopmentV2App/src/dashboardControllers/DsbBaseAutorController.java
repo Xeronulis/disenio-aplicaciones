@@ -613,7 +613,7 @@ public class DsbBaseAutorController extends DsbBaseController {
 		}	
 	}
 		
-	private DefaultTableModel initTableModel(DefaultTableModel model ) {
+	protected DefaultTableModel initTableModel(DefaultTableModel model ) {
 		model.addColumn("Nombre");
 		model.addColumn("Apellido Paterno");
 		model.addColumn("Apellido Materno");

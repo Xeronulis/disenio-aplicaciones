@@ -22,10 +22,10 @@ public class DistribuidorDAO {
 					+ " values(?,?,?,?,?);";
 			PreparedStatement st= db.getCon().prepareStatement(sql);
 			st.setString(1, distribuidor.getRut());
-			st.setString(2, distribuidor.getNombre());
-			st.setString(3, distribuidor.getDireccion());
-			st.setInt(4, distribuidor.getTelefono());
-			st.setDate(5, distribuidor.getAnioInicio());
+			st.setString(2, distribuidor.getName());
+			st.setString(3, distribuidor.getDir());
+			st.setInt(4, distribuidor.getTel());
+			st.setInt(5, distribuidor.getStartYear());
 
 			st.executeUpdate();
 		} catch (Exception e) {
@@ -52,31 +52,31 @@ public class DistribuidorDAO {
 				String nombre = rs.getString(3);
 				String direccion = rs.getString(4);
 				int telefono = rs.getInt(5);
-				Date inicioD = rs.getDate(6);
+				int inicioD = rs.getInt(6);
 				int idF = rs.getInt(7);
 				
 				
 				if(distribuidores.isEmpty()) {
 					e.setId(iddistribuidor);
 					e.setRut(rut);
-					e.setNombre(nombre);
-					e.setDireccion(direccion);
-					e.setTelefono(telefono);
-					e.setAnioInicio(inicioD);
+					e.setName(nombre);
+					e.setDir(direccion);
+					e.setTel(telefono);
+					e.setStartYear(inicioD);
 					e.addToIdFacturas(idF);
 					distribuidores.add(e);
 					
-				}else if(e.getNombre().contentEquals(nombre)) {
+				}else if(e.getName().contentEquals(nombre)) {
 					e.addToIdFacturas(idF);
 					
 				}else {
 					e = new Distribuidor();
 					e.setId(iddistribuidor);
 					e.setRut(rut);
-					e.setNombre(nombre);
-					e.setDireccion(direccion);
-					e.setTelefono(telefono);
-					e.setAnioInicio(inicioD);
+					e.setName(nombre);
+					e.setDir(direccion);
+					e.setTel(telefono);
+					e.setStartYear(inicioD);
 					e.addToIdFacturas(idF);
 					distribuidores.add(e);
 				}		
@@ -109,11 +109,11 @@ public class DistribuidorDAO {
 			ResultSet rs =  st.executeQuery();
 			while(rs.next()) {
 				Distribuidor e = new Distribuidor();
-				e.setRut(String.valueOf(rs.getInt(1)));
-				e.setNombre(rs.getString(2));
-				e.setDireccion(rs.getString(3));
-				e.setTelefono(rs.getInt(4));
-				e.setAnioInicio(rs.getDate(5));
+				e.setRut(rs.getString(1));
+				e.setName(rs.getString(2));
+				e.setDir(rs.getString(3));
+				e.setTel(rs.getInt(4));
+				e.setStartYear(rs.getInt(5));
 				distribuidores.add(e);
 			}
 			
@@ -135,16 +135,16 @@ public class DistribuidorDAO {
 		try {
 			String sql = "UPDATE distribuidor set"
 					+ "	rut = ?,"
-					+ " nombreEmpresa = '"+ed.getNombre()+"',"
-					+ " direccion = '"+ed.getDireccion()+"',"
+					+ " nombreEmpresa = '"+ed.getName()+"',"
+					+ " direccion = '"+ed.getDir()+"',"
 					+ " telefono = ?,"
 					+ " inicioDistribuidor = ?"
 					+ " where rut LIKE ? ";
 			
 			PreparedStatement st = db.getCon().prepareStatement(sql);
 			st.setString(1, ed.getRut());
-			st.setInt(2, ed.getTelefono());
-			st.setDate(3, ed.getAnioInicio());
+			st.setInt(2, ed.getTel());
+			st.setInt(3, ed.getStartYear());
 			st.setString(4, target);
 			
 			
@@ -160,13 +160,13 @@ public class DistribuidorDAO {
 	}
 	
 	
-	public static void delete(int target) {
+	public static void delete(String target) {
 		db.conectar();
 		try {
 			String sql ="DELETE from distribuidor"
 					+ "	where rut = ?;";
 			PreparedStatement st = db.getCon().prepareStatement(sql);
-			st.setInt(1, target);
+			st.setString(1, target);
 			
 			st.executeUpdate();
 		}catch(Exception e) {

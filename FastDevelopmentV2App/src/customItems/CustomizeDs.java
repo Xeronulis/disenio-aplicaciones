@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -238,84 +239,40 @@ public class CustomizeDs {
 	
 	private class CustomScrollBarUI extends BasicScrollBarUI{
 		
-		Color background = ColorsUtils.COLORS.get("background");
+		Map<String, Color> colors = ColorsUtils.COLORS;
 		
 		@Override
 		protected void configureScrollBarColors(){
 			
-			this.thumbColor = ColorsUtils.COLORS.get("menuHide");
-			this.trackColor = background;
-			this.scrollbar.setBackground(trackColor);
+			thumbColor = colors.get("itemHover");
+	        thumbHighlightColor = thumbColor;
+	        thumbLightShadowColor = thumbColor;
+	        thumbDarkShadowColor = thumbColor;
+	        trackColor = colors.get("background");
+	        trackHighlightColor = trackColor;
+	        
 		}
 	    @Override
 	    protected JButton createDecreaseButton(int orientation) {
-	        JButton button = super.createDecreaseButton(orientation);
-	        button.setBackground(background);
-	        button.setBorder(BorderFactory.createLineBorder(ColorsUtils.COLORS.get("menuHide"), 1));
-	        button.addMouseListener(new MouseAdapter() {
-	        	private boolean isIn;
-				@Override
-				public void mousePressed(MouseEvent e) {
-					button.setBackground(ColorsUtils.COLORS.get("itemPressed"));			
-				}
-				@Override
-				public void mouseReleased(MouseEvent e) {
-					if(isIn) {
-						button.setBackground(ColorsUtils.COLORS.get("menuHide"));
-					}
-					
-				}
-
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					isIn = true;
-					button.setBackground(ColorsUtils.COLORS.get("menuHide"));
-				}
-
-				@Override
-				public void mouseExited(MouseEvent e) {
-					isIn = false;
-					button.setBackground(ColorsUtils.COLORS.get("background"));
-				}
-	        	
-	        });
-	        return button;
+	       return createNoButton();
 	    }
 	    
 	    
 	    @Override
 	    protected JButton createIncreaseButton(int orientation) {
-	        JButton button = super.createIncreaseButton(orientation);
-	        button.setBackground(background);
-	        button.setBorder(BorderFactory.createLineBorder(ColorsUtils.COLORS.get("menuHide"), 1));
-	        button.addMouseListener(new MouseAdapter() {
-	        	private boolean isIn;
-				@Override
-				public void mousePressed(MouseEvent e) {
-					button.setBackground(ColorsUtils.COLORS.get("itemPressed"));			
-				}
-				@Override
-				public void mouseReleased(MouseEvent e) {
-					if(isIn) {
-						button.setBackground(ColorsUtils.COLORS.get("menuHide"));
-					}
-					
-				}
-
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					isIn = true;
-					button.setBackground(ColorsUtils.COLORS.get("menuHide"));
-				}
-
-				@Override
-				public void mouseExited(MouseEvent e) {
-					isIn = false;
-					button.setBackground(ColorsUtils.COLORS.get("background"));
-				}
-	        	
-	        });
-	        return button;
+	    	return createNoButton();
+	        
+	    }
+	    
+	    private JButton createNoButton() {
+			JButton btn = new JButton();
+			btn.setPreferredSize(new Dimension(0,0));
+			btn.setMinimumSize(new Dimension(0,0));
+			btn.setMaximumSize(new Dimension(0,0));
+			
+			return btn;
+	    	
+	    	
 	    }
 	}
 }

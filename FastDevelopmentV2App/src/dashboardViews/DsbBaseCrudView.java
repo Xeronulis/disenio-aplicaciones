@@ -17,7 +17,7 @@ import customItems.CustomizeDs;
 import utils.ColorsUtils;
 import utils.SizeUtils;
 
-public class DsbBaseCrudView extends JPanel {
+public abstract class DsbBaseCrudView extends JPanel {
 
 	protected DsbBaseView baseView;
 	
@@ -417,5 +417,15 @@ public class DsbBaseCrudView extends JPanel {
 		
 		
 	}
+
+	public abstract Object getCommitBtn();
+
+	public abstract Object getFieldsPanel();
+
+	public abstract Object getFields();
+
+	public abstract Object getCardPanel();
+
+	public abstract Object getCardLayout();
 
 }

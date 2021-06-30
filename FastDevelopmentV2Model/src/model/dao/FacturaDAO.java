@@ -42,6 +42,7 @@ public class FacturaDAO {
 					+ " left join compra c on f.idFactura = c.idFactura;";
 			PreparedStatement st = db.getCon().prepareStatement(sql);	
 			ResultSet rs = st.executeQuery();
+		
 			
 			Factura f =  new Factura();
 			while(rs.next()) {

@@ -312,4 +312,34 @@ public class DsbDoubleTableView extends DsbBaseCrudView {
 		
 		
 	}
+
+	@Override
+	public Object getCommitBtn() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getFieldsPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getFields() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getCardPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getCardLayout() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

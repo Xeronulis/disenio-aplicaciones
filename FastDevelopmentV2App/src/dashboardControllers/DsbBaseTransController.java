@@ -823,7 +823,7 @@ public class DsbBaseTransController extends DsbBaseController {
 		}	
 	}
 		
-	private DefaultTableModel initTableModel(DefaultTableModel model ) {
+	protected DefaultTableModel initTableModel(DefaultTableModel model ) {
 		model.addColumn("Libro");
 		model.addColumn("Id Factura");
 		model.addColumn("Precio neto");

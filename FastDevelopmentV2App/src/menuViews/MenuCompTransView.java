@@ -54,12 +54,12 @@ public class MenuCompTransView extends MenuBaseView {
 				ColorsUtils.COLORS.get("itemHover"),
 				ColorsUtils.COLORS.get("background")
 				};
-		setLayout(new BorderLayout(0, 0));
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout(0, 0));
 		
 		CustomMenuBtnContainer panel = new CustomMenuBtnContainer();
 		
-		this.setPreferredSize(panel.getPreferredSize());
-		add(panel);
+		this.setViewportView(panel);
 		
 		this.backBtn = new CustomMenuBtn(" Atrás");
 		backBtn.getBtnImg().setIcon(new ImageIcon(MenuCompTransView.class.getResource("/icons/back_32px.png")));

@@ -5,63 +5,77 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Distribuidor {
+import model.interfaces.*;
+
+public class Distribuidor implements InterfaceDTO{
 
 	private int id;
 	
 	private String rut;
 	private String nombre;
-	private Date anioInicio;
+	private int anioInicio;
 	private int telefono;
 	private String direccion;
 	
 	private List<Integer> idFacturas = new ArrayList<Integer>();
 
+	@Override
 	public int getId() {
 		return id;
 	}
 	
+	@Override
 	public void setId(int id) {
 		this.id = id;
 	}
 	
+	@Override
 	public String getRut() {
 		return rut;
 	}
 
+	@Override
 	public void setRut(String rut) {
 		this.rut = rut;
 	}
 
-	public String getNombre() {
+	@Override
+	public String getName() {
 		return nombre;
 	}
 
-	public void setNombre(String nombre) {
+	@Override
+	public void setName(String nombre) {
 		this.nombre = nombre;
 	}
 
-	public Date getAnioInicio() {
+	@Override
+	public int getStartYear() {
 		return anioInicio;
 	}
 
-	public void setAnioInicio(Date anioInicio) {
-		this.anioInicio = anioInicio;
+	@Override
+	public void setStartYear(int i) {
+		this.anioInicio = i;
 	}
 
-	public int getTelefono() {
+	@Override
+	public int getTel() {
 		return telefono;
 	}
 
-	public void setTelefono(int telefono) {
+	@Override
+	public void setTel(int telefono) {
 		this.telefono = telefono;
 	}
 
-	public String getDireccion() {
+	@Override
+	public String getDir() {
 		return direccion;
 	}
 
-	public void setDireccion(String direccion) {
+	@Override
+	public void setDir(String direccion) {
 		this.direccion = direccion;
 	}
 

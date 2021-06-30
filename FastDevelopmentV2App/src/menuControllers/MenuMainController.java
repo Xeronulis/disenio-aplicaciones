@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import controllers.MainController;
 import dashboardControllers.DsbMainController;
@@ -71,6 +72,10 @@ public class MenuMainController {
 	}
 	
 	public void addToLayout(JPanel panel, String name) {
+		menuCardLayout.add(panel,name);
+	}
+	
+	public void addToLayout(JScrollPane panel, String name) {
 		menuCardLayout.add(panel,name);
 	}
 	

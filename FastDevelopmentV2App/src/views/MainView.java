@@ -14,9 +14,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import customItems.CustomizeDs;
 import utils.ColorsUtils;
 import utils.SizeUtils;
 
@@ -261,10 +263,15 @@ public class MainView extends JFrame {
 		menu.add(menuHide, BorderLayout.CENTER);
 		menuHide.setLayout(new BorderLayout(0, 0));
 		
+		
+		
+		
 		cardPanel = new JPanel();
+		
 		menuHide.add(cardPanel, BorderLayout.CENTER);
 		cardPanel.setLayout(new CardLayout(0, 0));
 		cardLayout = (CardLayout) cardPanel.getLayout();
+		
 		
 		JPanel optionsPanel = new JPanel();
 		optionsPanel.setBackground(ColorsUtils.COLORS.get("menuHide"));
@@ -279,10 +286,14 @@ public class MainView extends JFrame {
 		optionsPanel.add(lblNewLabel);
 		
 		
-		
 		dashBoard = new JPanel();
 		dashBoard.setBackground(colors.get("background"));
 		contentPane.add(dashBoard, BorderLayout.CENTER);
 		dashBoard.setLayout(new BorderLayout(0, 0));
+		
+		
+		
+		
+		
 	}
 }

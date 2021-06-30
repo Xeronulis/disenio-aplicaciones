@@ -4,26 +4,35 @@ import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import utils.ColorsUtils;
 import utils.SizeUtils;
 import java.awt.BorderLayout;
+import java.awt.Component;
+import javax.swing.Box;
+import java.awt.FlowLayout;
 
 @SuppressWarnings("serial")
 public class CustomMenuBtnContainer extends JPanel {
 
+	
 	private JPanel box;
-	/**
-	 * Create the box.
-	 */
+	
 	public JPanel getBox() {
-		return this.box;
+		return box;
 	}
+	
 	
 	public void setNumberOfBtns(int number) {
 		int boxSizeX = SizeUtils.BOXSIZEX;
 		double btnSize =SizeUtils.WINDOWSIZE.getHeight()/7;
-		box.setPreferredSize(new Dimension(boxSizeX,(int)(btnSize*number)));
+		
+		
+		this.setPreferredSize(new Dimension(boxSizeX,(int)(btnSize*number)));
+		
+		box.setPreferredSize(getPreferredSize());
+		
 		
 		
 
@@ -33,23 +42,28 @@ public class CustomMenuBtnContainer extends JPanel {
 	public CustomMenuBtnContainer() {
 		
 		int boxSizeX = SizeUtils.BOXSIZEX;
-		int prefSizeX=(int) SizeUtils.MENUHIDESIZEX;
-		
-		
-		this.setPreferredSize(new Dimension(prefSizeX, 500));
+		this.setPreferredSize(new Dimension(boxSizeX, 500));
 		this.setBackground(ColorsUtils.COLORS.get("menuHide"));
-		setLayout(new BorderLayout(0, 0));
+		setLayout(new BorderLayout(0,0));
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(ColorsUtils.COLORS.get("alpha"));
-		add(panel, BorderLayout.EAST);
-		panel.setLayout(new BorderLayout(0, 0));
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
+		panel.setBackground(getBackground());
+		add(panel, BorderLayout.CENTER);
+				
 		
 		box = new JPanel();
-		panel.add(box, BorderLayout.NORTH);
-		box.setBackground(ColorsUtils.COLORS.get("alpha"));
-		box.setPreferredSize(new Dimension(boxSizeX,200));
+		panel.add(box);
+		box.setBackground(ColorsUtils.COLORS.get("menuHide"));
 		box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
+		box.setPreferredSize(getPreferredSize());
+		
+		
+		
+		
+		
+
+		
 	}
 
 }

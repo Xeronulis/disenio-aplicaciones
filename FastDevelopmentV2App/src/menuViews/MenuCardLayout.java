@@ -4,7 +4,10 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
+import customItems.CustomizeDs;
 import utils.ColorsUtils;
 import utils.SizeUtils;
 
@@ -12,6 +15,7 @@ import utils.SizeUtils;
 public class MenuCardLayout extends JPanel {
 
 	CardLayout cardLayout;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -22,7 +26,9 @@ public class MenuCardLayout extends JPanel {
 		
 		this.setBackground(ColorsUtils.COLORS.get("alpha"));
 		setLayout(new CardLayout(0, 0));
-		cardLayout = (CardLayout) this.getLayout();
+		cardLayout = (CardLayout) getLayout();
+		
+		
 
 	}
 
