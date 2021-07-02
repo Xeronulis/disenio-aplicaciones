@@ -7,7 +7,9 @@ public interface InterfaceDTO {
 	
 	
 	public default String getName() {
-		return "unimplemented";
+		System.out.println("getname Function unimplemented");
+		return "";
+		
 	}
 	
 	public default void setName(String name) {
@@ -36,10 +38,16 @@ public interface InterfaceDTO {
 	}
 	
 	public default String getDir() {
+		System.out.println("getDir func unimplemented");
 		return "unimplemented";
 	}
 	public default void setDir(String dire) {
 		
+	}
+	
+	public default String getNameConcat() {
+		System.out.println("getNameConcat func unimplemented");
+		return "unimplemented";
 	}
 	
 	

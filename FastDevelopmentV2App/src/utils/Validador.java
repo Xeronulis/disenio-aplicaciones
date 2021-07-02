@@ -13,13 +13,14 @@ public class Validador <T extends InterfaceDTO> {
 	
 	private List<T> list;
 	
+	public final String STRING_COMBINADO = "Nombre comb.";
 	public final String NOMBRE = "Nombre"; 
 	public final String TELEFONO = "Telefono";
 	public final String DIRECCION = "Dirección";
-	public final String ANIOINICIO = "Año de Inicio";
+	public final String ANIO_INICIO = "Año de Inicio";
 	private final String RUT = "Rut";
 	
-	private String types[] = {NOMBRE, TELEFONO, DIRECCION, ANIOINICIO, RUT};
+	private String types[] = {NOMBRE, TELEFONO, DIRECCION, ANIO_INICIO, RUT, STRING_COMBINADO};
 	
 	
 	public void setList(List<T> list) {	
@@ -38,8 +39,49 @@ public class Validador <T extends InterfaceDTO> {
 		return false;
 	}
 	
-	private boolean isItemRegistered(JTextField txt, JLabel warning, T item, String type) {
-				
+	private T searchItemRegistered(String str,String type) {
+		
+		T item = null;
+		
+		final int compInt = Pattern.matches("\\d+", str) ? Integer.parseInt(str) : 0;
+		
+		final String compStr = str.toLowerCase();
+		
+		
+		switch(type) {
+		
+		case STRING_COMBINADO:
+			item = list.stream().filter(e-> e.getNameConcat().toLowerCase().contentEquals(compStr)).findFirst().orElse(null);
+			break;
+		
+		case NOMBRE:
+			item = list.stream().filter(e-> e.getName().toLowerCase().contentEquals(compStr)).findFirst().orElse(null);
+			break;
+		
+		case TELEFONO:
+			item = list.stream().filter(e-> e.getTel() == compInt).findFirst().orElse(null);
+			break;
+			
+		case DIRECCION:
+			item = list.stream().filter(e-> e.getDir().toLowerCase().contentEquals(compStr)).findFirst().orElse(null);
+			break;
+		
+		case ANIO_INICIO:
+			item = list.stream().filter(e-> e.getStartYear() == compInt).findFirst().orElse(null);
+			break;
+		
+		case RUT:
+			item = list.stream().filter(e-> e.getRut().toLowerCase().contentEquals(compStr)).findFirst().orElse(null);
+			break;
+		
+			
+		}
+		
+		return item;
+	}
+	
+	
+	private boolean isItemRegisteredFunc(JLabel warning,T item, String type) {
 		if(item != null) {
 			for(String t : types) {
 				if(t.contentEquals(type)) {
@@ -53,49 +95,65 @@ public class Validador <T extends InterfaceDTO> {
 		warning.setVisible(false);
 		warning.setText("");
 		return false;
+		
 	}
 	
-	private boolean isItemRegistered(JTextField txt, JLabel warning, T item, T selItem, String type) {
+	private boolean isItemRegistered(String txt, JLabel warning, String type) {
+		
+		T item = searchItemRegistered(txt, type);
+		
+		return isItemRegisteredFunc(warning, item, type);
+		
+	}
+	
+	
+	private boolean isItemRegistered(String txt, JLabel warning,T selItem, String type) {
+		
+		T item = searchItemRegistered(txt, type);
 		
 		
-		switch(type) {
 		
-		case NOMBRE:
-			if(item != null && selItem.getName().contentEquals(item.getName())) {
-				item = null;
+		if(item != null) {
+			switch(type) {
+			
+			case STRING_COMBINADO:
+				/*
+				System.out.println(selItem.getNameConcat().toLowerCase().contentEquals(item.getNameConcat().toLowerCase()));
+				System.out.println(selItem.getNameConcat());
+				System.out.println(item.getNameConcat());
+				*/
+				if(selItem.getNameConcat().toLowerCase().contentEquals(item.getNameConcat().toLowerCase())) item = null;
+				break;
+			
+			case NOMBRE:
+				if(selItem.getName().contentEquals(item.getName())) item = null;
+				break;
+				
+			case RUT:
+				
+				if(selItem.getRut().contentEquals(item.getRut())) item = null;
+				break;
+				
+			case TELEFONO:
+				if(selItem.getTel() == item.getTel()) item = null;
+				break;
+				
+			case DIRECCION:
+				if(selItem.getDir().contentEquals(item.getDir())) item = null;
+				break;
+				
+			case ANIO_INICIO:
+				if(selItem.getRut().contentEquals(item.getRut())) item = null;
+				break;
+				
 			}
-			break;
-			
-		case RUT:
-			
-			if(item != null && selItem.getRut().contentEquals(item.getRut())) {
-				item = null;
-			}
-			break;
-			
-		case TELEFONO:
-			if(item != null && selItem.getTel() == item.getTel()) {
-				item = null;
-			}
-			break;
-			
-		case DIRECCION:
-			if(item != null && selItem.getDir().contentEquals(item.getDir())) {
-				item = null;
-			}
-			break;
-			
-		case "Numero":
-			if(item != null && selItem.getRut().contentEquals(item.getRut())) {
-				item = null;
-			}
-			break;
-			
 		}
+		
+		
 		
 
 		
-		return isItemRegistered(txt,warning,item, type);
+		return isItemRegisteredFunc(warning, item, type);
 	}
 	
 	
@@ -105,55 +163,16 @@ public class Validador <T extends InterfaceDTO> {
 		
 		if(isTextBlank(txt,warning)) return true;
 		
-		T item = null; 
-		
-		switch(type) {
-		
-		case NOMBRE:
-			item = list.stream().filter(e->e.getName().toLowerCase().contentEquals(txt.getText().toLowerCase())).findFirst().orElse(null);
-			break;
-			
-		case DIRECCION:
-			item = list.stream().filter(e->e.getDir().toLowerCase().contentEquals(txt.getText().toLowerCase())).findFirst().orElse(null);
-			break;
-			
-		default:
-			System.out.println("mini excepción en: checkStringRepeated");
-			System.out.println("tipo desconocido: "+type);
-			System.out.println("tipos conocidos: "+types);
-		}
-		return isItemRegistered(txt, warning, item, selItem, type);
+		return isItemRegistered(txt.getText().toLowerCase(),warning, selItem, type);
 		
 	}
 	
 	
 	public boolean checkStringRepeated(JTextField txt, JLabel warning, String type) {
 		
-		
 		if(isTextBlank(txt,warning)) return true;
-		
-		T item = null; 
-		
-		switch(type) {
-		
-		case NOMBRE:
-			item = list.stream().filter(e->e.getName().toLowerCase().contentEquals(txt.getText().toLowerCase())).findFirst().orElse(null);
-			break;
-			
-		case DIRECCION:
-			item = list.stream().filter(e->e.getDir().toLowerCase().contentEquals(txt.getText().toLowerCase())).findFirst().orElse(null);
-			break;
-			
-		default:
-			System.out.println("mini excepción en: checkStringRepeated");
-			System.out.println("tipo desconocido: "+type);
-			System.out.println("tipos conocidos: ");
-			for(String s : types) {
-				System.out.println(s);
-			}
-		}
 
-		return isItemRegistered(txt, warning, item, type);
+		return isItemRegistered(txt.getText().toLowerCase(),warning, type);
 	
 		
 	}
@@ -187,11 +206,8 @@ public class Validador <T extends InterfaceDTO> {
 			}
 			
 		}
-		
-		
-		T item = list.stream().filter(e->e.getRut().toLowerCase().contentEquals(txt.getText())).findFirst().orElse(null);
 
-		return isItemRegistered(txt, warning,item, RUT);
+		return isItemRegistered(txt.getText(), warning, RUT);
 	}
 	
 	public boolean checkRutRepeated(JTextField txt, JLabel warning, T selItem) {
@@ -222,10 +238,8 @@ public class Validador <T extends InterfaceDTO> {
 			}
 			
 		}
-		
-		T item = list.stream().filter(e->e.getRut().toLowerCase().contentEquals(txt.getText())).findFirst().orElse(null);
 
-		return isItemRegistered(txt, warning,item,selItem, RUT);
+		return isItemRegistered(txt.getText(), warning,selItem, RUT);
 	}
 	
 	
@@ -240,25 +254,8 @@ public class Validador <T extends InterfaceDTO> {
 			txt.setText(txt1);
 			return checkNumberRepeated(txt,warning,type);
 		}
-		T item = null;
 		
-		switch(type) {
-		
-		case TELEFONO:
-			item = list.stream().filter(e-> e.getTel() == Integer.parseInt(txt.getText())).findFirst().orElse(null);
-			break;
-
-		default:
-			System.out.println("mini excepcion en: checkNumberRepeated");
-			System.out.println("tipo desconocido: ");
-			System.out.println("tipos conocidos: ");
-			for(String s : types) {
-				System.out.println(s);
-			}
-			
-		}
-		
-		return isItemRegistered(txt,warning,item,type);
+		return isItemRegistered(txt.getText(),warning,type);
 	}
 	
 
@@ -273,24 +270,8 @@ public class Validador <T extends InterfaceDTO> {
 			txt.setText(txt1);
 			return checkNumberRepeated(txt,warning,type);
 		}
-		T item = null;
 		
-		switch(type) {
-		
-		case TELEFONO:
-			item = list.stream().filter(e-> e.getTel() == Integer.parseInt(txt.getText())).findFirst().orElse(null);
-			break;
-			
-		default:
-			System.out.println("tipo desconocido: "+type);
-			System.out.println("tipos conocidos: ");
-			for(String s : types) {
-				System.out.println(s);
-			}
-			
-		}
-		
-		return isItemRegistered(txt,warning,item,selItem,type);
+		return isItemRegistered(txt.getText(),warning,selItem,type);
 	}
 	
 	
@@ -303,13 +284,29 @@ public class Validador <T extends InterfaceDTO> {
 		if(!Pattern.matches("\\d+", txt1)){
 			txt1 = txt1.replaceAll("\\D", "");
 			txt.setText(txt1);
-			return checkNumberRepeated(txt,warning,type);
+			return checkNumber(txt,warning,type);
 		}
 		
 		return false;
 		
 	}
 	
+	
+	public boolean checkMixedStringRepeated(JTextField txt, JLabel warning, String mixedStr, String type) {
+		
+		if(isTextBlank(txt,warning)) return true;
+		
+		return isItemRegistered(mixedStr.replaceAll("\\s", "").toLowerCase(), warning, type);
+		
+	}
+	
+	public boolean checkMixedStringRepeated(JTextField txt, JLabel warning, String mixedStr,T selItem, String type) {
+		
+		if(isTextBlank(txt,warning)) return true;
+		
+		return isItemRegistered(mixedStr.replaceAll("\\s", "").toLowerCase(), warning,selItem, type);
+		
+	}
 	
 	
 	

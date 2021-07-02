@@ -20,7 +20,7 @@ public class CategoriaDAO {
 		try {
 			String sql= "INSERT INTO categoria(nombre) VALUES(?)";
 			PreparedStatement st= db.getCon().prepareStatement(sql);
-			st.setString(1, categ.getNombre());
+			st.setString(1, categ.getName());
 	
 			st.executeUpdate();
 		} catch (Exception e) {
@@ -34,7 +34,7 @@ public class CategoriaDAO {
 		db.conectar();
 		List<Categoria> categorias = new ArrayList<>();
 		try {
-			String sql= "SELECT c.nombre, l.titulo FROM categoria c"
+			String sql= "SELECT c.idcategoria, c.nombre, l.titulo FROM categoria c"
 					+ " left join libroCategoria ci on c.idcategoria = ci.idcategoria"
 					+ " left join libro l on l.numeroSerie = ci.libroNumeroSerie;";
 			PreparedStatement st= db.getCon().prepareStatement(sql);
@@ -42,20 +42,23 @@ public class CategoriaDAO {
 			
 			Categoria e = new Categoria();
 			while(rs.next()) {
-				String nombre = rs.getString(1);
-				String titulo = rs.getString(2);
+				int id = rs.getInt(1);
+				String nombre = rs.getString(2);
+				String titulo = rs.getString(3);
 				
 				if(categorias.isEmpty()) {
-					e.setNombre(nombre);
+					e.setId(id);
+					e.setName(nombre);
 					e.addToLibros(titulo);
 					categorias.add(e);
 					
-				}else if(e.getNombre().contentEquals(nombre)) {
+				}else if(e.getName().contentEquals(nombre)) {
 					e.addToLibros(titulo);
 					
 				}else {
 					e = new Categoria();
-					e.setNombre(nombre);
+					e.setId(id);
+					e.setName(nombre);
 					e.addToLibros(titulo);
 					categorias.add(e);
 				}
@@ -90,7 +93,7 @@ public class CategoriaDAO {
 			ResultSet rs =  st.executeQuery();
 			while(rs.next()) {
 				Categoria e = new Categoria();
-				e.setNombre(rs.getString(1));
+				e.setName(rs.getString(1));
 				categorias.add(e);
 			}
 			
@@ -110,10 +113,10 @@ public class CategoriaDAO {
 	public static void update(Categoria ed, String target) {
 		db.conectar();
 		try {
-			String sql = "UPDATE categoria set nombre = ? where nombre LIKE ?";
+			String sql = "UPDATE categoria set nombre = ? where nombre = ?";
 			
 			PreparedStatement st = db.getCon().prepareStatement(sql);
-			st.setString(1, ed.getNombre());
+			st.setString(1, ed.getName());
 			st.setString(2, target);
 			
 			st.executeUpdate();
@@ -131,7 +134,7 @@ public class CategoriaDAO {
 	public static void delete(String target) {
 		db.conectar();
 		try {
-			String sql ="DELETE FROM categoria where nombre LIKE ?";
+			String sql ="DELETE FROM categoria where nombre = ?";
 			PreparedStatement st = db.getCon().prepareStatement(sql);
 			
 			st.setString(1, target);

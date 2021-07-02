@@ -139,7 +139,7 @@ public class DsbBaseFactController extends DsbBaseController {
 			Distribuidor dist = distribuidores.stream().filter(d-> d.getId() == e.getIdDistribuidor()).findFirst().orElse(null);
 			MetodoPago met = metodoPagos.stream().filter(mp -> mp.getId() == e.getIdMetodoPago()).findFirst().orElse(null);
 			
-			tmodel.addRow(new Object[] {e.getIdFactura(), dist.getName(), e.getFolio(), e.getFechaCompra(), e.getHoraCompra(), met.getNombre(), e.getCostoTotal()});
+			tmodel.addRow(new Object[] {e.getIdFactura(), dist.getName(), e.getFolio(), e.getFechaCompra(), e.getHoraCompra(), met.getName(), e.getCostoTotal()});
 		});
 		
 		
@@ -157,7 +157,7 @@ public class DsbBaseFactController extends DsbBaseController {
 			Distribuidor dist = distribuidores.stream().filter(d-> d.getId() == e.getIdDistribuidor()).findFirst().orElse(null);
 			MetodoPago met = metodoPagos.stream().filter(mp -> mp.getId() == e.getIdMetodoPago()).findFirst().orElse(null);
 			
-			tmodel.addRow(new Object[] {e.getIdFactura(), dist.getName(), e.getFolio(), e.getFechaCompra(), e.getHoraCompra(), met.getNombre(), e.getCostoTotal()});
+			tmodel.addRow(new Object[] {e.getIdFactura(), dist.getName(), e.getFolio(), e.getFechaCompra(), e.getHoraCompra(), met.getName(), e.getCostoTotal()});
 		});
 		
 		
@@ -204,7 +204,7 @@ public class DsbBaseFactController extends DsbBaseController {
 			Distribuidor dist = distribuidores.stream().filter(d-> d.getId() == e.getIdDistribuidor()).findFirst().orElse(null);
 			MetodoPago met = metodoPagos.stream().filter(mp -> mp.getId() == e.getIdMetodoPago()).findFirst().orElse(null);
 			
-			tmodel.addRow(new Object[] {e.getIdFactura(), dist.getName(), e.getFolio(), e.getFechaCompra(), e.getHoraCompra(), met.getNombre(), e.getCostoTotal()});
+			tmodel.addRow(new Object[] {e.getIdFactura(), dist.getName(), e.getFolio(), e.getFechaCompra(), e.getHoraCompra(), met.getName(), e.getCostoTotal()});
 		});
 		
 	}

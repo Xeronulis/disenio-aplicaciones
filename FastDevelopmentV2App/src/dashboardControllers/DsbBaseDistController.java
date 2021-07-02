@@ -325,7 +325,7 @@ public class DsbBaseDistController extends DsbBaseController {
 			break;
 			
 		case 5:
-			registerError[id-1] = validador.checkNumber(rv.getTxt5(), rv.getWarning5(), validador.ANIOINICIO);
+			registerError[id-1] = validador.checkNumber(rv.getTxt5(), rv.getWarning5(), validador.ANIO_INICIO);
 			break;
 			
 		}	
@@ -365,7 +365,7 @@ public class DsbBaseDistController extends DsbBaseController {
 			break;
 			
 		case 5:
-			modifyError[id-1] = validador.checkNumber(mv.getTxt5(), mv.getWarning5(), validador.ANIOINICIO);
+			modifyError[id-1] = validador.checkNumber(mv.getTxt5(), mv.getWarning5(), validador.ANIO_INICIO);
 			break;
 		}	
 	}

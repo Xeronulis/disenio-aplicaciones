@@ -29,6 +29,7 @@ import dashboardViews.DsbShowView;
 import model.dao.AutorDAO;
 import model.dao.AutorDAO;
 import model.dto.Autor;
+import utils.Validador;
 
 public class DsbBaseAutorController extends DsbBaseController {
 
@@ -38,6 +39,7 @@ public class DsbBaseAutorController extends DsbBaseController {
 	private boolean[] modifyError = new boolean[1];
 	private boolean deleteError;
 	
+	private Validador<Autor> validador = new Validador<>();
 	private List<Autor> autores;
 	
 	public DsbBaseAutorController(DsbBaseView v) {
@@ -56,6 +58,7 @@ public class DsbBaseAutorController extends DsbBaseController {
 	
 	private void refreshAutorList() {
 		autores = AutorDAO.getAll();
+		validador.setList(autores);
 	}
 	
 	
@@ -72,7 +75,7 @@ public class DsbBaseAutorController extends DsbBaseController {
 		if(!error) {
 			Autor autor = new Autor();
 			
-			autor.setNombre(registerView.getTxt1().getText());
+			autor.setName(registerView.getTxt1().getText());
 			autor.setApellidoP(registerView.getTxt2().getText());
 			autor.setApellidoM(registerView.getTxt3().getText());
 			
@@ -97,18 +100,18 @@ public class DsbBaseAutorController extends DsbBaseController {
 		if(!error) {
 			DsbModifyView mv = modifyView;
 			
-			Autor edit = new Autor();
+			Autor autor = new Autor();
 			String concatName = ((String) mv.getSelectCbx().getSelectedItem()).replace(" ", "");
 			Autor autorSel = autores.stream().filter(i-> i.getNameConcat().replace(" ", "").contentEquals(concatName)).findFirst().orElse(null);
 			
 			
-			String[] target= autorSel.getAllNames();
+			int target= autorSel.getId();
 			
-			edit.setNombre(mv.getTxt1().getText().strip());
-			edit.setApellidoP(mv.getTxt2().getText().strip());
-			edit.setApellidoM(mv.getTxt3().getText().strip());
+			autor.setName(mv.getTxt1().getText().strip());
+			autor.setApellidoP(mv.getTxt2().getText().strip());
+			autor.setApellidoM(mv.getTxt3().getText().strip());
 			
-			AutorDAO.update(edit,target);
+			AutorDAO.update(autor,target);
 			
 			resetModify();
 		}
@@ -120,7 +123,7 @@ public class DsbBaseAutorController extends DsbBaseController {
 		
 		tmodel.setRowCount(0);
 		autores.forEach(e->{
-			tmodel.addRow(new Object[] {e.getNombre(), e.getApellidoP(), e.getApellidoM()});
+			tmodel.addRow(new Object[] {e.getName(), e.getApellidoP(), e.getApellidoM()});
 		});
 		
 		
@@ -135,7 +138,7 @@ public class DsbBaseAutorController extends DsbBaseController {
 		
 		tmodel.setRowCount(0);
 		edits.forEach(e->{
-			tmodel.addRow(new Object[] {e.getNombre(), e.getApellidoP(), e.getApellidoM()});
+			tmodel.addRow(new Object[] {e.getName(), e.getApellidoP(), e.getApellidoM()});
 		});
 		
 		
@@ -147,14 +150,8 @@ public class DsbBaseAutorController extends DsbBaseController {
 		Autor autorSel = autores.stream().filter(a-> a.getNameConcat().toLowerCase().contentEquals(nameConcat)).findFirst().orElse(null);
 		
 		if(autorSel.getLibros().contains(null)) {
-			JTable table = deleteView.getTable();
-			String[] target= new String[3];
-			
-			for(int i =0; i<target.length;++i) {
-				target[i] = (String) table.getValueAt(table.getSelectedRow(), i);
-			}
-			
-			
+			int target = autorSel.getId();
+				
 			if(!deleteError) {
 				AutorDAO.delete(target);
 				refreshDelete();
@@ -189,7 +186,7 @@ public class DsbBaseAutorController extends DsbBaseController {
 				
 		tmodel.setRowCount(0);
 		edits.forEach(e->{
-			tmodel.addRow(new Object[] {e.getNombre(), e.getApellidoP(), e.getApellidoM()});
+			tmodel.addRow(new Object[] {e.getName(), e.getApellidoP(), e.getApellidoM()});
 		});
 		
 	}
@@ -288,23 +285,10 @@ public class DsbBaseAutorController extends DsbBaseController {
 	private void checkErrorRegisterFunc() {
 		DsbRegisterView rv = registerView;
 		
-		if(rv.getTxt1().getText().isBlank()) {
-			rv.getWarning1().setVisible(true);
-			rv.getWarning1().setText("Nombre vacío");
-			registerError[0] = true;
-		}else {
-			String nameConcat =rv.getTxt1().getText()+rv.getTxt2().getText()+rv.getTxt3().getText() ;
-			Autor autor = autores.stream().filter(e->e.getNameConcat().toLowerCase().contentEquals(nameConcat.toLowerCase())).findFirst().orElse(null);
-			if(autor != null) {
-					rv.getWarning1().setVisible(true);
-					rv.getWarning1().setText("Autor ya registrado");
-					registerError[0] = true;
-				}else {
-					rv.getWarning1().setVisible(false);
-					rv.getWarning1().setText("");
-					registerError[0] = false;
-				}
-		}
+		String mixed = rv.getTxt1().getText()+rv.getTxt2().getText()+rv.getTxt3().getText();
+		
+		registerError[0] = validador.checkMixedStringRepeated(rv.getTxt1(), rv.getWarning1(), mixed, validador.STRING_COMBINADO);
+		
 	}
 	
 	
@@ -330,32 +314,12 @@ public class DsbBaseAutorController extends DsbBaseController {
 		String concatName = ((String) modifyView.getSelectCbx().getSelectedItem()).replace(" ", "");
 		Autor autorSel = autores.stream().filter(i-> i.getNameConcat().replace(" ", "").contentEquals(concatName)).findFirst().orElse(null);
 		
+		autorSel = autores.get(mv.getSelectCbx().getSelectedIndex());
 		
-		if(mv.getTxt1().getText().isBlank()) {
-			mv.getWarning1().setVisible(true);
-			mv.getWarning1().setText("Nombre vacío");
-			modifyError[0] = true;
-		}else {
-			
-			String nameConcat = mv.getTxt1().getText().strip().replace(" ", "")
-								+mv.getTxt2().getText().strip().replace(" ", "")
-								+mv.getTxt3().getText().strip().replace(" ", "");
-			Autor autor = autores.stream().filter(e->e.getNameConcat().toLowerCase().contentEquals(nameConcat.toLowerCase())).findFirst().orElse(null);
-			
-			
-			if(autor != null && autorSel.getNameConcat().contentEquals(autor.getNameConcat())) {
-				autor = null;
-			}
-			if(autor != null) {
-				mv.getWarning1().setVisible(true);
-				mv.getWarning1().setText("Autor ya registrado");
-				modifyError[0] = true;
-			}else {
-				mv.getWarning1().setVisible(false);
-				mv.getWarning1().setText("");
-				modifyError[0] = false;
-			}
-		}
+		String dsbStrs = mv.getTxt1().getText() + mv.getTxt2().getText() + mv.getTxt3().getText();
+		
+		modifyError[0] = validador.checkMixedStringRepeated(mv.getTxt1(), mv.getWarning1(), dsbStrs, autorSel, validador.STRING_COMBINADO);
+		
 	}
 	
 	private void checkErrorDelete() {
@@ -452,7 +416,7 @@ public class DsbBaseAutorController extends DsbBaseController {
 									.toLowerCase().replace(" ",""))).findFirst().orElse(null);
 					
 					if(autor != null) {
-						modifyView.getTxt1().setText(autor.getNombre());
+						modifyView.getTxt1().setText(autor.getName());
 						modifyView.getTxt2().setText(autor.getApellidoP());
 						modifyView.getTxt3().setText(autor.getApellidoM());
 						checkErrorModifyFunc();

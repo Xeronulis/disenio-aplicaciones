@@ -39,6 +39,7 @@ import model.dto.Factura;
 import model.dto.Compra;
 import model.dto.Libro;
 import model.dto.MetodoPago;
+import utils.Validador;
 
 public class DsbBaseTransController extends DsbBaseController {
 
@@ -47,6 +48,8 @@ public class DsbBaseTransController extends DsbBaseController {
 	private boolean[] registerError = new boolean[2];
 	private boolean[] modifyError = new boolean[2];
 	private boolean deleteError;
+	
+	
 	
 	List<Compra> compras;
 	List<Factura> facturas;

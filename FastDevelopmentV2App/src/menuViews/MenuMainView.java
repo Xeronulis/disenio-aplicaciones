@@ -107,11 +107,11 @@ public class MenuMainView extends MenuBaseView {
 		factBtn.getBtnImg().setIcon(new ImageIcon(MenuMainView.class.getResource("/icons/user_32px.png")));
 		factBtn.setAllColors(defaultColors[0],defaultColors[1] , defaultColors[2]);
 		
-		this.compBtn = new CustomMenuBtn(" Gestión Compra");
+		this.compBtn = new CustomMenuBtn(" Compra de Libros");
 		compBtn.getBtnImg().setIcon(new ImageIcon(MenuMainView.class.getResource("/icons/user_32px.png")));
 		compBtn.setAllColors(defaultColors[0],defaultColors[1] , defaultColors[2]);
 		
-		this.ventaBtn = new CustomMenuBtn(" Gestión Venta");
+		this.ventaBtn = new CustomMenuBtn(" Venta de Libros");
 		ventaBtn.getBtnImg().setIcon(new ImageIcon(MenuMainView.class.getResource("/icons/user_32px.png")));
 		ventaBtn.setAllColors(defaultColors[0],defaultColors[1] , defaultColors[2]);
 		
@@ -119,7 +119,7 @@ public class MenuMainView extends MenuBaseView {
 		boletaBtn.getBtnImg().setIcon(new ImageIcon(MenuMainView.class.getResource("/icons/user_32px.png")));
 		boletaBtn.setAllColors(defaultColors[0],defaultColors[1] , defaultColors[2]);
 		
-		this.arriendoBtn = new CustomMenuBtn(" Gestión Arriendo");
+		this.arriendoBtn = new CustomMenuBtn(" Arriendo de Libros");
 		arriendoBtn.getBtnImg().setIcon(new ImageIcon(MenuMainView.class.getResource("/icons/user_32px.png")));
 		arriendoBtn.setAllColors(defaultColors[0],defaultColors[1] , defaultColors[2]);
 		
@@ -128,11 +128,11 @@ public class MenuMainView extends MenuBaseView {
 		panel.getBox().add(distBtn);
 		panel.getBox().add(clientBtn);
 		panel.getBox().add(empBtn);
-		panel.getBox().add(factBtn);
 		panel.getBox().add(compBtn);
 		panel.getBox().add(ventaBtn);
-		panel.getBox().add(boletaBtn);
 		panel.getBox().add(arriendoBtn);
+		panel.getBox().add(factBtn);
+		panel.getBox().add(boletaBtn);
 
 		panel.setNumberOfBtns(10);
 		

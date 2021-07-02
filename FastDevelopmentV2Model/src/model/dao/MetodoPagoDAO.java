@@ -18,7 +18,7 @@ public class MetodoPagoDAO {
 		try {
 			String sql= "INSERT INTO metodoPago(nombre) VALUES(?)";
 			PreparedStatement st= db.getCon().prepareStatement(sql);
-			st.setString(1, metodoPago.getNombre());
+			st.setString(1, metodoPago.getName());
 	
 			st.executeUpdate();
 		} catch (Exception e) {
@@ -45,17 +45,17 @@ public class MetodoPagoDAO {
 				
 				if(metodoPagos.isEmpty()) {
 					mp.setId(idMetodoPago);
-					mp.setNombre(nombre);
+					mp.setName(nombre);
 					mp.addToFacturas(idFactura);;
 					metodoPagos.add(mp);
 					
-				}else if(mp.getNombre().contentEquals(nombre)) {
+				}else if(mp.getName().contentEquals(nombre)) {
 					mp.addToFacturas(idFactura);
 					
 				}else {
 					mp = new MetodoPago();
 					mp.setId(idMetodoPago);
-					mp.setNombre(nombre);
+					mp.setName(nombre);
 					mp.addToFacturas(idFactura);;
 					metodoPagos.add(mp);
 				}
@@ -90,7 +90,7 @@ public class MetodoPagoDAO {
 			ResultSet rs =  st.executeQuery();
 			while(rs.next()) {
 				MetodoPago mp = new MetodoPago();
-				mp.setNombre(rs.getString(1));
+				mp.setName(rs.getString(1));
 				metodoPagos.add(mp);
 			}
 			
@@ -113,7 +113,7 @@ public class MetodoPagoDAO {
 			String sql = "UPDATE metodoPago set nombre = ? where nombre LIKE ?";
 			
 			PreparedStatement st = db.getCon().prepareStatement(sql);
-			st.setString(1, metodoPago.getNombre());
+			st.setString(1, metodoPago.getName());
 			st.setString(2, target);
 			
 			st.executeUpdate();

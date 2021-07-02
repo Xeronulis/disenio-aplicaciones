@@ -3,15 +3,33 @@ package model.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Autor {
+import model.interfaces.InterfaceDTO;
+
+public class Autor implements InterfaceDTO{
 	
+	private int id;
 	private String nombre;
 	private String apellidoP;
 	private String apellidoM;
 	private List<String> libros = new ArrayList<String>();
 	
 
-
+	@Override
+	public int getId() {
+		return id;
+	}
+	
+	@Override
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	@Override
+	public String getNameConcat() {
+		return nombre.replace(" ", "")+apellidoP.replace(" ", "")+apellidoM.replace(" ", "");
+	}
+	
+	
 	public List<String> getLibros() {
 		return libros;
 	}
@@ -19,10 +37,13 @@ public class Autor {
 		this.libros = libros;
 	}
 
-	public String getNombre() {
+	@Override
+	public String getName() {
 		return nombre;
 	}
-	public void setNombre(String nombre) {
+	
+	@Override
+	public void setName(String nombre) {
 		this.nombre = nombre;
 	}
 	public String getApellidoP() {
@@ -44,10 +65,6 @@ public class Autor {
 	
 	public String toString() {
 		return nombre+" "+apellidoP+" "+apellidoM;
-	}
-	
-	public String getNameConcat() {
-		return nombre.replace(" ", "")+apellidoP.replace(" ", "")+apellidoM.replace(" ", "");
 	}
 	
 	public String[] getAllNames() {
