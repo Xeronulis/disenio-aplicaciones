@@ -20,7 +20,7 @@ public class AutorDAO {
 		try {
 			String sql= "INSERT INTO autor(nombre, apellidoPaterno, apellidoMaterno) VALUES(?,?,?)";
 			PreparedStatement st= db.getCon().prepareStatement(sql);
-			st.setString(1, autor.getNombre());
+			st.setString(1, autor.getName());
 			st.setString(2, autor.getApellidoP());
 			st.setString(3, autor.getApellidoM());
 
@@ -36,7 +36,7 @@ public class AutorDAO {
 		db.conectar();
 		List<Autor> autores = new ArrayList<>();
 		try {
-			String sql= "SELECT a.nombre, a.apellidoPaterno, a.apellidoMaterno, l.titulo from autor a"
+			String sql= "SELECT a.idAutor, a.nombre, a.apellidoPaterno, a.apellidoMaterno, l.titulo from autor a"
 					+ " left join autorLibro al on a.idAutor = al.idAutor"
 					+ " left join libro l on l.numeroSerie = al.libroNumeroSerie;";
 			
@@ -45,24 +45,27 @@ public class AutorDAO {
 			
 			Autor e = new Autor();
 			while(rs.next()) {
-				String nombre = rs.getString(1);
-				String apellidoP = rs.getString(2);
-				String apellidoM = rs.getString(3);
-				String titulo = rs.getString(4);
+				int id = rs.getInt(1);
+				String nombre = rs.getString(2);
+				String apellidoP = rs.getString(3);
+				String apellidoM = rs.getString(4);
+				String titulo = rs.getString(5);
 				
 				if(autores.isEmpty()) {
-					e.setNombre(nombre);
+					e.setId(id);
+					e.setName(nombre);
 					e.setApellidoP(apellidoP);
 					e.setApellidoM(apellidoM);
 					e.addToLibros(titulo);
 					autores.add(e);
 					
-				}else if(e.getNombre().contentEquals(nombre)) {
+				}else if(e.getName().contentEquals(nombre)) {
 					e.addToLibros(titulo);
 					
 				}else {
 					e = new Autor();
-					e.setNombre(nombre);
+					e.setId(id);
+					e.setName(nombre);
 					e.setApellidoP(apellidoP);
 					e.setApellidoM(apellidoM);
 					e.addToLibros(titulo);
@@ -96,7 +99,7 @@ public class AutorDAO {
 			ResultSet rs =  st.executeQuery();
 			while(rs.next()) {
 				Autor e = new Autor();
-				e.setNombre(rs.getString(1));
+				e.setName(rs.getString(1));
 				e.setApellidoP(rs.getString(2));
 				e.setApellidoM(rs.getString(3));
 				autores.add(e);
@@ -115,17 +118,17 @@ public class AutorDAO {
 	}
 	
 	
-	public static void update(Autor ed, String[] target) {
+	public static void update(Autor ed, int target) {
 		db.conectar();
 		try {
 			String sql = "UPDATE autor set"
-					+ " nombre = '"+ed.getNombre()+"',"
+					+ " nombre = '"+ed.getName()+"',"
 					+ " apellidoPaterno = '"+ed.getApellidoP()+"',"
 					+ " apellidoMaterno = '"+ed.getApellidoM()+"' "
-					+ " where nombre Like '"+target[0]+"' and apellidoPaterno like '"+target[1]+"' and apellidoMaterno like '"+target[2]+"';";
+					+ " where idAutor = ?;";
 			
 			PreparedStatement st = db.getCon().prepareStatement(sql);
-
+			st.setInt(1, target);
 			
 			st.executeUpdate();
 			
@@ -139,13 +142,14 @@ public class AutorDAO {
 	}
 	
 	
-	public static void delete(String[] target) {
+	public static void delete(int target) {
 		db.conectar();
 		try {
-			String sql ="DELETE FROM autor WHERE"
-					+" nombre Like '"+target[0]+"' and apellidoPaterno like '"+target[1]
-							+"' and apellidoMaterno like '"+target[2]+"'";
+			String sql ="DELETE FROM autor"
+					+ "WHERE idAutor = ?";
 			PreparedStatement st = db.getCon().prepareStatement(sql);
+			
+			st.setInt(1, target);
 			
 			
 			st.executeUpdate();

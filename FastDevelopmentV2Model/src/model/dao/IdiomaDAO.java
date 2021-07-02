@@ -21,7 +21,7 @@ public class IdiomaDAO {
 		try {
 			String sql= "INSERT INTO idioma(nombre) VALUES(?)";
 			PreparedStatement st= db.getCon().prepareStatement(sql);
-			st.setString(1, idio.getNombre());
+			st.setString(1, idio.getName());
 
 			st.executeUpdate();
 		} catch (Exception e) {
@@ -35,7 +35,7 @@ public class IdiomaDAO {
 		db.conectar();
 		List<Idioma> idiomas = new ArrayList<>();
 		try {
-			String sql= "SELECT i.nombre, l.titulo FROM idioma i"
+			String sql= "SELECT i.idIdioma, i.nombre, l.titulo FROM idioma i"
 					+ " left join libroIdioma li on i.idIdioma = li.idIdioma"
 					+ " left join libro l on l.numeroSerie = li.libroNumeroSerie;";
 			PreparedStatement st= db.getCon().prepareStatement(sql);
@@ -43,20 +43,23 @@ public class IdiomaDAO {
 			
 			Idioma e = new Idioma();
 			while(rs.next()) {
-				String nombre = rs.getString(1);
-				String titulo = rs.getString(2);
+				int id = rs.getInt(1);
+				String nombre = rs.getString(2);
+				String titulo = rs.getString(3);
 				
 				if(idiomas.isEmpty()) {
-					e.setNombre(nombre);
+					e.setId(id);
+					e.setName(nombre);
 					e.addToLibros(titulo);
 					idiomas.add(e);
 					
-				}else if(e.getNombre().contentEquals(nombre)) {
+				}else if(e.getName().contentEquals(nombre)) {
 					e.addToLibros(titulo);
 					
 				}else {
 					e = new Idioma();
-					e.setNombre(nombre);
+					e.setId(id);
+					e.setName(nombre);
 					e.addToLibros(titulo);
 					idiomas.add(e);
 				}
@@ -91,7 +94,7 @@ public class IdiomaDAO {
 			ResultSet rs =  st.executeQuery();
 			while(rs.next()) {
 				Idioma e = new Idioma();
-				e.setNombre(rs.getString(1));
+				e.setName(rs.getString(1));
 				idiomas.add(e);
 			}
 			
@@ -108,14 +111,14 @@ public class IdiomaDAO {
 	}
 	
 	
-	public static void update(Idioma ed, String target) {
+	public static void update(Idioma ed, int target) {
 		db.conectar();
 		try {
-			String sql = "UPDATE idioma set nombre = ? where nombre LIKE ?";
+			String sql = "UPDATE idioma set nombre = ? where idIdioma = ?";
 			
 			PreparedStatement st = db.getCon().prepareStatement(sql);
-			st.setString(1, ed.getNombre());
-			st.setString(2, target);
+			st.setString(1, ed.getName());
+			st.setInt(2, target);
 			
 			st.executeUpdate();
 			
@@ -129,13 +132,13 @@ public class IdiomaDAO {
 	}
 	
 	
-	public static void delete(String target) {
+	public static void delete(int target) {
 		db.conectar();
 		try {
-			String sql ="DELETE FROM idioma where nombre LIKE ?";
+			String sql ="DELETE FROM idioma where idIdioma = ?";
 			PreparedStatement st = db.getCon().prepareStatement(sql);
 			
-			st.setString(1, target);
+			st.setInt(1, target);
 			
 			st.executeUpdate();
 		}catch(Exception e) {

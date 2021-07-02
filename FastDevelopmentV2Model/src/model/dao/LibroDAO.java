@@ -32,7 +32,7 @@ private static DB db = new DB();
 			
 			//buscando el id de los autores seleccionados
 			libro.getAutores().forEach(a->{
-				String sql= "SELECT idautor from autor where nombre  like '"+a.getNombre()+"'"
+				String sql= "SELECT idautor from autor where nombre  like '"+a.getName()+"'"
 						+ " and apellidopaterno like '"+a.getApellidoP()+"' and apellidomaterno like '"+a.getApellidoM()+"'";
 				
 				try {
@@ -326,7 +326,7 @@ private static DB db = new DB();
 				
 				Libro tempLibro = libros.stream().filter(x-> x.getTitulo().contentEquals(titulo)).findFirst().orElse(null);
 				if(tempLibro != null) {
-					autor.setNombre(aNombre);
+					autor.setName(aNombre);
 					autor.setApellidoP(aApPat);
 					autor.setApellidoM(aApMat);
 					tempLibro.addToAutores(autor);

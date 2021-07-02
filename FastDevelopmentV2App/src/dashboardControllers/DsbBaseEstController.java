@@ -30,6 +30,7 @@ import dashboardViews.DsbShowView;
 import model.dao.EstadoDAO;
 import model.dto.Estado;
 import model.dto.Idioma;
+import utils.Validador;
 
 public class DsbBaseEstController extends DsbBaseController {
 
@@ -39,6 +40,7 @@ public class DsbBaseEstController extends DsbBaseController {
 	private boolean[] modifyError = new boolean[1];
 	private boolean deleteError;
 	
+	private Validador<Estado> validador = new Validador<>();
 	private List<Estado> estados;
 	
 	
@@ -60,6 +62,7 @@ public class DsbBaseEstController extends DsbBaseController {
 	
 	private void refreshEstadoList() {
 		estados = EstadoDAO.getAll();
+		validador.setList(estados);
 	}
 	
 	private void register() {
@@ -75,7 +78,7 @@ public class DsbBaseEstController extends DsbBaseController {
 		if(!error) {
 			Estado editorial = new Estado();
 			
-			editorial.setNombre(registerView.getTxt1().getText().strip());
+			editorial.setName(registerView.getTxt1().getText().strip());
 			
 			EstadoDAO.save(editorial);
 			
@@ -98,7 +101,7 @@ public class DsbBaseEstController extends DsbBaseController {
 		if(!error) {
 			Estado edit = new Estado();
 			
-			edit.setNombre(modifyView.getTxt1().getText());
+			edit.setName(modifyView.getTxt1().getText());
 			
 			EstadoDAO.update(edit,(String) modifyView.getSelectCbx().getSelectedItem());
 			
@@ -112,7 +115,7 @@ public class DsbBaseEstController extends DsbBaseController {
 		
 		tmodel.setRowCount(0);
 		estados.forEach(e->{
-			tmodel.addRow(new Object[] {e.getNombre()});
+			tmodel.addRow(new Object[] {e.getName()});
 		});
 		
 		
@@ -127,7 +130,7 @@ public class DsbBaseEstController extends DsbBaseController {
 		
 		tmodel.setRowCount(0);
 		edits.forEach(e->{
-			tmodel.addRow(new Object[] {e.getNombre()});
+			tmodel.addRow(new Object[] {e.getName()});
 		});
 		
 		
@@ -169,7 +172,7 @@ public class DsbBaseEstController extends DsbBaseController {
 				
 		tmodel.setRowCount(0);
 		edits.forEach(e->{
-			tmodel.addRow(new Object[] {e.getNombre()});
+			tmodel.addRow(new Object[] {e.getName()});
 		});
 		
 	}
@@ -252,25 +255,7 @@ public class DsbBaseEstController extends DsbBaseController {
 		
 		case 1:
 			
-			
-			if(rv.getTxt1().getText().isBlank()) {
-				rv.getWarning1().setVisible(true);
-				rv.getWarning1().setText("Nombre vacío");
-				registerError[id-1] = true;
-			}else {
-				Estado editorial = estados.stream().filter(e->e.getNombre().toLowerCase().contentEquals(rv.getTxt1().getText().toLowerCase())).findFirst().orElse(null);
-					if(editorial != null) {
-						rv.getWarning1().setVisible(true);
-						rv.getWarning1().setText("Nombre en uso");
-						registerError[id-1] = true;
-					}else {
-						rv.getWarning1().setVisible(false);
-						rv.getWarning1().setText("");
-						registerError[id-1] = false;
-					}
-			}
-			
-			
+			registerError[id-1] = validador.checkStringRepeated(rv.getTxt1(), rv.getWarning1(), validador.NOMBRE);
 			break;
 		}
 		
@@ -278,32 +263,14 @@ public class DsbBaseEstController extends DsbBaseController {
 	
 	private void checkErrorModify(int id) {
 		DsbModifyView mv = modifyView;
-		Estado estadoSel = estados.stream().filter(i-> i.getNombre().contentEquals(modifyView.getSelectCbx().getSelectedItem().toString())).findFirst().orElse(null);
+		Estado estadoSel = estados.stream().filter(i-> i.getName().contentEquals(modifyView.getSelectCbx().getSelectedItem().toString())).findFirst().orElse(null);
 
 		
 		switch (id) {
 		
 		case 1:
 				
-			if(mv.getTxt1().getText().isBlank()) {
-				mv.getWarning1().setVisible(true);
-				mv.getWarning1().setText("Nombre vacío");
-				modifyError[id-1] = true;
-			}else {
-				Estado estado = estados.stream().filter(e->e.getNombre().toLowerCase().contentEquals(mv.getTxt1().getText().toLowerCase())).findFirst().orElse(null);
-				if(estado != null && estadoSel.getNombre().contentEquals(estado.getNombre())) {
-					estado = null;
-				}
-					if(estado != null) {
-						mv.getWarning1().setVisible(true);
-						mv.getWarning1().setText("Nombre en uso");
-						modifyError[id-1] = true;
-					}else {
-						mv.getWarning1().setVisible(false);
-						mv.getWarning1().setText("");
-						modifyError[id-1] = false;
-					}
-			}		
+			modifyError[id-1] = validador.checkStringRepeated(mv.getTxt1(), mv.getWarning1(), estadoSel, validador.NOMBRE);		
 			break;
 		}	
 	}
@@ -311,7 +278,7 @@ public class DsbBaseEstController extends DsbBaseController {
 	private void checkErrorDelete() {
 		DsbDeleteView dv = deleteView;
 		
-		Estado eFound = estados.stream().filter(e->e.getNombre().toLowerCase().contentEquals(dv.getLbl3().getText().toLowerCase())).findFirst().orElse(null);
+		Estado eFound = estados.stream().filter(e->e.getName().toLowerCase().contentEquals(dv.getLbl3().getText().toLowerCase())).findFirst().orElse(null);
 			if(eFound != null && !eFound.getLibros().contains(null)) {
 				dv.getWarning1().setVisible(true);
 				dv.getWarning1().setText("El estado está vinculado");
@@ -390,9 +357,9 @@ public class DsbBaseEstController extends DsbBaseController {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if(modifyView.getSelectCbx().getSelectedItem() != null) {
-					Estado estado = estados.stream().filter(es -> es.getNombre().contentEquals(modifyView.getSelectCbx().getSelectedItem().toString())).findFirst().orElse(null);
+					Estado estado = estados.stream().filter(es -> es.getName().contentEquals(modifyView.getSelectCbx().getSelectedItem().toString())).findFirst().orElse(null);
 					if(estado != null) {
-						modifyView.getTxt1().setText(estado.getNombre());
+						modifyView.getTxt1().setText(estado.getName());
 						checkErrorModify(1);
 					}
 				}

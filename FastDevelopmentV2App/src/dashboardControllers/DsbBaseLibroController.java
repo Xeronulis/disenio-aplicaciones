@@ -393,7 +393,7 @@ public class DsbBaseLibroController extends DsbBaseController {
 		});
 		
 		estados.forEach(e->{
-			rv.getCbx9().addItem(e.getNombre());
+			rv.getCbx9().addItem(e.getName());
 		});
 		
 		

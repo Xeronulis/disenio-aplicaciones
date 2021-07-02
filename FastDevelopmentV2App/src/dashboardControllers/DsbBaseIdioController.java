@@ -27,7 +27,9 @@ import dashboardViews.DsbRegisterView;
 import dashboardViews.DsbSearchView;
 import dashboardViews.DsbShowView;
 import model.dao.IdiomaDAO;
+import model.dto.Editorial;
 import model.dto.Idioma;
+import utils.Validador;
 import model.dto.Idioma;
 
 public class DsbBaseIdioController extends DsbBaseController {
@@ -38,6 +40,7 @@ public class DsbBaseIdioController extends DsbBaseController {
 	private boolean[] modifyError = new boolean[1];
 	private boolean deleteError;
 	
+	private Validador<Idioma> validador = new Validador<>();
 	private List<Idioma> idiomas;
 	
 	public DsbBaseIdioController(DsbBaseView v) {
@@ -56,6 +59,7 @@ public class DsbBaseIdioController extends DsbBaseController {
 	
 	private void refreshIdiomaList() {
 		idiomas = IdiomaDAO.getAll();
+		validador.setList(idiomas);
 	}
 	
 	private void register() {
@@ -69,11 +73,11 @@ public class DsbBaseIdioController extends DsbBaseController {
 		}
 		
 		if(!error) {
-			Idioma editorial = new Idioma();
+			Idioma idio = new Idioma();
 			
-			editorial.setNombre(registerView.getTxt1().getText());
+			idio.setName(registerView.getTxt1().getText());
 			
-			IdiomaDAO.save(editorial);
+			IdiomaDAO.save(idio);
 			
 			resetRegister();
 		}
@@ -92,11 +96,16 @@ public class DsbBaseIdioController extends DsbBaseController {
 		}
 		
 		if(!error) {
-			Idioma edit = new Idioma();
 			
-			edit.setNombre(modifyView.getTxt1().getText());
+			String selStr = (String) modifyView.getSelectCbx().getItemAt(modifyView.getSelectCbx().getSelectedIndex());
 			
-			IdiomaDAO.update(edit,(String) modifyView.getSelectCbx().getSelectedItem());
+			Idioma sel = idiomas.stream().filter(e-> e.getName().contentEquals(selStr)).findFirst().orElse(null);
+			int target = sel.getId();
+			Idioma idio = new Idioma();
+			
+			idio.setName(modifyView.getTxt1().getText());
+			
+			IdiomaDAO.update(idio,target);
 			
 			resetModify();
 		}
@@ -108,7 +117,7 @@ public class DsbBaseIdioController extends DsbBaseController {
 		
 		tmodel.setRowCount(0);
 		idiomas.forEach(e->{
-			tmodel.addRow(new Object[] {e.getNombre()});
+			tmodel.addRow(new Object[] {e.getName()});
 		});
 		
 		
@@ -123,7 +132,7 @@ public class DsbBaseIdioController extends DsbBaseController {
 		
 		tmodel.setRowCount(0);
 		edits.forEach(e->{
-			tmodel.addRow(new Object[] {e.getNombre()});
+			tmodel.addRow(new Object[] {e.getName()});
 		});
 		
 		
@@ -131,8 +140,9 @@ public class DsbBaseIdioController extends DsbBaseController {
 	
 	private void delete() {
 		
-		String target= deleteView.getLbl3().getText();
+		Idioma sel= idiomas.stream().filter(e-> e.getName().contentEquals(deleteView.getLbl3().getText())).findFirst().orElse(null);
 		
+		int target = sel.getId();
 		
 		if(!deleteError) {
 			IdiomaDAO.delete(target);
@@ -165,7 +175,7 @@ public class DsbBaseIdioController extends DsbBaseController {
 				
 		tmodel.setRowCount(0);
 		edits.forEach(e->{
-			tmodel.addRow(new Object[] {e.getNombre()});
+			tmodel.addRow(new Object[] {e.getName()});
 		});
 		
 	}
@@ -247,26 +257,7 @@ public class DsbBaseIdioController extends DsbBaseController {
 		switch (id) {
 		
 		case 1:
-			
-			
-			if(rv.getTxt1().getText().isBlank()) {
-				rv.getWarning1().setVisible(true);
-				rv.getWarning1().setText("Nombre vacío");
-				registerError[id-1] = true;
-			}else {
-				Idioma editorial = idiomas.stream().filter(e->e.getNombre().toLowerCase().contentEquals(rv.getTxt1().getText().toLowerCase())).findFirst().orElse(null);
-					if(editorial != null) {
-						rv.getWarning1().setVisible(true);
-						rv.getWarning1().setText("Nombre en uso");
-						registerError[id-1] = true;
-					}else {
-						rv.getWarning1().setVisible(false);
-						rv.getWarning1().setText("");
-						registerError[id-1] = false;
-					}
-			}
-			
-			
+			registerError[id-1] = validador.checkStringRepeated(rv.getTxt1(), rv.getWarning1(), validador.NOMBRE);
 			break;
 		}
 		
@@ -274,31 +265,12 @@ public class DsbBaseIdioController extends DsbBaseController {
 	
 	private void checkErrorModify(int id) {
 		DsbModifyView mv = modifyView;
-		Idioma idiomaSel = idiomas.stream().filter(i-> i.getNombre().contentEquals(modifyView.getSelectCbx().getSelectedItem().toString())).findFirst().orElse(null);
+		Idioma idiomaSel = idiomas.stream().filter(i-> i.getName().contentEquals(modifyView.getSelectCbx().getSelectedItem().toString())).findFirst().orElse(null);
 		
 		switch (id) {
 		
 		case 1:
-				
-			if(mv.getTxt1().getText().isBlank()) {
-				mv.getWarning1().setVisible(true);
-				mv.getWarning1().setText("Nombre vacío");
-				modifyError[id-1] = true;
-			}else {
-				Idioma idioma = idiomas.stream().filter(e->e.getNombre().toLowerCase().contentEquals(mv.getTxt1().getText().toLowerCase())).findFirst().orElse(null);
-				if(idioma != null && idiomaSel.getNombre().contentEquals(idioma.getNombre())) {
-					idioma = null;
-				}
-				if(idioma != null) {
-					mv.getWarning1().setVisible(true);
-					mv.getWarning1().setText("Nombre en uso");
-					modifyError[id-1] = true;
-				}else {
-					mv.getWarning1().setVisible(false);
-					mv.getWarning1().setText("");
-					modifyError[id-1] = false;
-				}
-			}		
+			modifyError[id-1] = validador.checkStringRepeated(mv.getTxt1(), mv.getWarning1(), idiomaSel, validador.NOMBRE);
 			break;
 		}	
 	}
@@ -306,7 +278,7 @@ public class DsbBaseIdioController extends DsbBaseController {
 	private void checkErrorDelete() {
 		DsbDeleteView dv = deleteView;
 		
-		Idioma eFound = idiomas.stream().filter(e->e.getNombre().toLowerCase().contentEquals(dv.getLbl3().getText().toLowerCase())).findFirst().orElse(null);
+		Idioma eFound = idiomas.stream().filter(e->e.getName().toLowerCase().contentEquals(dv.getLbl3().getText().toLowerCase())).findFirst().orElse(null);
 			if(eFound != null && !eFound.getLibros().contains(null)) {
 				dv.getWarning1().setVisible(true);
 				dv.getWarning1().setText("El idioma está vinculado");
@@ -385,9 +357,9 @@ public class DsbBaseIdioController extends DsbBaseController {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if(modifyView.getSelectCbx().getSelectedItem() != null) {
-					Idioma idioma = idiomas.stream().filter(i -> i.getNombre().contentEquals(modifyView.getSelectCbx().getSelectedItem().toString())).findFirst().orElse(null);
+					Idioma idioma = idiomas.stream().filter(i -> i.getName().contentEquals(modifyView.getSelectCbx().getSelectedItem().toString())).findFirst().orElse(null);
 					if(idioma != null) {
-						modifyView.getTxt1().setText(idioma.getNombre());
+						modifyView.getTxt1().setText(idioma.getName());
 						checkErrorModify(1);
 					}
 				}

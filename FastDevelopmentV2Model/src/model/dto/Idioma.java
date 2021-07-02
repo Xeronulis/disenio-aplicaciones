@@ -3,15 +3,30 @@ package model.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Idioma {
+import model.interfaces.InterfaceDTO;
 
+public class Idioma implements InterfaceDTO{
+
+	private int id;
 	private String nombre;
 	private List<String> libros = new ArrayList<String>();
 	
-	public String getNombre() {
+	@Override
+	public int getId() {
+		return id;
+	}
+	@Override
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	@Override
+	public String getName() {
 		return nombre;
 	}
-	public void setNombre(String nombre) {
+	
+	@Override
+	public void setName(String nombre) {
 		this.nombre = nombre;
 	}
 	public List<String> getLibros() {
@@ -27,4 +42,5 @@ public class Idioma {
 	public String toString() {
 		return nombre;
 	}
+	
 }

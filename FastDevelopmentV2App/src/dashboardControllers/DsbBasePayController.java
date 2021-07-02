@@ -30,6 +30,7 @@ import dashboardViews.DsbSearchView;
 import dashboardViews.DsbShowView;
 import model.dao.MetodoPagoDAO;
 import model.dto.MetodoPago;
+import utils.Validador;
 import model.dto.MetodoPago;
 
 public class DsbBasePayController extends DsbBaseController {
@@ -40,6 +41,7 @@ public class DsbBasePayController extends DsbBaseController {
 	private boolean[] modifyError = new boolean[1];
 	private boolean deleteError;
 	
+	private Validador<MetodoPago> validador = new Validador<>();
 	private List<MetodoPago> metodoPagos;
 	
 	public DsbBasePayController(DsbBaseView v) {
@@ -59,6 +61,8 @@ public class DsbBasePayController extends DsbBaseController {
 	
 	private void refreshMetodoPagoList() {
 		metodoPagos = MetodoPagoDAO.getAll();
+		validador.setList(metodoPagos);
+		
 	}
 	
 	private void register() {
@@ -72,11 +76,11 @@ public class DsbBasePayController extends DsbBaseController {
 		}
 		
 		if(!error) {
-			MetodoPago editorial = new MetodoPago();
+			MetodoPago mp = new MetodoPago();
 			
-			editorial.setNombre(registerView.getTxt1().getText().strip());
+			mp.setName(registerView.getTxt1().getText().strip());
 			
-			MetodoPagoDAO.save(editorial);
+			MetodoPagoDAO.save(mp);
 			
 			resetRegister();
 		}
@@ -97,7 +101,7 @@ public class DsbBasePayController extends DsbBaseController {
 		if(!error) {
 			MetodoPago edit = new MetodoPago();
 			
-			edit.setNombre(modifyView.getTxt1().getText());
+			edit.setName(modifyView.getTxt1().getText());
 			
 			MetodoPagoDAO.update(edit,(String) modifyView.getSelectCbx().getSelectedItem());
 			
@@ -143,7 +147,7 @@ public class DsbBasePayController extends DsbBaseController {
 				
 		tmodel.setRowCount(0);
 		edits.forEach(e->{
-			tmodel.addRow(new Object[] {e.getNombre()});
+			tmodel.addRow(new Object[] {e.getName()});
 		});
 		
 	}
@@ -213,14 +217,16 @@ public class DsbBasePayController extends DsbBaseController {
 		
 		case 1:
 			
+			registerError[id-1] = validador.checkStringRepeated(rv.getTxt1(), rv.getWarning1(), validador.NOMBRE);
 			
+			/*
 			if(rv.getTxt1().getText().isBlank()) {
 				rv.getWarning1().setVisible(true);
 				rv.getWarning1().setText("Nombre vacío");
 				registerError[id-1] = true;
 			}else {
-				MetodoPago editorial = metodoPagos.stream().filter(e->e.getNombre().toLowerCase().contentEquals(rv.getTxt1().getText().toLowerCase())).findFirst().orElse(null);
-					if(editorial != null) {
+				MetodoPago mp = metodoPagos.stream().filter(e->e.getName().toLowerCase().contentEquals(rv.getTxt1().getText().toLowerCase())).findFirst().orElse(null);
+					if(mp != null) {
 						rv.getWarning1().setVisible(true);
 						rv.getWarning1().setText("Nombre en uso");
 						registerError[id-1] = true;
@@ -231,7 +237,7 @@ public class DsbBasePayController extends DsbBaseController {
 					}
 			}
 			
-			
+			*/
 			break;
 		}
 		
@@ -239,31 +245,14 @@ public class DsbBasePayController extends DsbBaseController {
 	
 	private void checkErrorModify(int id) {
 		DsbModifyView mv = modifyView;
-		MetodoPago idiomaSel = metodoPagos.stream().filter(i-> i.getNombre().contentEquals(modifyView.getSelectCbx().getSelectedItem().toString())).findFirst().orElse(null);
+		MetodoPago sel = metodoPagos.stream().filter(i-> i.getName().contentEquals(modifyView.getSelectCbx().getSelectedItem().toString())).findFirst().orElse(null);
 		
 		switch (id) {
 		
 		case 1:
 				
-			if(mv.getTxt1().getText().isBlank()) {
-				mv.getWarning1().setVisible(true);
-				mv.getWarning1().setText("Nombre vacío");
-				modifyError[id-1] = true;
-			}else {
-				MetodoPago metodoPago = metodoPagos.stream().filter(e->e.getNombre().toLowerCase().contentEquals(mv.getTxt1().getText().toLowerCase())).findFirst().orElse(null);
-				if(metodoPago != null && idiomaSel.getNombre().contentEquals(metodoPago.getNombre())) {
-					metodoPago = null;
-				}
-				if(metodoPago != null) {
-					mv.getWarning1().setVisible(true);
-					mv.getWarning1().setText("Nombre en uso");
-					modifyError[id-1] = true;
-				}else {
-					mv.getWarning1().setVisible(false);
-					mv.getWarning1().setText("");
-					modifyError[id-1] = false;
-				}
-			}		
+			modifyError[id-1] = validador.checkStringRepeated(mv.getTxt1(), mv.getWarning1(), sel, validador.NOMBRE);
+				
 			break;
 		}	
 	}
@@ -271,7 +260,7 @@ public class DsbBasePayController extends DsbBaseController {
 	private void checkErrorDelete() {
 		DsbDeleteView dv = deleteView;
 		
-		MetodoPago eFound = metodoPagos.stream().filter(e->e.getNombre().toLowerCase().contentEquals(dv.getLbl3().getText().toLowerCase())).findFirst().orElse(null);
+		MetodoPago eFound = metodoPagos.stream().filter(e->e.getName().toLowerCase().contentEquals(dv.getLbl3().getText().toLowerCase())).findFirst().orElse(null);
 			if(eFound != null && !eFound.getIdFacturas().contains(0)) {
 				dv.getWarning1().setVisible(true);
 				dv.getWarning1().setText("el metodo de pago está vinculado");
@@ -350,9 +339,9 @@ public class DsbBasePayController extends DsbBaseController {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if(modifyView.getSelectCbx().getSelectedItem() != null) {
-					MetodoPago metodoPago = metodoPagos.stream().filter(i -> i.getNombre().contentEquals(modifyView.getSelectCbx().getSelectedItem().toString())).findFirst().orElse(null);
+					MetodoPago metodoPago = metodoPagos.stream().filter(i -> i.getName().contentEquals(modifyView.getSelectCbx().getSelectedItem().toString())).findFirst().orElse(null);
 					if(metodoPago != null) {
-						modifyView.getTxt1().setText(metodoPago.getNombre());
+						modifyView.getTxt1().setText(metodoPago.getName());
 						checkErrorModify(1);
 					}
 				}
