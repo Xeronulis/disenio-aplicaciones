@@ -14,6 +14,7 @@ public class ArriendoDAO {
 	private DB db= new DB();
 	
 	public void save (Arriendo arriendo) {
+		db.conectar();
 		try {
 			String sql= "INSERT INTO arriendo(idArriendo,fechaEntrega,fechaDevolucion,fechaArriendo) VALUES(?,?,?,?)";
 			PreparedStatement st= db.getCon().prepareStatement(sql);

@@ -12,6 +12,7 @@ public class DireccionEmpleadoDAO {
 private DB db= new DB();
 	
 	public void save (DireccionEmpleado de) {
+		db.conectar();
 		try {
 			String sql= "INSERT INTO direccionC(rutE,direccion) VALUES(?,?)";
 			PreparedStatement st= db.getCon().prepareStatement(sql);
