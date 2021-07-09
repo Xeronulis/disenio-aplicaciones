@@ -9,11 +9,22 @@ import java.util.List;
 import model.dto.Arriendo;
 import model.utils.DB;
 
+/**
+ * En esta clase podemos revisar el funcionamiento de las sentencias DML, las cuales 
+ * son necesarias para poder hacer funcionar el CRUD de la clase Arriendo. Tambien podemos ver
+ * como se definen las sentencias SQL necesarias para poder interactuar con la base de datos y los
+ * datos que ella almacena.
+ * @author Grupo4
+ * @version 11-07-2021
+ */
+
 public class ArriendoDAO {
 
 	private DB db= new DB();
 	
+	
 	public void save (Arriendo arriendo) {
+		db.conectar();
 		try {
 			String sql= "INSERT INTO arriendo(idArriendo,fechaEntrega,fechaDevolucion,fechaArriendo) VALUES(?,?,?,?)";
 			PreparedStatement st= db.getCon().prepareStatement(sql);
