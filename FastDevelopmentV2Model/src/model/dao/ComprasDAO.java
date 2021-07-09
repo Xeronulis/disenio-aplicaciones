@@ -12,6 +12,7 @@ public class ComprasDAO {
 private DB db= new DB();
 	
 	public void save (Compras c) {
+		db.conectar();
 		try {
 			String sql= "INSERT INTO compras(idCompras,libro,precioConiva,folioF) VALUES(?,?,?,?)";
 			PreparedStatement st= db.getCon().prepareStatement(sql);
