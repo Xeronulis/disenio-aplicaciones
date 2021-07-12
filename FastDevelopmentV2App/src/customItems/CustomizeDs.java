@@ -215,7 +215,7 @@ public class CustomizeDs {
 
 
 	//funcion para inicializar un ScrollPane
-	public static JScrollPane cutomizeScrollPane(JScrollPane scrollPane) {
+	public static JScrollPane customizeScrollPane(JScrollPane scrollPane) {
 		Color background = ColorsUtils.COLORS.get("background");
 		
 		ScrollBarUI customUI = instance.new CustomScrollBarUI();

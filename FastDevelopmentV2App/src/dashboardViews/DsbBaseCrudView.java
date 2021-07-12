@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import customItems.CustomDsBtn;
@@ -18,7 +19,7 @@ import utils.ColorsUtils;
 import utils.SizeUtils;
 
 public abstract class DsbBaseCrudView extends JPanel {
-
+	
 	protected DsbBaseView baseView;
 	
 	
@@ -405,7 +406,7 @@ public abstract class DsbBaseCrudView extends JPanel {
 	}
 
 	public DsbBaseCrudView() {
-
+		
 	}
 	
 	protected void setCustomStuff() {

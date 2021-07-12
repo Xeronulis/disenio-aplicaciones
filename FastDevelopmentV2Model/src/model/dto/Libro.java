@@ -9,6 +9,8 @@ public class Libro {
 
 	private String titulo;
 	private String ISBN;
+	private int stock;
+	private int librosArrendados;
 	private int numSerie;
 	private int numPaginas;
 	private Date anioPublicacion;
@@ -39,6 +41,7 @@ public class Libro {
 	public List<String> getIdiomas() {
 		return idiomas;
 	}
+
 	public void setIdiomas(List<String> idiomas) {
 		this.idiomas = idiomas;
 	}
@@ -57,6 +60,7 @@ public class Libro {
 	public String getEditorial() {
 		return editorial;
 	}
+
 	public void setEditorial(String editorial) {
 		this.editorial = editorial;
 	}
@@ -91,7 +95,7 @@ public class Libro {
 	public void setPrecioRef(double precioRef) {
 		this.precioRef = precioRef;
 	}
-	
+
 	public void addToAutores(Autor autor) {
 		autores.add(autor);
 	}
@@ -104,6 +108,13 @@ public class Libro {
 		idiomas.add(idioma);
 	}
 	
+	public void getStock(int stock) {
+		this.stock = stock;
+	}
+
+	public int getStock() {
+		return stock;
+	}
 	public String toString() {
 		return this.titulo;
 	}

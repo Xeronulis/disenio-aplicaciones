@@ -77,7 +77,7 @@ public class DsbShowView extends DsbBaseCrudView {
 		setLayout(new BorderLayout(0, 0));
 		
 		titlePanel = new JPanel();
-		titlePanel.setBackground(ColorsUtils.COLORS.get("background"));
+		titlePanel.setBackground(ColorsUtils.COLORS.get("menuHide"));
 		this.add(titlePanel, BorderLayout.NORTH);
 		titlePanel.setLayout(new BorderLayout(0, 0));
 		
@@ -102,7 +102,7 @@ public class DsbShowView extends DsbBaseCrudView {
 		negSpaceLeft = Box.createHorizontalStrut(20);
 		panel.add(negSpaceLeft, BorderLayout.WEST);
 		
-		scrollPane = CustomizeDs.cutomizeScrollPane(new JScrollPane());
+		scrollPane = CustomizeDs.customizeScrollPane(new JScrollPane());
 		
 		
 		negSpaceBottom = Box.createVerticalStrut(20);

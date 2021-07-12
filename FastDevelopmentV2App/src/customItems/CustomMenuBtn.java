@@ -6,11 +6,17 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 
+import utils.AnimUtils;
+import utils.ColorsUtils;
+import utils.GeneralUtils;
 import utils.SizeUtils;
 
 import java.awt.Component;
@@ -153,23 +159,94 @@ public class CustomMenuBtn extends JPanel {
 	}
 	
 	
-
+	/**
+	 * HoverLs es la clase encargada del comportamiento visual del boton.
+	 * 
+	 * 
+	 * @author grupo4
+	 *
+	 */
 	
 	
-	public class HoverLs implements MouseListener{
+	public class HoverLs implements MouseListener, ActionListener{
+		
+		
 		private boolean isIn;
 		
 		private JPanel link;
-		private Color defaultColor = new Color(100,100,100);
 		
-		private Color bColor = defaultColor;
-		private Color hColor = defaultColor;
-		private Color pColor = defaultColor;
+		private Color bColor = ColorsUtils.COLORS.get("menuHide");
+		private Color hColor = ColorsUtils.COLORS.get("itemHover");
+		private Color pColor = ColorsUtils.COLORS.get("itemPressed");
 		
+		private Color cColor= bColor;
+		
+		private int animFrames= 10;
+		private int frameCounter=0;
+		
+		private Timer anim = new Timer(0, this);
+		
+		private Color[] btoh = AnimUtils.colorTransition(bColor, hColor, animFrames);
+		private Color[] htob = GeneralUtils.reverseArray(btoh);
+		
+		private Color[] htop = AnimUtils.colorTransition(hColor, pColor, animFrames);
+		private Color[] ptoh = GeneralUtils.reverseArray(htop);
+		
+		private Color[] ptob = AnimUtils.colorTransition(pColor, bColor, animFrames);
+		
+		//tipo de animacion, 0=idle, 1=hovering, -1=pressed
+		private int animType=0;
+		private int prevAnimStatus=0;
+		
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			try {
+				switch(animType) {
+				case 0:
+					if(prevAnimStatus == 1) {
+						cColor = htob[frameCounter];
+						
+					}else {
+						cColor = ptob[frameCounter];
+						
+					}
+					break;
+					
+				case 1:
+					if(prevAnimStatus == 0) {
+						cColor = btoh[frameCounter];
+					}else {
+						cColor = ptoh[frameCounter];
+					}
+					break;
+					
+				case -1:
+					cColor = htop[frameCounter];
+					break;
+				
+				}
+			}catch(Exception ex) {
+				
+			}finally {
+				if(frameCounter >= animFrames-1) {
+					anim.stop();
+					frameCounter=0;
+					
+				}
+				
+				link.setBackground(cColor);
+				
+				++frameCounter;
+			}
+			
+		}
 		
 		public HoverLs(JPanel jp) {
 			link = jp;
-
+			anim.setDelay(16);
+			
 		}
 		
 		public void setBgColor(Color bColor) {
@@ -202,24 +279,79 @@ public class CustomMenuBtn extends JPanel {
 		}
 		@Override
 		public void mousePressed(MouseEvent e) {
-			link.setBackground(pColor);
+			if(anim.isRunning()) {
+				frameCounter = (int) AnimUtils.map(frameCounter, 0, animFrames-1, animFrames-1, 0);
+				prevAnimStatus=animType;
+				animType=-1;
+			}else {
+				prevAnimStatus=animType;
+				animType=-1;
+				anim.start();
+			}
 		}
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			if(isIn) {
-				link.setBackground(hColor);
+				if(anim.isRunning()) {
+					frameCounter = animFrames - frameCounter;
+					prevAnimStatus=animType;
+					animType=1;
+				}else {
+					prevAnimStatus=animType;
+					animType=1;
+					anim.start();
+				}
 			}
+			
 		}
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			isIn = true;
-			link.setBackground(hColor);	
+			if(anim.isRunning()) {
+				frameCounter = animFrames - frameCounter;
+				prevAnimStatus=animType;
+				animType=1;
+			}else {
+				prevAnimStatus=animType;
+				animType=1;
+				anim.start();
+			}
 		}
 		@Override
 		public void mouseExited(MouseEvent e) {
 			isIn = false;
-			link.setBackground(bColor);
+			if(anim.isRunning()) {
+				
+				if(prevAnimStatus == -1) {
+					int halfAnimFrames = (animFrames)/2;
+					
+					if(frameCounter < halfAnimFrames) {
+						frameCounter = (int) AnimUtils.map(frameCounter, 0, halfAnimFrames, 0, animFrames-1);
+						prevAnimStatus=-1;
+					}else {
+						frameCounter = (int) AnimUtils.map(frameCounter, halfAnimFrames, animFrames, animFrames-1, 0);
+						prevAnimStatus=animType;
+					}
+					
+					
+					
+				}else {
+					frameCounter = animFrames - frameCounter;
+					prevAnimStatus=animType;
+				}
+				
+				animType=0;
+			}else {
+				prevAnimStatus=animType;
+				animType=0;
+				anim.start();
+			}
 		}
+
+		
+		
+
+	
 	}
 
 }

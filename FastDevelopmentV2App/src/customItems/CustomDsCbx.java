@@ -17,12 +17,15 @@ import utils.SizeUtils;
 public class CustomDsCbx extends JPanel {
 	private JComboBox<Object> comboBox;
 	
+	/*
 	public JComboBox<Object> getComboBox() {
 		return comboBox;
 	}
+	*/
 	/**
 	 * Create the panel.
 	 */
+	/*
 	public CustomDsCbx() {
 		Color alpha = new Color(0,0,0,0);
 
@@ -49,7 +52,7 @@ public class CustomDsCbx extends JPanel {
 		
 		add(comboBox, BorderLayout.CENTER);
 	}
-	
+	*/
 
 
 }

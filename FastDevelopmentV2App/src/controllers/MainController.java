@@ -13,6 +13,7 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
+import animThreads.AnimMenu;
 import dashboardControllers.DsbMainController;
 import dashboardViews.DsbCardLayout;
 import dashboardViews.DsbMainView;
@@ -23,6 +24,9 @@ import views.MainView;
 
 public class MainController {
 
+	private AnimMenu menuAnim;
+	
+	
 	private MainView v;
 	private MenuMainController mmc;
 	private DsbMainController dmc;
@@ -32,13 +36,13 @@ public class MainController {
 	
 	private int persistent =0;
 	private int prevPersistent=0;
-	private static boolean isMenuShow = false;
+	private static boolean menuShow = false;
 	
 	private CardLayout cLayout;
 	
 	
 	public static boolean isMenuShow() {
-		return isMenuShow;
+		return menuShow;
 	}
 	
 	public MainView getMainView() {
@@ -57,8 +61,11 @@ public class MainController {
 	public MainController(MainView view) {
 		this.v = view;
 	
-		mmc = new MenuMainController(new MenuMainView(), this,new MenuCardLayout() );
+		mmc = new MenuMainController(new MenuMainView(), this,new MenuCardLayout());
 		dmc = new DsbMainController(new DsbMainView(), this, new DsbCardLayout());
+		
+		menuAnim = new AnimMenu(v);
+		
 	}
 	
 	public void start() {
@@ -95,7 +102,7 @@ public class MainController {
 		switch(persistent){
 		case 1:
 			
-			if(isMenuShow) {
+			if(menuShow) {
 				v.getHideMenuBtnImg().setIcon(new ImageIcon(MainView.class.getResource("/icons/back_32px.png")));
 			}else {
 				v.getHideMenuBtnImg().setIcon(new ImageIcon(MainView.class.getResource("/icons/menu_32px.png")));
@@ -126,16 +133,25 @@ public class MainController {
 	}
 	
 	public void changeMenuShow(boolean b) {
-		isMenuShow=b;
+		menuShow=b;
 		
-		if(!isMenuShow) {
+		if(!menuShow) {
+			/*
 			v.getMenuHide().setVisible(false);
 			int temp = v.getMenuIcon().getWidth();
 			v.getMenu().setPreferredSize(new Dimension(temp, 10));
 			//mmc.changeMenu("menuMain");
+			*/
+			
+			menuAnim.closeMenu();
 		}else {
+			/*
 			v.getMenuHide().setVisible(true);
 			v.getMenu().setPreferredSize(new Dimension(318, 10));
+			*/
+			
+			menuAnim.openMenu();
+			
 		}
 		
 	}
@@ -351,7 +367,7 @@ public class MainController {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			if(!isMenuShow) {
+			if(!menuShow) {
 				changeMenuShow(true);
 				
 			}else if(persistent== ID){
@@ -372,7 +388,7 @@ public class MainController {
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			if(persistent != ID || !isMenuShow) {
+			if(persistent != ID || !menuShow) {
 				v.getHideMenuBtn().setBackground(colors.get("itemHover"));
 			}
 			v.getMenuIconLine().setBackground(colors.get("menuLineSlctd"));
@@ -381,7 +397,7 @@ public class MainController {
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			if(persistent != ID || !isMenuShow) {
+			if(persistent != ID || !menuShow) {
 				v.getHideMenuBtn().setBackground(colors.get("background"));
 			}
 			v.getMenuIconLine().setBackground(colors.get("background"));
@@ -401,7 +417,7 @@ public class MainController {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			
-			if(!isMenuShow) {
+			if(!menuShow) {
 				changeMenuShow(true);
 
 			}else if(persistent== ID){
@@ -421,7 +437,7 @@ public class MainController {
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			if(persistent != ID || !isMenuShow) {
+			if(persistent != ID || !menuShow) {
 				v.getSettings().setBackground(colors.get("itemHover"));
 			}
 			v.getMenuIconLine2().setBackground(colors.get("menuLineSlctd"));
@@ -430,7 +446,7 @@ public class MainController {
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			if(persistent != ID || !isMenuShow) {
+			if(persistent != ID || !menuShow) {
 				v.getSettings().setBackground(colors.get("background"));
 			}
 			v.getMenuIconLine2().setBackground(colors.get("background"));

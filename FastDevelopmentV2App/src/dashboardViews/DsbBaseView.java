@@ -99,6 +99,7 @@ public class DsbBaseView extends JPanel {
 
 
 	public void initCustomLayout(DsbBaseCrudView crudView,String layout) {
+		/*
 		switch (layout) {
 		
 		case "register":
@@ -117,7 +118,7 @@ public class DsbBaseView extends JPanel {
 			title.getLabel().setText("Eliminar ");
 			break;
 		}
-		
+		*/
 	}
 	
 	

@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ColorsUtils {
-
+	
+	
+	
 	public static final Map<String, Color> COLORS;
 		static {
 			Map<String, Color> temp  = new HashMap<String, Color>();

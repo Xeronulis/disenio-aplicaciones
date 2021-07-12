@@ -81,7 +81,7 @@ public class DsbRegisterView extends DsbBaseCrudView {
 		inCardPanel.setLayout(new BorderLayout(0,0));
 		
 		titlePanel = new JPanel();
-		titlePanel.setBackground(defaultColors[0]);
+		titlePanel.setBackground(defaultColors[1]);
 		inCardPanel.add(titlePanel, BorderLayout.NORTH);
 		titlePanel.setLayout(new BorderLayout(0, 0));
 		
@@ -94,7 +94,8 @@ public class DsbRegisterView extends DsbBaseCrudView {
 		titlePanel.add(title);
 		
 		
-		scrollPane = CustomizeDs.cutomizeScrollPane(new JScrollPane());
+		scrollPane = CustomizeDs.customizeScrollPane(new JScrollPane());
+		scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 		
 		scrollPane.setBorder(null);
 		inCardPanel.add(scrollPane, BorderLayout.CENTER);

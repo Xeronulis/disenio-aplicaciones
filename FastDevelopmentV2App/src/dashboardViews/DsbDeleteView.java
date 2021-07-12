@@ -119,7 +119,7 @@ public class DsbDeleteView extends DsbBaseCrudView {
 
 		
 		titlePanel = new JPanel();
-		titlePanel.setBackground(ColorsUtils.COLORS.get("background"));
+		titlePanel.setBackground(ColorsUtils.COLORS.get("menuHide"));
 		this.add(titlePanel, BorderLayout.NORTH);
 		titlePanel.setLayout(new BorderLayout(0, 0));
 		
@@ -199,7 +199,8 @@ public class DsbDeleteView extends DsbBaseCrudView {
 		verticalStrut = Box.createVerticalStrut(20);
 		panel_1.add(verticalStrut, BorderLayout.SOUTH);
 		
-		scrollPane = CustomizeDs.cutomizeScrollPane(new JScrollPane());
+		scrollPane = CustomizeDs.customizeScrollPane(new JScrollPane());
+		scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 		panel_1.add(scrollPane);
 		
 		

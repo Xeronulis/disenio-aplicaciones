@@ -133,14 +133,14 @@ public class DsbDoubleTableView extends DsbBaseCrudView {
 		this.setCustomStuff();
 		
 		titlePanel = new JPanel();
-		titlePanel.setBackground(ColorsUtils.COLORS.get("background"));
+		titlePanel.setBackground(ColorsUtils.COLORS.get("menuHide"));
 		this.add(titlePanel, BorderLayout.NORTH);
 		titlePanel.setLayout(new BorderLayout(0, 0));
 		
 		
 		this.title = CustomizeDs.customizeJLabel(new JLabel());
 		title.setFont(new Font("Verdana", Font.PLAIN, 28));
-		title.setText("Vincular "+name);;
+		title.setText("Vincular "+name);
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		titlePanel.add(title);
 		
@@ -169,7 +169,7 @@ public class DsbDoubleTableView extends DsbBaseCrudView {
 		panel2.add(migLayout, BorderLayout.CENTER);
 		migLayout.setLayout(new MigLayout("", "[200,grow,center][36,center][200,grow,center]", "[center][350px,grow,fill]"));
 		
-		scrollPaneA = CustomizeDs.cutomizeScrollPane(new JScrollPane());
+		scrollPaneA = CustomizeDs.customizeScrollPane(new JScrollPane());
 		migLayout.add(scrollPaneA, "cell 0 1,grow");
 		
 		titleA = CustomizeDs.customizeJLabel(new JLabel("Vinculados"));
@@ -223,7 +223,7 @@ public class DsbDoubleTableView extends DsbBaseCrudView {
 		
 		
 		
-		scrollPaneB = CustomizeDs.cutomizeScrollPane(new JScrollPane());
+		scrollPaneB = CustomizeDs.customizeScrollPane(new JScrollPane());
 		migLayout.add(scrollPaneB, "cell 2 1,grow");
 		
 		scrollPaneB.setViewportView(tableB);

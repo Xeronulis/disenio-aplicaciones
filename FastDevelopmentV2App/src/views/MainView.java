@@ -222,7 +222,6 @@ public class MainView extends JFrame {
 		menu.add(menuIcon, BorderLayout.WEST);
 		menuIcon.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		
-		//set menuIconLineDmnsn and menuIconPanelDmnsn
 		menuIconLineDmnsn = new Dimension(menuIconWdth, (int)menuIconWdth/10 );
 		menuIconPanelDmnsn = new Dimension(menuIconWdth, menuIconWdth);
 		

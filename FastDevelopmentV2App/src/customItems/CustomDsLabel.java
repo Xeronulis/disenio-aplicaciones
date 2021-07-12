@@ -17,10 +17,11 @@ public class CustomDsLabel extends JPanel {
 	
 	private JLabel label;
 
+	/*
 	public JLabel getLabel() {
 		return this.label;
 	}
-	
+	*/
 	
 	
 	/**

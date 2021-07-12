@@ -87,7 +87,7 @@ public class DsbModifyView extends DsbBaseCrudView {
 		this.add(cardPanel, BorderLayout.CENTER);
 		
 		titlePanel = new JPanel();
-		titlePanel.setBackground(ColorsUtils.COLORS.get("background"));
+		titlePanel.setBackground(ColorsUtils.COLORS.get("menuHide"));
 		inCardPanel.add(titlePanel, BorderLayout.NORTH);
 		titlePanel.setLayout(new BorderLayout(0, 0));
 		
@@ -98,7 +98,8 @@ public class DsbModifyView extends DsbBaseCrudView {
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		titlePanel.add(title);
 		
-		scrollPane = CustomizeDs.cutomizeScrollPane(new JScrollPane());
+		scrollPane = CustomizeDs.customizeScrollPane(new JScrollPane());
+		scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 		scrollPane.setBorder(null);
 		inCardPanel.add(scrollPane, BorderLayout.CENTER);
 		
