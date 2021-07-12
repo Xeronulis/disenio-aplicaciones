@@ -5,19 +5,38 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * En esta clase se revisara la congruencia de la tabla Factura la cual tiene 9 campos
+ * y se mostraran los metodos escenciales necesarios para trabajar con el objeto creado en 
+ * esta clase
+ * @author Grupo4
+ * @version 11-07-2021
+ */
+
 public class Factura {
 
 	private int idFactura;
 	private int idDistribuidor;
-	private int idMetodoPago;
-	
+	private int idMetodoPago;	
 	private int folio;
 	private Date fechaCompra;
 	private Time horaCompra;
 	private boolean locked;
-	private double costoTotal;
-	
+	private double costoTotal;	
 	private List<Compra> compras = new ArrayList<Compra>();
+	
+	/**
+	 * Una breve descripcion de cada atributo de la clase Factura
+	 * @param idFactura: Clave unica que nos permite ubicar los distintos objetos en la base de datos
+	 * @param idDistribuidor: Clave unica que nos permite encontrar al distribuidor en la base de datos
+	 * @param idMetodoPago: Clave unica que nos permite encontrar el metodo de pago en la base de datos
+	 * @param folio: 
+	 * @param fechaCompra: Fecha en la que se realizo la compra de libros
+	 * @param horaCompra: Hora en la que se realizo la comrpa de libros
+	 * @param locked:
+	 * @param costoTotal: el costo total de la compra
+	 * @param compras: lista de todo lo que se compro
+	 */
 
 	public int getIdFactura() {
 		return idFactura;

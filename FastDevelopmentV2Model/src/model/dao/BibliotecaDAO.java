@@ -13,6 +13,7 @@ public class BibliotecaDAO {
 private DB db= new DB();
 	
 	public void save (Biblioteca b) {
+		db.conectar();
 		try {
 			String sql= "INSERT INTO biblioteca(idBiblio,direccion,telefono) VALUES(?,?,?)";
 			PreparedStatement st= db.getCon().prepareStatement(sql);

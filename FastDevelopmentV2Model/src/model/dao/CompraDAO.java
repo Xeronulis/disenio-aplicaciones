@@ -13,6 +13,7 @@ public class CompraDAO {
 	private static DB db= new DB();
 	
 	public static void save (Compra c) {
+		db.conectar();
 		try {
 			String sql= "INSERT INTO compra(libroNumeroSerie,idFactura) VALUES(?,?)";
 			PreparedStatement st= db.getCon().prepareStatement(sql);

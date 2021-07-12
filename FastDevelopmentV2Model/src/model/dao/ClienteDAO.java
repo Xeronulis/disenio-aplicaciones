@@ -12,6 +12,7 @@ public class ClienteDAO {
 private DB db= new DB();
 	
 	public void save (Cliente c) {
+		db.conectar();
 		try {
 			String sql= "INSERT INTO cliente(rutC,fechaNacimiento,nombre,apellidoP,apellidoM) VALUES(?,?,?,?,?)";
 			PreparedStatement st= db.getCon().prepareStatement(sql);

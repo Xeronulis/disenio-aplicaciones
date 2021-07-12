@@ -3,18 +3,36 @@ package model.dto;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * En esta clase se revisara la congruencia de la tabla Empleado la cual tiene 8 campos
+ * y se mostraran los metodos escenciales necesarios para trabajar con el objeto creado en 
+ * esta clase
+ * @author Grupo4
+ * @version 11-07-2021
+ */
+
 public class Empleado {
 
 	private String rutE;
 	private LocalDate fechaContrato; 	
 	private String nombreE;
 	private String apellidoP;
-	private String apellidoM;
-	
+	private String apellidoM;	
 	private List<DireccionEmpleado> direccionEmpleado;
 	private List<TelefonoEmpleado> telefonoEmpleado;
 	private List<EmailEmpleado> emailEmpleado;
 	
+	/**
+	 * Una breve descripcion de cada atributo de la clase Empleado
+	 * @param rutE: corresponde al rut del empleador
+	 * @param fechaContrato: fecha en la cual el empleado fue contratado
+	 * @param nombreE: nombre del empleado
+	 * @param apellidoP: apellido paterno del empleado
+	 * @param apellidoM: apellido materno del empleado
+	 * @param direccionEmpleado: lista de las direcciones fisicas del empleado
+	 * @param telefonoEmpleado: lista de los numeros telefonicos del empleado
+	 * @param emailEmpleado: lista de los email electronicos del empleado
+	 */
 	
 	public List<DireccionEmpleado> getDireccionEmpleado() {
 		return direccionEmpleado;

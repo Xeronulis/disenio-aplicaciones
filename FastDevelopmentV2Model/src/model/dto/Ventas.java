@@ -1,14 +1,27 @@
 package model.dto;
 
+/**
+ * En esta clase se revisara la congruencia de la tabla Ventas la cual tiene 3campos
+ * y se mostraran los metodos escenciales necesarios para trabajar con el objeto creado en 
+ * esta clase
+ * @author Grupo4
+ * @version 11-07-2021
+ */
 
 public class Ventas {
 
 	private int idVentas;
-	
 	private Libro libro;
 	private int precioConIVA;
 	private Boleta boleta;
 	
+	/**
+	 * Una breve descripcion de cada atributo de la clase TelefonoEmpleado
+	 * @param idVentas: Identificador unico de cada objeto creado
+	 * @param libro: Libro relacionado a la Venta
+	 * @param precioConIVA: Valor de la venta con el impuesto correspondiente
+	 * @param boleta: Objeto boleta al que estamos asociando la venta de un libro 
+	 */
 	
 	public Libro getLibro() {
 		return libro;
