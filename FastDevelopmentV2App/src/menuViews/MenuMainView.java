@@ -18,10 +18,14 @@ import customItems.CustomizeMenu;
 import utils.ColorsUtils;
 import utils.SizeUtils;
 
-
+/*Esta es la vista inicio, donde el usuario puede elegir que desa hacer en el programa
+ *aqui se muestra lo que el usuario vera en el software
+@author Grupo 4
+@Version 14/07/2021*/
 @SuppressWarnings("serial")
 public class MenuMainView extends MenuBaseView {
-	
+
+	//Se definen las variables de las opciones como botones tipo CustomMenuBtn
 	private CustomMenuBtn backBtn;
 	private CustomMenuBtn libroBtn;
 	private CustomMenuBtn distBtn;
@@ -63,7 +67,8 @@ public class MenuMainView extends MenuBaseView {
 	 */
 	public MenuMainView() {
 		this.setName("menuMain");
-		
+
+		// Se definen los colores a utilizar y se guardan en un arreglo 
 		Color[] defaultColors = {ColorsUtils.COLORS.get("menuHide"),
 				ColorsUtils.COLORS.get("itemHover"),
 				ColorsUtils.COLORS.get("background")
@@ -71,16 +76,16 @@ public class MenuMainView extends MenuBaseView {
 		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout(0, 0));
-		
+
+		// Se define el panel del tipo CustomMenuBtnContainer (clase de customItems).
 		CustomMenuBtnContainer panel = new CustomMenuBtnContainer();
 	
-		
+		//Se define lo que se mostrara al ususario, el panel.
 		this.setViewportView(panel);
 
 		
-		
-		
-		
+		//Se crean los botones que le usuario podra ver, junto con sus iconos y color, a los cuales podra acceder mediante un controller 
+		//y posteriormente se guardan en el panel que se mostarra al usuario.
 		this.backBtn = new CustomMenuBtn(" ");
 		backBtn.getBtnTxt().setText(" Inicio");
 		backBtn.setAllColors(defaultColors[0],defaultColors[1] , defaultColors[2]);

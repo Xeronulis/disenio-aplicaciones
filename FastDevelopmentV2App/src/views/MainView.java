@@ -278,7 +278,7 @@ public class MainView extends JFrame {
 		cardPanel.add(optionsPanel, "optionsPanel");
 		optionsPanel.setLayout(null);
 		
-		lblNewLabel = new JLabel("Hellooooo");
+		lblNewLabel = new JLabel("sin configuraciones");
 		lblNewLabel.setForeground(Color.LIGHT_GRAY);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 43));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
