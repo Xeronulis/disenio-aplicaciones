@@ -8,7 +8,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="miglayout15-swing.jar" sourcepath="miglayout-src.zip"/>
-	<classpathentry kind="lib" path="C:/Users/bsjoa/Desktop/informatica/Taller de Diseño de Aplicaciones/disenio-aplicaciones/mysql-connector-java-8.0.20/mysql-connector-java-8.0.20.jar"/>
-	<classpathentry kind="lib" path="C:/Users/bsjoa/Desktop/informatica/Taller de Diseño de Aplicaciones/disenio-aplicaciones/mysql-connector-java-8.0.20.zip"/>
+	<classpathentry kind="lib" path="B:/Descargas/mysql/mysql-connector-java-8.0.20.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
