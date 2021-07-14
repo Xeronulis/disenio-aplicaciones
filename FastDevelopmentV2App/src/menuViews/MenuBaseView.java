@@ -11,7 +11,12 @@ import javax.swing.ScrollPaneConstants;
 import customItems.CustomizeMenu;
 import utils.ColorsUtils;
 
-//esta clase es para que todas las otras Views sean Scrollables
+/*esta clase es para que todas las otras Views sean Scrollables y ademas es clase padre de todas las demas clases view
+estos menus seran tipo vista-controlador donde el controlador se encargara de recibir los datos del usuario 
+y las vistas solo seran para mostrar al usuario
+@author Grupo 4 
+@version 12/07/2021
+*/
 public class MenuBaseView extends JScrollPane {
 
 
