@@ -10,6 +10,9 @@ import customItems.CustomMenuBtn;
 import customItems.CustomMenuBtnContainer;
 import utils.ColorsUtils;
 
+/*esta es la vista del menu de pago, qui se muestra lo que el usuario vera en el software
+@author Grupo 4
+@Version 13/07/2021*/
 @SuppressWarnings("serial")
 public class MenuCompPayView extends MenuBaseView {
 

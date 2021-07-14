@@ -18,6 +18,13 @@ import javax.swing.JTextField;
 import javax.swing.BoxLayout;
 import javax.swing.border.LineBorder;
 
+/**
+ * En esta clase realizamos la configuracion de los txtFields, donde podemos configurar el tamaño del 
+ * contenedor de texto, el color del contenedor y la fuente con la que se ingresan los datos.
+ *@author Grupo4
+ *@version 12-07-2021
+ */
+
 public class CustomDsTxtField extends JPanel {
 	
 	private JTextField text;

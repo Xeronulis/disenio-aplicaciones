@@ -10,9 +10,28 @@ import model.dto.Idioma;
 import model.dto.Idioma;
 import model.utils.DB;
 
+/**
+ * En esta clase podemos revisar el funcionamiento de las sentencias DML, las cuales 
+ * son necesarias para poder hacer funcionar el CRUD de la clase Idioma. Tambien podemos ver
+ * como se definen las sentencias SQL necesarias para poder interactuar con la base de datos y los
+ * datos que ella almacena.
+ * @param db: Es el objeto que nos permite realizar la conexion con la base de datos. 
+ * @author Grupo4
+ * @version 11-07-2021
+ */
+
+
 public class IdiomaDAO {
 
 	private static DB db = new DB();
+	
+	/**
+	 * El metodo save recibe un parametro.
+	 * @param idio: Objeto de clase Idioma.
+	 * Este metodo nos permite ingresar un Objeto de tipo Idioma, para poder realizar esto 
+	 * utilizamos los getters del objeto para asi poder ingresar los datos correspondientes del
+	 * objeto en la sentencia SQL que es enviada a la base de datos.
+	 */
 	
 	public static void save(Idioma idio) {
 
@@ -31,6 +50,13 @@ public class IdiomaDAO {
 		}
 		
 	}
+	
+	/**
+	 * El metodo getAll no recibe parametros.
+	 * Este metodo nos retorna una lista con todos los objetos de la clase Idioma que hemos
+	 * agregado a la base de datos.
+	 */
+	
 	public static List<Idioma> getAll(){
 		db.conectar();
 		List<Idioma> idiomas = new ArrayList<>();
@@ -80,9 +106,15 @@ public class IdiomaDAO {
 		
 		return idiomas;
 	}
-	
-	
-	
+
+	/**
+	 * El metodo filteredSearch recibe 2 parametros.
+	 * @param filtro: Cadena de caracteres que utilizamos como filtro.
+	 * @param target: Clave unica del objeto que se quiere modificar
+	 * Este metodo nos permite realizar un busqueda mas especifica dentro de los 
+	 * idiomas que se han ingresado a la base de datos
+	 */	
+		
 	
 	public static List<Idioma> filteredSearch(String filtro, String target){
 		db.conectar();
@@ -110,6 +142,12 @@ public class IdiomaDAO {
 		return idiomas;
 	}
 	
+	/**
+	 * El metodo update recibe 2 parametros.
+	 * @param ed: Objeto de tipo Idioma.
+	 * @param target: Clave unica del objeto que se quiere modificar
+	 * Este metodo nos permite modificar el nombre del idioma dentro de la base de datos.
+	 */
 	
 	public static void update(Idioma ed, int target) {
 		db.conectar();
@@ -131,6 +169,14 @@ public class IdiomaDAO {
 		
 	}
 	
+	/**
+	 * El metodo delete recibe un parametro.
+	 * @param target: Valor numerico que contiene el id del idioma.
+	 * Este metodo nos permite eliminar un Objeto de tipo Idioma, para poder realizar esto 
+	 * utilizamos el parametro entregado que contiene la clave unica para poder 
+	 * idetificar el objeto dentro de la base de datos, una vez esto ocurre se agrega la clave unica
+	 * a la sentencia SQL para eliminar los datos del objeto en la base de datos
+	 */
 	
 	public static void delete(int target) {
 		db.conectar();

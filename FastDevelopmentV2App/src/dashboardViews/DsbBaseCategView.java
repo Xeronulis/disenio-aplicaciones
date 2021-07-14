@@ -11,6 +11,8 @@ import javax.swing.SwingConstants;
 import customItems.CustomDsLabel;
 import customItems.CustomDsTxtField;
 
+
+
 public class DsbBaseCategView extends DsbBaseView {
 	
 	private String categCategoryTxt;

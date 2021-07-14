@@ -3,6 +3,7 @@
 	<name>FastDevelopmentV2App</name>
 	<comment></comment>
 	<projects>
+		<project>FastDevelopmentV2Model</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

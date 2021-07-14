@@ -14,12 +14,29 @@ import model.utils.DB;
 
 public class LibroDAO {
 
-private static DB db = new DB();
+	/**
+	 * En esta clase podemos revisar el funcionamiento de las sentencias DML, las cuales 
+	 * son necesarias para poder hacer funcionar el CRUD de la clase Libro. Tambien podemos ver
+	 * como se definen las sentencias SQL necesarias para poder interactuar con la base de datos y los
+	 * datos que ella almacena.
+	 * @param db: Es el objeto que nos permite realizar la conexion con la base de datos. 
+	 * @author Grupo4
+	 * @version 11-07-2021
+	 */
 	
+private static DB db = new DB();
+
+	/**
+	 * El metodo save recibe un parametro.
+	 * @param libro: Objeto de clase Libro.
+	 * Este metodo nos permite ingresar un Objeto de tipo Libro, para poder realizar esto 
+	 * utilizamos los getters del objeto para asi poder ingresar los datos correspondientes del
+	 * objeto en la sentencia SQL que es enviada a la base de datos.
+	 */	
+
 	public static void save(Libro libro) {
 
-		db.conectar();
-		
+		db.conectar();		
 		try {
 			
 			List<Integer> idAutores = new ArrayList<Integer>(); 
@@ -187,20 +204,21 @@ private static DB db = new DB();
 				}catch(SQLException e) {
 					e.printStackTrace();
 				}
-			});
-			
-			
-			
-			
+			});			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
 			db.desconectar();
 		}
-		
-		
 	}
+	
+	/**
+	 * El metodo getAll no recibe parametros.
+	 * Este metodo nos retorna una lista con todos los objetos de la clase Libro que hemos
+	 * agregado a la base de datos.
+	 */
+	
 	public static List<Libro> getAll(){
 		db.conectar();
 		List<Libro> libros = new ArrayList<>();
@@ -346,8 +364,13 @@ private static DB db = new DB();
 		return libros;
 	}
 	
-	
-	
+	/**
+	 * El metodo filteredSearch recibe 2 parametros.
+	 * @param filtro: Cadena de caracteres que utilizamos como filtro.
+	 * @param target: Clave unica del objeto que se quiere modificar
+	 * Este metodo nos permite realizar un busqueda mas especifica dentro de los 
+	 * libros que se han ingresado a la base de datos
+	 */	
 	
 	public static List<Libro> filteredSearch(String filtro, String target){
 		db.conectar();
@@ -379,12 +402,17 @@ private static DB db = new DB();
 			return libros.stream().filter(l->String.valueOf(l.getAnioPublicacion()).toLowerCase().contains(target.toLowerCase())).collect(Collectors.toList());
 		default:
 			System.out.println("filtro no reconocido: "+filtro);
-		}
-		
-		
+		}		
 		return libros;
 	}
 	
+	/**
+	 * El metodo update recibe 2 parametros.
+	 * @param libroInsert: Objeto de tipo Libro.
+	 * @param libroDelete: Objeto de tipo Libro.
+	 * Este metodo elimina el libro que se queria modificar de la base de datos e ingresa uno 
+	 * completamente nuevo
+	 */
 	
 	public static void update(Libro libroInsert, Libro libroDelete) {
 		db.conectar();
@@ -403,28 +431,26 @@ private static DB db = new DB();
 		
 	}
 	
+	/**
+	 * El metodo delete recibe un parametro.
+	 * @param target: Valor numerico que contiene el id del libro.
+	 * Este metodo nos permite eliminar un Objeto de tipo Libro, para poder realizar esto 
+	 * utilizamos el parametro entregado que contiene la clave unica para poder 
+	 * idetificar el objeto dentro de la base de datos, una vez esto ocurre se agrega la clave unica
+	 * a la sentencia SQL para eliminar los datos del objeto en la base de datos
+	 */
 	
 	public static void delete(int target) {
 		db.conectar();
 		try {
-			
-			
 			String sql ="DELETE l , al , lc, li from libro l"
 					+ "	inner join autorLibro al on l.numeroSerie = al.libroNumeroSerie"
 					+ "    inner join librocategoria lc on l.numeroSerie = lc.libroNumeroSerie"
 					+ "    inner join libroidioma li on l.numeroSerie = li.libroNumeroSerie"
 					+ "    where l.numeroSerie = ?";
 			PreparedStatement st = db.getCon().prepareStatement(sql);
-			
 			st.setInt(1, target);
-			
 			st.executeUpdate();
-			
-			
-			
-			
-			
-			
 		}catch(Exception e) {
 			
 		}finally {

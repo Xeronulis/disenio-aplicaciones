@@ -25,10 +25,13 @@ public class MenuBaseView extends JScrollPane {
 	 */
 	public MenuBaseView() {
 		
+		// se crea una variable para el scroll del programa
 		JScrollPane sp = CustomizeMenu.cutomizeScrollPane(new JScrollPane());
 		
+		//define una variable de tipo Color para el background
 		Color background = ColorsUtils.COLORS.get("background");
 		
+		//se definen los valores que que tendran distintos componentes
 		this.setViewportBorder(null);
 		this.setBorder(null);
 		this.setPreferredSize(new Dimension(200, 100));

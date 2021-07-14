@@ -19,6 +19,12 @@ import utils.ColorsUtils;
 import utils.SizeUtils;
 import javax.swing.border.LineBorder;
 
+/**
+ * En esta clase es donde realizamos la configuracion de todos los botones dentro de la interfaz
+ * desde la forma hasta los colores que estos van a poseer
+ *@author Grupo4
+ *@version 12-07-2021
+ */
 public class CustomDsBtn extends JPanel {
 	private JPanel Panel;
 	private JPanel btn;
@@ -26,6 +32,17 @@ public class CustomDsBtn extends JPanel {
 	private HoverLs hoverLs;
 	private Component verticalStrut;
 	
+	/**
+	 * Una breve descripcion de cada atributo
+	 * @param panel: El lugar donde aparece el boton.
+	 * @param btn: el boton en si.
+	 * @param btnTxt: texto dentro del boton.
+	 * @param hoverLs:
+	 * @param verticalStrut:
+	 */
+	
+	
+
 	public JPanel getPanel() {
 		return Panel;
 	}
@@ -152,10 +169,8 @@ public class CustomDsBtn extends JPanel {
 	
 	
 	private class HoverLs implements MouseListener{
-		private boolean isIn;
-		
-		private JPanel link;
-		
+		private boolean isIn;		
+		private JPanel link;		
 		private Color bColor = ColorsUtils.COLORS.get("background");
 		private Color hColor = ColorsUtils.COLORS.get("itemHover");
 		private Color pColor = ColorsUtils.COLORS.get("itemPressed");

@@ -21,22 +21,40 @@ import menuViews.MenuCardLayout;
 import menuViews.MenuMainView;
 import views.MainView;
 
+
+/**
+ * Esta clase controla las funciones generales del frame, dandonos las opciones basicas de 
+ * manipulacion como por ejemplo abri o cerrar el menu lateral de la interfaz. 
+ * @author Grupo4
+ * @version 11-07-2021
+ * 
+ */
+
 public class MainController {
 
 	private MainView v;
 	private MenuMainController mmc;
 	private DsbMainController dmc;
-	
 	private Map<String, Color> colors;
 	private DragHeader d = new DragHeader();
-	
 	private int persistent =0;
 	private int prevPersistent=0;
 	private static boolean isMenuShow = false;
-	
 	private CardLayout cLayout;
 	
-	
+	/**
+	 * Una breve descripcion del fin de cada atributo de la clase Arriendo.
+	 * @param v: El frame principal
+	 * @param mmc: Controlador de menu desplegable
+	 * @param dmc: Controlador del dashboard
+	 * @param colors: colores de la interfaz
+	 * @param d: Clase que se encarga de arrastrar el frame principal con el mouse
+	 * @param persistent: valor numerico que indica el id del menu abierto
+	 * @param prevPersistent: valor numerico que indica el id del menu abierto anterior.
+	 * @param cLayout: un card que contiene el menu principal.
+	 */
+
+
 	public static boolean isMenuShow() {
 		return isMenuShow;
 	}
@@ -56,10 +74,13 @@ public class MainController {
 
 	public MainController(MainView view) {
 		this.v = view;
-	
 		mmc = new MenuMainController(new MenuMainView(), this,new MenuCardLayout() );
 		dmc = new DsbMainController(new DsbMainView(), this, new DsbCardLayout());
 	}
+	
+	/**
+	 * El metodo start inicializa el frame principal con sus configuraciones en default.
+	 */
 	
 	public void start() {
 		int menuIconWdth = (int)v.getMenuIcon().getPreferredSize().getWidth();
@@ -84,6 +105,9 @@ public class MainController {
 		v.setUndecorated(true);
 		v.setVisible(true);
 	}
+	/**
+	 * Funcion que ejecuta activateMenuGui() y deactivateMenuGui()
+	 */
 	
 	public void updateMenuGuis() {
 		activateMenuGui();
@@ -91,6 +115,9 @@ public class MainController {
 		
 	}
 	
+	/**
+	 * Funcion que se encarga de cambiar la vista principal del menu desplegable.
+	 */
 	public void activateMenuGui() {
 		switch(persistent){
 		case 1:
@@ -111,6 +138,9 @@ public class MainController {
 		}
 	}
 	
+	/**
+	 * Funcion que se encarga de desactivar la vista principal anterior del menu desplegable.
+	 */
 	public void deactivateMenuGui() {
 		switch(prevPersistent){
 		
@@ -124,6 +154,12 @@ public class MainController {
 			break;
 		}
 	}
+	
+	/**
+	 * Contiene un parametro.
+	 * @param b: indica si es que se quiere mostrar o no el menu principal
+	 * La funcion se encarga de mostrar o ocultar el menu desplegable.
+	 */
 	
 	public void changeMenuShow(boolean b) {
 		isMenuShow=b;
@@ -140,10 +176,19 @@ public class MainController {
 		
 	}
 	
+	/**
+	 * 
+	 * @author Grupo4
+	 * @version 12-07-2021
+	 */
 	
 	private class MinBtnLs implements MouseListener{
 
 		private boolean isIn;
+		
+		/**
+		 * metodo que permite el minimizado de la aplicacion
+		 */
 		
 		public void minimize() {
 			if(v.getExtendedState() == Frame.MAXIMIZED_BOTH) {
@@ -190,10 +235,15 @@ public class MainController {
 		
 	}
 	
+	
+	
 	private class MaxBtnLs implements MouseListener{
 
 		private boolean isIn;
 		
+		/**
+		 * Permite maximinar la aplicacion
+		 */
 		public void maximize() {
 			if(v.getExtendedState() != 0) {
 				v.setExtendedState(Frame.NORMAL);
@@ -244,10 +294,14 @@ public class MainController {
 		
 	}
 
+	
 	private class CloseBtnLs implements MouseListener{
 
 		private boolean isIn;
 		
+		/**
+		 * Permite cerrar la aplicion por completo
+		 */
 		public void close() {
 			v.dispatchEvent(new WindowEvent(v , WindowEvent.WINDOW_CLOSING));
 		}
@@ -290,15 +344,23 @@ public class MainController {
 		
 	}
 	
-	private class DragHeader implements MouseMotionListener, MouseListener{
+	
+		class DragHeader implements MouseMotionListener, MouseListener{
 
 		Point winLocation;
 		
+		/**
+		 * Esta clase tiene un solo atributo.
+		 * @param winLocation: La coordenada donde se encuentra la pantalla
+		 */
+		
+		
+		/**
+		 * Permite que se pueda manipular la aplicacion con el mouse.
+		 */
 		@Override
 		public void mouseDragged(MouseEvent e) {
 			v.setLocation(e.getXOnScreen()-winLocation.x, e.getYOnScreen()-winLocation.y);
-			
-			
 		}
 
 		@Override
@@ -339,16 +401,17 @@ public class MainController {
 		
 	}
 
+	/**
+	 * 
+	 */
 	private class MenuBtnLs implements MouseListener{
 
-		private final int ID =1;
-		
+		private final int ID =1;	
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
 			
 		}
-
 		@Override
 		public void mousePressed(MouseEvent e) {
 			if(!isMenuShow) {
@@ -390,6 +453,12 @@ public class MainController {
 		
 	}
 	
+	/**
+	 *Al igual que la clase anterior esta solo se encarga de mostrar el menu de ajustes del menu
+	 *desplegable.
+	 *@author Grupo4
+	 *@version 11-07-2021
+	 */
 	private class SettingsLs implements MouseListener{
 
 		private final int ID = 2;

@@ -13,6 +13,13 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.ImageIcon;
 
+/**
+ *En esta clase se lleva a cabo la configuracion de los labels que posee nuestra aplicacion, desde el 
+ *tamaño y los colores que van a poseer.
+ *@author Grupo4
+ *@version 12-07-2021
+ */
+
 public class CustomDsLabel extends JPanel {
 	
 	private JLabel label;

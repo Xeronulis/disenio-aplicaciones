@@ -26,7 +26,8 @@ public class MenuCardLayout extends JPanel {
 
 		//define el tamaño del menu 
 		this.setPreferredSize(new Dimension((int)SizeUtils.MENUHIDESIZEX, 500));
-		 //establece los colores del menu y los guarda en el cardLayout
+		
+		//establece los colores del menu y los guarda en el cardLayout
 		this.setBackground(ColorsUtils.COLORS.get("alpha"));
 		setLayout(new CardLayout(0, 0));
 		cardLayout = (CardLayout) getLayout();

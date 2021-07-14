@@ -11,9 +11,28 @@ import model.dto.Compra;
 import model.dto.Factura;
 import model.utils.DB;
 
+/**
+ * En esta clase podemos revisar el funcionamiento de las sentencias DML, las cuales 
+ * son necesarias para poder hacer funcionar el CRUD de la clase Factura. Tambien podemos ver
+ * como se definen las sentencias SQL necesarias para poder interactuar con la base de datos y los
+ * datos que ella almacena.
+ * @param db: Es el objeto que nos permite realizar la conexion con la base de datos. 
+ * @author Grupo4
+ * @version 11-07-2021
+ */
+
+
 public class FacturaDAO {
 	
 	private static DB db= new DB();
+	
+	/**
+	 * El metodo save recibe un parametro.
+	 * @param f: Objeto de clase Factura.
+	 * Este metodo nos permite ingresar un Objeto de tipo Factura, para poder realizar esto 
+	 * utilizamos los getters del objeto para asi poder ingresar los datos correspondientes del
+	 * objeto en la sentencia SQL que es enviada a la base de datos.
+	 */
 	
 	public static void save (Factura f) {
 		db.conectar();
@@ -34,6 +53,13 @@ public class FacturaDAO {
 		}
 		
 	}
+	
+	/**
+	 * El metodo getAll no recibe parametros.
+	 * Este metodo nos retorna una lista con todos los objetos de la clase Factura que hemos
+	 * agregado a la base de datos.
+	 */
+	
 	public static List<Factura> getAll(){
 		List<Factura> facturas = new ArrayList<>();
 		db.conectar();
@@ -88,11 +114,7 @@ public class FacturaDAO {
 					f.setCostoTotal(costoTotal);
 					f.addToCompras(c);
 					facturas.add(f);
-				}
-				
-				
-				
-				
+				}		
 			}
 			rs.close();
 			return facturas;
@@ -101,23 +123,30 @@ public class FacturaDAO {
 		}finally {
 			db.desconectar();
 		}
-		
 		return facturas;
 	}
 	
-	
+	/**
+	 * El metodo filteredSearch recibe 2 parametros.
+	 * @param filtro: Cadena de caracteres que utilizamos como filtro.
+	 * @param target: Clave unica del objeto que se quiere modificar
+	 * Este metodo nos permite realizar un busqueda mas especifica dentro de las 
+	 * facturas que se han ingresado a la base de datos
+	 */	
 	
 	public static List<Factura> filteredSearch(String filtro, String target){
 		db.conectar();
 		List<Factura> facturas = getAll();
-			
-		
 		return facturas;
 	}
 	
-	
-	
-	
+	/**
+	 * El metodo update recibe 2 parametros.
+	 * @param f: Objeto de tipo Factura.
+	 * @param target: Clave unica del objeto que se quiere modificar
+	 * Este metodo nos permite modificar el id del distribuidor, el folio, la fecha de compra,
+	 * la hora de la compra y el metodo de pago dentro de la base de datos.
+	 */
 	
 	public static void update(Factura f, int target) {
 		db.conectar();
@@ -148,7 +177,14 @@ public class FacturaDAO {
 		}
 	}
 	
-	
+	/**
+	 * El metodo delete recibe un parametro.
+	 * @param target: Valor numerico que contiene el id de la factura.
+	 * Este metodo nos permite eliminar un Objeto de tipo Factura, para poder realizar esto 
+	 * utilizamos el parametro entregado que contiene la clave unica para poder 
+	 * idetificar el objeto dentro de la base de datos, una vez esto ocurre se agrega la clave unica
+	 * a la sentencia SQL para eliminar los datos del objeto en la base de datos
+	 */
 	
 	public static void delete(int target) {
 		db.conectar();

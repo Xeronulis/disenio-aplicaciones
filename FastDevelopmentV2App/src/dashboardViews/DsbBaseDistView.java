@@ -36,7 +36,6 @@ public class DsbBaseDistView extends DsbBaseView{
 	protected String distAddressLbl;
 	protected String distPhoneLbl;
 	
-	
 	protected int distStartDateTxt;
 	protected String distStartDateLbl;
 	
@@ -100,14 +99,12 @@ public class DsbBaseDistView extends DsbBaseView{
 	
 	private void initItems() {
 		
-		
 		this.selectLbl = "Distribuidor";
 		this.distRutLbl = "Rut";
 		this.distNameLbl = "Nombre";
 		this.distAddressLbl = "Dirección";
 		this.distPhoneLbl = "Teléfono";
-		this.distStartDateLbl = "Año de inicio";
-		
+		this.distStartDateLbl = "Año de inicio";		
 		this.distStartDateTxt = java.time.LocalDate.now().getYear();
 		
 		

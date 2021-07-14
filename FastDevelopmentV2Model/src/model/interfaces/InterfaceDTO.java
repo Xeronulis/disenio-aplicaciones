@@ -1,5 +1,12 @@
 package model.interfaces;
 
+/**
+ * En esta clase podemos obtener datos que tienen en comun algunos archivos DAOs. Se decidio hacerlos
+ * en un archivo aparte debido a la recurencia de estos metodos getters y setters.
+ * @author Grupo4
+ * @version 11-07-2021
+ */
+
 public interface InterfaceDTO {
 
 	public int getId();

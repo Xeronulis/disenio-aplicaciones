@@ -14,6 +14,13 @@ import javax.swing.plaf.basic.BasicComboPopup;
 import utils.ColorsUtils;
 import utils.SizeUtils;
 
+/**
+ * En esta clase se lleva a cabo la configuracion de los combobox que tenemos dentro de la 
+ * interfaz.
+ *@author Grupo4
+ *@version 12-07-2021
+ */
+
 public class CustomDsCbx extends JPanel {
 	private JComboBox<Object> comboBox;
 	
